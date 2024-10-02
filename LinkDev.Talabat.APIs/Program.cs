@@ -5,18 +5,21 @@ namespace LinkDev.Talabat.APIs
     {
         public static void Main(string[] args)
         {
-            var builder = WebApplication.CreateBuilder(args);
+            var webApplicationbuilder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            #region Configure Services
 
-            builder.Services.AddControllers();
+            webApplicationbuilder.Services.AddControllers();//Register Required Services By Asp.NetCore WebAPi to Dependancy Injection  
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            webApplicationbuilder.Services.AddEndpointsApiExplorer();
+            webApplicationbuilder.Services.AddSwaggerGen(); 
+            #endregion
 
-            var app = builder.Build();
+            var app = webApplicationbuilder.Build();
 
             // Configure the HTTP request pipeline.
+            #region Configure Kestrel Middlewares
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
@@ -28,7 +31,8 @@ namespace LinkDev.Talabat.APIs
             app.UseAuthorization();
 
 
-            app.MapControllers();
+            app.MapControllers(); 
+            #endregion
 
             app.Run();
         }

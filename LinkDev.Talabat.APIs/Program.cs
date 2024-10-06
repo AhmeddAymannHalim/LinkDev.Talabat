@@ -8,7 +8,9 @@ namespace LinkDev.Talabat.APIs
 {
     public class Program
     {
-        public static void Main(string[] args)
+        
+
+        public static async Task Main(string[] args)
         {
             var webApplicationbuilder = WebApplication.CreateBuilder(args);
 
@@ -24,9 +26,40 @@ namespace LinkDev.Talabat.APIs
 
             #endregion
 
+            #region Update-Database and Data Seeding
             var app = webApplicationbuilder.Build();
 
             // Configure the HTTP request pipeline.
+           
+
+            using var scope = app.Services.CreateAsyncScope();
+
+            var services = scope.ServiceProvider;
+
+            var dbContext = services.GetRequiredService<StoreContext>();//Ask Runtime Environment To Take Object From "StoreContext" Service Explicitly
+
+
+            var loggerFactory = services.GetRequiredService<ILoggerFactory>();
+
+            try
+            {
+                var pendingMigration = dbContext.Database.GetPendingMigrations();
+
+                if (pendingMigration.Any())
+                    await dbContext.Database.MigrateAsync(); // Update-Database
+
+               await StoreContextSeed.SeedAsync(dbContext);
+
+            }
+            catch (Exception ex)
+            {
+                var logger = loggerFactory.CreateLogger<Program>();
+
+                logger.LogError(ex, "An error throw Applying Migration");
+            }
+
+            #endregion
+
             #region Configure Kestrel Middlewares
             if (app.Environment.IsDevelopment())
             {
@@ -38,10 +71,10 @@ namespace LinkDev.Talabat.APIs
 
             app.UseAuthorization();
 
+            app.UseStaticFiles();
 
-            app.MapControllers(); 
+            app.MapControllers();
             #endregion
-
 
             app.Run();
         }

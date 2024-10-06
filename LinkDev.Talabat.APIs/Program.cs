@@ -51,7 +51,7 @@ namespace LinkDev.Talabat.APIs
 
             app.UseAuthorization();
 
-            app.UseStaticFiles();
+            // app.UseStaticFiles();
 
             app.MapControllers();
             #endregion

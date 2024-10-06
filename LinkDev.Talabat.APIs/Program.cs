@@ -26,7 +26,7 @@ namespace LinkDev.Talabat.APIs
 
             #endregion
 
-            #region Update-Database
+            #region Update-Database and Data Seeding
             var app = webApplicationbuilder.Build();
 
             // Configure the HTTP request pipeline.
@@ -47,6 +47,8 @@ namespace LinkDev.Talabat.APIs
 
                 if (pendingMigration.Any())
                     await dbContext.Database.MigrateAsync(); // Update-Database
+
+               await StoreContextSeed.SeedAsync(dbContext);
 
             }
             catch (Exception ex)
@@ -69,6 +71,7 @@ namespace LinkDev.Talabat.APIs
 
             app.UseAuthorization();
 
+            app.UseStaticFiles();
 
             app.MapControllers();
             #endregion

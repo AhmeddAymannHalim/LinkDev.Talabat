@@ -16,11 +16,11 @@ namespace LinkDev.Talabat.Core.Domain.Common
 
         public required string LastModifiedBy { get; set; }
 
-        public DateTime CreatedOn { get; set; } /*= DateTime.UtcNow;*/
+        public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
 
-        public DateTime LastModifiedOn { get; set; } /*= DateTime.UtcNow;*/
+        public DateTime LastModifiedOn { get; set; } = DateTime.UtcNow;
 
- 
+
         #endregion
 
     }

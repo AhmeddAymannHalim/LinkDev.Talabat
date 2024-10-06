@@ -1,4 +1,9 @@
 
+using LinkDev.Talabat.Infrastructure.Presistence;
+using LinkDev.Talabat.Infrastructure.Presistence.Data;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+
 namespace LinkDev.Talabat.APIs
 {
     public class Program
@@ -13,7 +18,10 @@ namespace LinkDev.Talabat.APIs
             webApplicationbuilder.Services.AddControllers();//Register Required Services By Asp.NetCore WebAPi to Dependancy Injection  
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             webApplicationbuilder.Services.AddEndpointsApiExplorer();
-            webApplicationbuilder.Services.AddSwaggerGen(); 
+            webApplicationbuilder.Services.AddSwaggerGen();
+
+            webApplicationbuilder.Services.AddPersistenceServices(webApplicationbuilder.Configuration);
+
             #endregion
 
             var app = webApplicationbuilder.Build();
@@ -33,6 +41,7 @@ namespace LinkDev.Talabat.APIs
 
             app.MapControllers(); 
             #endregion
+
 
             app.Run();
         }

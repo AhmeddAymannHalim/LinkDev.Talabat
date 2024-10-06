@@ -1,4 +1,5 @@
-﻿using LinkDev.Talabat.Infrastructure.Presistence.Data;
+﻿using LinkDev.Talabat.Core.Domain.Contracts;
+using LinkDev.Talabat.Infrastructure.Presistence.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -12,6 +13,9 @@ namespace LinkDev.Talabat.Infrastructure.Presistence
             {
                 optionsBuilder.UseSqlServer(configuration.GetConnectionString("StoreContext"));
             });
+            // services.AddScoped<IStoreContextInitializer, StoreContextInitializer>();
+            services.AddScoped(typeof(IStoreContextInitializer), typeof(StoreContextInitializer));
+          
 
             return services;
         }

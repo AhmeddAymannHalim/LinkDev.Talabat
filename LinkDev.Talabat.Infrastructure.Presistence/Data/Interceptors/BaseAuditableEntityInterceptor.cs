@@ -6,9 +6,9 @@ namespace LinkDev.Talabat.Infrastructure.Presistence.Data.Interceptors
 {
     public class BaseAuditableEntityInterceptor :SaveChangesInterceptor
     {
-        private readonly ILogedInUserService _logedInUserService;
+        private readonly ILoggedInUserService _logedInUserService;
 
-        public BaseAuditableEntityInterceptor(ILogedInUserService logedInUserService)
+        public BaseAuditableEntityInterceptor(ILoggedInUserService logedInUserService)
         {
             _logedInUserService = logedInUserService;
         }

@@ -1,6 +1,7 @@
 ﻿using LinkDev.Talabat.Core.Domain.Contracts.Persistence;
 using LinkDev.Talabat.Infrastructure.Presistence.Data;
 using LinkDev.Talabat.Infrastructure.Presistence.Data.Interceptors;
+using LinkDev.Talabat.Infrastructure.Presistence.UnitOfWork;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,6 +16,8 @@ namespace LinkDev.Talabat.Infrastructure.Presistence
             {
                 optionsBuilder.UseSqlServer(configuration.GetConnectionString("StoreContext"));
             });
+
+            services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork.UnitOfWork));
             // services.AddScoped<IStoreContextInitializer, StoreContextInitializer>();
             services.AddScoped(typeof(IStoreContextInitializer), typeof(StoreContextInitializer));
 

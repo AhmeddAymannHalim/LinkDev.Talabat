@@ -3,7 +3,7 @@ using System.Security.Claims;
 
 namespace LinkDev.Talabat.APIs.Services
 {
-    public class LoggedInUserService : ILogedInUserService
+    public class LoggedInUserService : ILoggedInUserService
     {
         public string UserId { get; }
 

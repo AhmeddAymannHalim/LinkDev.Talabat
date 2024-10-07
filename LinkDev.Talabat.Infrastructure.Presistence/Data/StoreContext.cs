@@ -20,7 +20,7 @@ namespace LinkDev.Talabat.Infrastructure.Presistence.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
+            
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(AssemblyInformation).Assembly);
 
         }

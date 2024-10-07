@@ -17,7 +17,7 @@ namespace LinkDev.Talabat.Core.Application
             services.AddAutoMapper(typeof(MappingProfile));
             services.AddScoped(typeof(IServiceManager), typeof(ServiceManager));
 
-
+           
             return services;
         }
     }

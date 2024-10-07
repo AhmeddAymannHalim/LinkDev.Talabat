@@ -1,5 +1,5 @@
 ﻿using LinkDev.Talabat.Core.Domain.Common;
-using LinkDev.Talabat.Core.Domain.Contracts;
+using LinkDev.Talabat.Core.Domain.Contracts.Persistence;
 using LinkDev.Talabat.Core.Domain.Entities.Products;
 using LinkDev.Talabat.Infrastructure.Presistence.Data;
 using LinkDev.Talabat.Infrastructure.Presistence.Repositories;
@@ -21,7 +21,7 @@ namespace LinkDev.Talabat.Infrastructure.Presistence.UnitOfWork
         }
   
         public IGenericRepository<TEntity, Tkey> GetRepository<TEntity, Tkey>()
-            where TEntity : BaseEntity<Tkey>
+            where TEntity : BaseAuditableEntity<Tkey>
             where Tkey : IEquatable<Tkey>
         {
             //return new GenericRepository<TEntity, Tkey>(_dbContext);

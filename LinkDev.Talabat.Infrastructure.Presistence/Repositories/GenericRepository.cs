@@ -1,5 +1,5 @@
 ﻿using LinkDev.Talabat.Core.Domain.Common;
-using LinkDev.Talabat.Core.Domain.Contracts;
+using LinkDev.Talabat.Core.Domain.Contracts.Persistence;
 using LinkDev.Talabat.Infrastructure.Presistence.Data;
 using System;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace LinkDev.Talabat.Infrastructure.Presistence.Repositories
 {
     internal class GenericRepository<TEntity, Tkey>(StoreContext _dbContext) : IGenericRepository<TEntity, Tkey>
-        where TEntity : BaseEntity<Tkey> where Tkey : IEquatable<Tkey>
+        where TEntity : BaseAuditableEntity<Tkey> where Tkey : IEquatable<Tkey>
     {
         
         public async Task<IEnumerable<TEntity>> GetAllAsync(bool withTracking = false)

@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 namespace LinkDev.Talabat.Infrastructure.Presistence.Data.Config.Base
 {
     internal class BaseEntityConfigurations<TEntity, Tkey> : IEntityTypeConfiguration<TEntity>
-        where TEntity : BaseEntity<Tkey> where Tkey : IEquatable<Tkey>
+        where TEntity : BaseAuditableEntity<Tkey> where Tkey : IEquatable<Tkey>
     {
         public virtual void Configure(EntityTypeBuilder<TEntity> builder)
         {

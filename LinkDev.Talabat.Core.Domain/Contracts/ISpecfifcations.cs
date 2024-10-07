@@ -1,0 +1,11 @@
+﻿using System.Linq.Expressions;
+
+namespace LinkDev.Talabat.Core.Domain.Contracts
+{
+    public interface ISpecfifcations<TEntity, Tkey> where TEntity : BaseAuditableEntity<Tkey> where Tkey : IEquatable<Tkey>
+    {
+        public Expression<Func<TEntity,bool>>?  Criteria   { get; set; }
+
+        public List<Expression<Func<TEntity, object>>> Includes { get; set; }
+    }
+}

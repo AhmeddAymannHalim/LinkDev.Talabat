@@ -11,10 +11,15 @@ namespace LinkDev.Talabat.Core.Application.Mapping
 {
     internal class MappingProfile : Profile
     {
+        
 
         public MappingProfile()
         {
-            CreateMap<Product, ProductToReturnDto>();
+            CreateMap<Product, ProductToReturnDto>()
+                    .ForMember(D => D.Brand, O => O.MapFrom(P => P.Brand!.Name))
+                    .ForMember(D => D.Category, O => O.MapFrom(P => P.Category!.Name))
+                    .ForMember(D => D.PictureUrl,X => X.MapFrom<ProductPictureUrlResolver>());
+                     
             CreateMap<ProductBrand, BrandDto>();
             CreateMap<ProductCategory, CategoryDto>();
         }

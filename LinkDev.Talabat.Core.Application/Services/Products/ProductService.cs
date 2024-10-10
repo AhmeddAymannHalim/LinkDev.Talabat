@@ -26,11 +26,18 @@ namespace LinkDev.Talabat.Core.Application.Services.Products
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<ProductToReturnDto>> GetProductsAsync(string? sort)
+        public async Task<IEnumerable<ProductToReturnDto>> GetProductsAsync(ProductSpecParams specParams)
 
         {
-            var specs = new ProductWithBrandAndCategorySpecifications(sort);
-           
+            var specs = new ProductWithBrandAndCategorySpecifications(
+                specParams.sort ,
+                specParams.BrandId,
+                specParams.CategoryId,
+                specParams.PageSize,
+                specParams.PageIndex
+                );           
+
+
             var products = await _unitOfWork.GetRepository<Product, int>().GetAllWithSpecAsync(specs);
             var mappedProducts = _mapper.Map<IEnumerable<ProductToReturnDto>>(products);
             return  mappedProducts;

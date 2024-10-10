@@ -14,7 +14,7 @@ namespace LinkDev.Talabat.Infrastructure.Presistence.Repositories.GenericReposit
 
             var query = inputQuery; //_dbContext.Set<Product>()
 
-            if (spec.Criteria is not null) // P => 
+            if (spec.Criteria is not null) // P => P.BrandId == 1 && P => P.CategoryId == 1
                 query = query.Where(spec.Criteria);
 
             if (spec.OrderByDesc is not null)

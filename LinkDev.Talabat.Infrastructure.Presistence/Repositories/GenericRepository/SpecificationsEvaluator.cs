@@ -23,6 +23,10 @@ namespace LinkDev.Talabat.Infrastructure.Presistence.Repositories.GenericReposit
                 query = query.OrderBy(spec.OrderBy);
 
 
+            if(spec.IsPaginationEnabled)
+                query = query.Skip(spec.Skip).Take(spec.Take);
+
+            
             //query = _dbContext.Set<Product>().Where(P => P.Id == 10)
             //include Expression
             //1.P => P.Brand

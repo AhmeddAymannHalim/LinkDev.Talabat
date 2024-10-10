@@ -1,5 +1,6 @@
 ﻿using LinkDev.Talabat.Core.Domain.Common;
 using LinkDev.Talabat.Core.Domain.Contracts;
+using Microsoft.IdentityModel.Tokens;
 
 namespace LinkDev.Talabat.Infrastructure.Presistence.Repositories.GenericRepository
 {
@@ -13,15 +14,21 @@ namespace LinkDev.Talabat.Infrastructure.Presistence.Repositories.GenericReposit
 
             var query = inputQuery; //_dbContext.Set<Product>()
 
-            if (spec.Criteria is not null) // P => P.Id == 10
+            if (spec.Criteria is not null) // P => 
                 query = query.Where(spec.Criteria);
+
+            if (spec.OrderByDesc is not null)
+                query = query.OrderByDescending(spec.OrderByDesc);
+            else if (spec.OrderBy is not null)
+                query = query.OrderBy(spec.OrderBy);
+
 
             //query = _dbContext.Set<Product>().Where(P => P.Id == 10)
             //include Expression
             //1.P => P.Brand
             //2.P => P.Category 
             //..
-             query = spec.Includes.Aggregate(query, (currentQuery, include) => currentQuery.Include(include));
+            query = spec.Includes.Aggregate(query, (currentQuery, include) => currentQuery.Include(include));
 
 
             return query;

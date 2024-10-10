@@ -19,17 +19,18 @@ namespace LinkDev.Talabat.Infrastructure.Presistence.Repositories.GenericReposit
         public async Task<IEnumerable<TEntity>> GetAllAsync(bool withTracking = false)
         {
             
-
-            if (typeof(TEntity).Equals(typeof(Product)))
-            {
-                return (IEnumerable<TEntity>)(withTracking ? await DbContext.Set<Product>().Include(P => P.Brand).Include(P => P.Category).ToListAsync() :
-                         await DbContext.Set<Product>().Include(P => P.Brand).Include(P => P.Category).AsNoTracking().ToListAsync());
-            }
-
-            return withTracking ? await DbContext.Set<TEntity>().ToListAsync() :
+            return withTracking ? 
+            await DbContext.Set<TEntity>().ToListAsync() :
             await DbContext.Set<TEntity>().AsNoTracking().ToListAsync();
 
         }
+
+
+        public async Task<IEnumerable<TEntity>> GetAllWithSpecAsync(ISpecfifcations<TEntity, Tkey> spec, bool withTracking = false)
+        {
+            return await ApplySpecification(spec).ToListAsync();
+        }
+
 
 
         public async Task<TEntity?> GetAsync(Tkey id)
@@ -47,11 +48,6 @@ namespace LinkDev.Talabat.Infrastructure.Presistence.Repositories.GenericReposit
 
 
      
-
-        public async Task<IEnumerable<TEntity>> GetAllWithSpecAsync(ISpecfifcations<TEntity, Tkey> spec, bool withTracking = false)
-        {
-            return await ApplySpecification( spec).ToListAsync();
-        }
 
         public async Task<TEntity?> GetWithSpecAsync(ISpecfifcations<TEntity, Tkey> spec)
         {

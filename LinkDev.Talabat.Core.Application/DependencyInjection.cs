@@ -1,4 +1,4 @@
-﻿using LinkDev.Talabat.Core.Application.Abstraction.Manager;
+﻿using LinkDev.Talabat.Core.Application.Abstraction.Services;
 using LinkDev.Talabat.Core.Application.Mapping;
 using LinkDev.Talabat.Core.Application.Services;
 using Microsoft.Extensions.DependencyInjection;

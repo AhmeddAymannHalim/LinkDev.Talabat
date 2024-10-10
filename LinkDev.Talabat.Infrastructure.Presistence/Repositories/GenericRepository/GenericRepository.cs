@@ -2,7 +2,7 @@
 using LinkDev.Talabat.Core.Domain.Contracts;
 using LinkDev.Talabat.Core.Domain.Contracts.Persistence;
 using LinkDev.Talabat.Core.Domain.Entities.Products;
-using LinkDev.Talabat.Core.Domain.Specifications.Product_Specs;
+using LinkDev.Talabat.Core.Domain.Specifications.Products;
 using LinkDev.Talabat.Infrastructure.Presistence.Data;
 using System;
 using System.Collections.Generic;

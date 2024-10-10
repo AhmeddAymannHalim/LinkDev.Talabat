@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LinkDev.Talabat.Core.Domain.Specifications.Product_Specs
+namespace LinkDev.Talabat.Core.Domain.Specifications.Products
 {
     public class ProductWithBrandAndCategorySpecifications : BaseSpecifications<Product,int>
     {

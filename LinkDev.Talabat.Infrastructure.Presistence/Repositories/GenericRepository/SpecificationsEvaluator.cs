@@ -17,16 +17,19 @@ namespace LinkDev.Talabat.Infrastructure.Presistence.Repositories.GenericReposit
             if (spec.Criteria is not null) // P => P.BrandId == 1 && P => P.CategoryId == 1
                 query = query.Where(spec.Criteria);
 
+            #region Query OrderBy and OrderByDescending
             if (spec.OrderByDesc is not null)
                 query = query.OrderByDescending(spec.OrderByDesc);
             else if (spec.OrderBy is not null)
-                query = query.OrderBy(spec.OrderBy);
+                query = query.OrderBy(spec.OrderBy); 
+            #endregion
+
+            #region Pagination
+            if (spec.IsPaginationEnabled)
+                query = query.Skip(spec.Skip).Take(spec.Take); 
+            #endregion
 
 
-            if(spec.IsPaginationEnabled)
-                query = query.Skip(spec.Skip).Take(spec.Take);
-
-            
             //query = _dbContext.Set<Product>().Where(P => P.Id == 10)
             //include Expression
             //1.P => P.Brand

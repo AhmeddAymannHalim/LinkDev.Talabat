@@ -10,6 +10,16 @@ namespace LinkDev.Talabat.Core.Application.Abstraction.Models.Products
     {
         public string? sort { get; set; }
 
+        private string? search;
+
+        public string? Search
+
+        {
+            get { return search; }
+            set { search = value?.ToUpper(); }
+        }
+
+
         public int? BrandId { get; set; }
 
         public int? CategoryId { get; set; }

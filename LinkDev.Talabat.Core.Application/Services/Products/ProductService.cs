@@ -36,7 +36,8 @@ namespace LinkDev.Talabat.Core.Application.Services.Products
                 specParams.BrandId,
                 specParams.CategoryId,
                 specParams.PageSize,
-                specParams.PageIndex
+                specParams.PageIndex,
+                specParams.Search
                 );           
 
 
@@ -44,7 +45,7 @@ namespace LinkDev.Talabat.Core.Application.Services.Products
 
             var data = _mapper.Map<IEnumerable<ProductToReturnDto>>(products);
 
-            var countSpec = new ProductWithFilterationForCountSpecifications(specParams.BrandId, specParams.CategoryId);
+            var countSpec = new ProductWithFilterationForCountSpecifications(specParams.BrandId, specParams.CategoryId,specParams.Search);
 
             var count = await _unitOfWork.GetRepository<Product, int>().GetCountAsync(countSpec);
 

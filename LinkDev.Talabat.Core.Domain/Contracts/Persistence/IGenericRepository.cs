@@ -12,6 +12,8 @@
 
         Task<TEntity?> GetWithSpecAsync(ISpecfifcations<TEntity,Tkey> spec);
 
+        Task<int> GetCountAsync(ISpecfifcations<TEntity,Tkey> spec);
+
         Task AddAsync(TEntity entity);
 
         void Update(TEntity entity);

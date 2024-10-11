@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LinkDev.Talabat.Core.Application.Abstraction.Products.Models
+namespace LinkDev.Talabat.Core.Application.Abstraction.Models.Products
 {
-    public class BrandDto
+    public class CategoryDto
     {
         public int Id { get; set; }
 

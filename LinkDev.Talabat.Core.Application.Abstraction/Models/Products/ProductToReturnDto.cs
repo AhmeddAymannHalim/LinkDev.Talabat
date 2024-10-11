@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LinkDev.Talabat.Core.Application.Abstraction.Products.Models
+namespace LinkDev.Talabat.Core.Application.Abstraction.Models.Products
 {
     public class ProductToReturnDto
     {
@@ -23,6 +23,6 @@ namespace LinkDev.Talabat.Core.Application.Abstraction.Products.Models
         public int? BrandId { get; set; }
         public int? CategoryId { get; set; }
 
-    
+
     }
 }

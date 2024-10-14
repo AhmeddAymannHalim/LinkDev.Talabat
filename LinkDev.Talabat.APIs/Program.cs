@@ -7,6 +7,7 @@ using LinkDev.Talabat.Core.Application;
 using Microsoft.AspNetCore.Mvc;
 using LinkDev.Talabat.APIs.Controllers.Errors;
 using Microsoft.Extensions.Options;
+using LinkDev.Talabat.APIs.Middlewares;
 namespace LinkDev.Talabat.APIs
  
 {
@@ -93,7 +94,10 @@ namespace LinkDev.Talabat.APIs
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
+                //app.UseDeveloperExceptionPage(); .Net 5 
             }
+
+            app.UseMiddleware<CustomExceptionHandlerMiddleware>();
 
             app.UseHttpsRedirection();
 

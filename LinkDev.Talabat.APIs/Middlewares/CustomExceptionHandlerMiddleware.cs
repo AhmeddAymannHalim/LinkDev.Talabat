@@ -29,20 +29,23 @@ namespace LinkDev.Talabat.APIs.Middlewares
                 //Logix Executed With The Request 
                 await _next(httpContext);
                 //Logix Executed With The Response 
-
+               
             }
             catch (Exception ex)
             {
-                        ApiResponse response;
+                  ApiResponse response;
                 switch (ex)
                 {
                          case NotFoundException:
                         httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                        httpContext.Response.ContentType = "application/json";
-                        response = new ApiResponse(404, ex.Message);
-                        await httpContext.Response.WriteAsync(response.ToString());
 
+                        httpContext.Response.ContentType = "application/json";
+
+                        response = new ApiResponse(404, ex.Message);
+
+                        await httpContext.Response.WriteAsync(response.ToString());
                         break;
+
                     default:
                         if (_env.IsDevelopment())
 

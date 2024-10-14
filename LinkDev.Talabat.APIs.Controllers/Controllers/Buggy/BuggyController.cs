@@ -29,8 +29,8 @@ namespace LinkDev.Talabat.APIs.Controllers.Controllers.Buggy
            return BadRequest(new ApiResponse(400)); //400
         }
 
-        [HttpGet("badrequest/{id}")]
-        public IActionResult GetValidationError(int id) // ValidationError From BadRequest !!                                                  // => 400 (return BadRequest())
+        [HttpGet("badrequest/{id}")] // GetNotFound Endpoint
+        public IActionResult GetValidationError(int id) // ValidationError From BadRequest !!  => 400 (return BadRequest())
         {
 
             return Ok(); //400

@@ -9,7 +9,7 @@ namespace LinkDev.Talabat.APIs.Controllers.Exceptions
     public class NotFoundException : Exception
     {
         public NotFoundException()
-            :base("Not Found Exception")
+            :base("Not Found")
         {
             
         }

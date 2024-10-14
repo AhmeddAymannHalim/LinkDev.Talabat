@@ -4,6 +4,9 @@ using LinkDev.Talabat.APIs.Services;
 using LinkDev.Talabat.Core.Application.Abstraction;
 using LinkDev.Talabat.Infrastructure.Presistence;
 using LinkDev.Talabat.Core.Application;
+using Microsoft.AspNetCore.Mvc;
+using LinkDev.Talabat.APIs.Controllers.Errors;
+using Microsoft.Extensions.Options;
 namespace LinkDev.Talabat.APIs
  
 {
@@ -20,7 +23,47 @@ namespace LinkDev.Talabat.APIs
 
             webApplicationbuilder.Services
                 .AddControllers()
-                .AddApplicationPart(typeof(Controllers.AssemblyInformation).Assembly);//Register Required Services By Asp.NetCore WebAPi to Dependancy Injection  
+                .ConfigureApiBehaviorOptions(option =>
+                {
+                    option.SuppressModelStateInvalidFilter = false;
+                    option.InvalidModelStateResponseFactory = (actionContext) =>
+                    {
+                        var errors = actionContext.ModelState.Where(P => P.Value!.Errors.Count > 0)
+                                       .SelectMany(E => E.Value!.Errors)
+                                       .Select(Er => Er.ErrorMessage);
+                        return new BadRequestObjectResult(new ApiValidationErrorResponse()
+                        {
+                            Errors = errors
+
+                        });
+
+
+                    };
+                })
+                .AddApplicationPart(typeof(Controllers.AssemblyInformation).Assembly);//Register Required Services By Asp.NetCore WebAPi to Dependancy Injection
+                                                                                      //
+
+            #region ConfigureApiBehavior - options
+            //webApplicationbuilder.Services.Configure<ApiBehaviorOptions>(option =>
+            //{
+            //    option.SuppressModelStateInvalidFilter = false;
+            //    option.InvalidModelStateResponseFactory = (actionContext) =>
+            //    {
+            //        var errors = actionContext.ModelState.Where(P => P.Value!.Errors.Count > 0)
+            //                       .SelectMany(E => E.Value!.Errors)
+            //                       .Select(Er => Er.ErrorMessage);
+            //        return new BadRequestObjectResult(new ApiValidationErrorResponse()
+            //        {
+            //            Errors = errors
+
+            //        });
+
+
+            //    };
+            //}); 
+            #endregion
+
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             webApplicationbuilder.Services.AddEndpointsApiExplorer();
             webApplicationbuilder.Services.AddSwaggerGen();

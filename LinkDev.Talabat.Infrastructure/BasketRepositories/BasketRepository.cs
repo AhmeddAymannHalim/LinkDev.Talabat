@@ -16,22 +16,23 @@ public class BasketRepository : IBasketRepository
 
     public async Task<CustomerBasket?> GetBasketAsync(string id)
     {
-        var basket =await _database.StringGetAsync(id);
+        var basket = await _database.StringGetAsync(id);
 
         return basket.IsNullOrEmpty ? null : JsonSerializer.Deserialize<CustomerBasket>(basket!);
     }
 
-    public async Task<CustomerBasket?> UpdateBasketAsync(CustomerBasket basket)
+    public async Task<CustomerBasket?> UpdateBasketAsync(CustomerBasket basket , TimeSpan timeToLive)
     {
-        var updated = await _database.StringSetAsync(basket.Id, JsonSerializer.Serialize(basket),TimeSpan.FromDays(15));
+        var value = JsonSerializer.Serialize(basket);
 
-        if (!updated) return null;
 
-        return await GetBasketAsync(basket.Id);
+        var updated = await _database.StringSetAsync(basket.Id, value , timeToLive);
+
+        if (updated) return basket;
+
+        return null;
     }
 
-    public async Task<bool> DeleteBasketAsync(string id)
-    {
-        return await _database.KeyDeleteAsync(id);
-    }
+    public async Task<bool> DeleteBasketAsync(string id) =>  await _database.KeyDeleteAsync(id);
+    
 }

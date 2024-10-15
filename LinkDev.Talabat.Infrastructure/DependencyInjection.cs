@@ -12,10 +12,11 @@ namespace LinkDev.Talabat.Infrastructure
         {
             services.AddScoped(typeof(IBasketRepository), typeof(BasketRepository));
 
-            services.AddScoped(typeof(IConnectionMultiplexer), (_) =>
+            services.AddSingleton(typeof(IConnectionMultiplexer), (_) =>
             {
-                var connectionMultiplexer = configuration.GetConnectionString("Redis");
-                return ConnectionMultiplexer.Connect(connectionMultiplexer!);
+                var connectionString = configuration.GetConnectionString("Redis");
+                var  connectionMultiplexer = ConnectionMultiplexer.Connect(connectionString!);
+                return connectionMultiplexer;
             });
 
             return services;

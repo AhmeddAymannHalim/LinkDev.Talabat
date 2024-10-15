@@ -29,10 +29,10 @@ namespace LinkDev.Talabat.Core.Application.Services.Basket
 
 
 
-        public async Task<CustomerBasketDto>? UpdateCustomerBasketAsync(CustomerBasketDto basketDto)
+        public async Task<CustomerBasketDto>? UpdateCustomerBasketAsync(CustomerBasketDto basketDto , TimeSpan timeToLive)
         {
             var basket = mapper.Map<CustomerBasket>(basketDto);
-            var updatedBasket = await basketRepository.UpdateBasketAsync(basket);
+            var updatedBasket = await basketRepository.UpdateBasketAsync(basket , timeToLive);
 
             if (updatedBasket is null) throw new Exception();
 

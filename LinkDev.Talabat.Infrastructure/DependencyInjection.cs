@@ -19,6 +19,8 @@ namespace LinkDev.Talabat.Infrastructure
                 return connectionMultiplexer;
             });
 
+            services.AddScoped(typeof(IBasketRepository),typeof(BasketRepository));
+
             return services;
         }
     }

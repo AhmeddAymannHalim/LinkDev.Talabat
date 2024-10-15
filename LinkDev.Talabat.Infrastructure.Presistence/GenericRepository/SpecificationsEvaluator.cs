@@ -2,14 +2,14 @@
 using LinkDev.Talabat.Core.Domain.Contracts;
 using Microsoft.IdentityModel.Tokens;
 
-namespace LinkDev.Talabat.Infrastructure.Presistence.Repositories.GenericRepository
+namespace LinkDev.Talabat.Infrastructure.Presistence.GenericRepository
 {
-    internal class SpecificationsEvaluator<TEntity,Tkey> 
+    internal class SpecificationsEvaluator<TEntity, Tkey>
         where TEntity : BaseAuditableEntity<Tkey>
         where Tkey : IEquatable<Tkey>
     {
 
-        public static IQueryable<TEntity> GetQuery(IQueryable<TEntity> inputQuery ,ISpecfifcations<TEntity,Tkey> spec)
+        public static IQueryable<TEntity> GetQuery(IQueryable<TEntity> inputQuery, ISpecfifcations<TEntity, Tkey> spec)
         {
 
             var query = inputQuery; //_dbContext.Set<Product>()
@@ -21,12 +21,12 @@ namespace LinkDev.Talabat.Infrastructure.Presistence.Repositories.GenericReposit
             if (spec.OrderByDesc is not null)
                 query = query.OrderByDescending(spec.OrderByDesc);
             else if (spec.OrderBy is not null)
-                query = query.OrderBy(spec.OrderBy); 
+                query = query.OrderBy(spec.OrderBy);
             #endregion
 
             #region Pagination
             if (spec.IsPaginationEnabled)
-                query = query.Skip(spec.Skip).Take(spec.Take); 
+                query = query.Skip(spec.Skip).Take(spec.Take);
             #endregion
 
 

@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 using LinkDev.Talabat.APIs.Controllers.Errors;
 using Microsoft.Extensions.Options;
 using LinkDev.Talabat.APIs.Middlewares;
+using LinkDev.Talabat.Infrastructure;
+using LinkDev.Talabat.Core.Domain.Contracts.Infrastructure;
+using LinkDev.Talabat.Infrastructure.BasketRepositories;
 namespace LinkDev.Talabat.APIs
  
 {
@@ -42,7 +45,8 @@ namespace LinkDev.Talabat.APIs
                     };
                 })
                 .AddApplicationPart(typeof(Controllers.AssemblyInformation).Assembly);//Register Required Services By Asp.NetCore WebAPi to Dependancy Injection
-                                                                                      //
+
+            webApplicationbuilder.Services.AddInfrastructureServices(webApplicationbuilder.Configuration);
 
             #region ConfigureApiBehavior - options
             //webApplicationbuilder.Services.Configure<ApiBehaviorOptions>(option =>

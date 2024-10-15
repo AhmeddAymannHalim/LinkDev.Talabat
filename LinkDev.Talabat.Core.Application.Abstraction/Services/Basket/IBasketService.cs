@@ -6,7 +6,7 @@ namespace LinkDev.Talabat.Core.Application.Abstraction.Services.Basket
     {
         Task<CustomerBasketDto> GetCustomerBasketAsync(string basketId);
 
-        Task<CustomerBasketDto>? UpdateCustomerBasketAsync(CustomerBasketDto basketDto ,TimeSpan timeToLive);
+        Task<CustomerBasketDto>? UpdateCustomerBasketAsync(CustomerBasketDto basketDto);
 
         Task DeleteCustomerBasket(string id);
     }

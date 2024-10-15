@@ -33,45 +33,40 @@ namespace LinkDev.Talabat.APIs.Middlewares
             }
             catch (Exception ex)
             {
-                  ApiResponse response;
-                switch (ex)
-                {
-                         case NotFoundException:
-                        httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                await HandleExceptionAsync(httpContext, ex);
 
-                        httpContext.Response.ContentType = "application/json";
+            }
+        }
 
-                        response = new ApiResponse(404, ex.Message);
+        private async Task HandleExceptionAsync(HttpContext httpContext, Exception ex)
+        {
+            ApiResponse response;
+            switch (ex)
+            {
+                case NotFoundException:
+                    httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
-                        await httpContext.Response.WriteAsync(response.ToString());
-                        break;
+                    httpContext.Response.ContentType = "application/json";
 
-                    default:
-                        if (_env.IsDevelopment())
+                    response = new ApiResponse(404, ex.Message);
 
-                        {
-                            //Development Mode
-                            _logger.LogError(ex, ex.Message);
-                            response = new ApiExceptionResponse((int)HttpStatusCode.InternalServerError, ex.Message, ex.StackTrace?.ToString());
+                    await httpContext.Response.WriteAsync(response.ToString());
+                    break;
 
-                        }
-                        else
-                        {
+                case BadRequestException:
+                    httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                    httpContext.Response.ContentType = "application/json";
+                    response = new ApiResponse(400,ex.Message);
 
-                            //Production Mode
-                            //Log Exception in Database || File (text,json)
-                            response = new ApiExceptionResponse((int)HttpStatusCode.InternalServerError);
-
-
-                        }
-
-                        httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                        httpContext.Response.ContentType = "application/json";
-
-                        await httpContext.Response.WriteAsync(response.ToString());
-                        break;
-                }
-
+                    await httpContext.Response.WriteAsync(response.ToString());
+                    break;
+                default:
+                    httpContext.Response.StatusCode = (int) HttpStatusCode.InternalServerError;
+                    httpContext.Response.ContentType = "application/json";
+                    response = _env.IsDevelopment() ? new ApiExceptionResponse((int) HttpStatusCode.InternalServerError, ex.Message) :
+                                                      new ApiExceptionResponse((int)HttpStatusCode.InternalServerError, ex.Message);
+                    await httpContext.Response.WriteAsJsonAsync(response.ToString());
+                    break;
             }
         }
     }

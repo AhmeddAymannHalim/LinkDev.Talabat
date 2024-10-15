@@ -20,7 +20,7 @@ namespace LinkDev.Talabat.APIs.Controllers.Controllers.Buggy
         public IActionResult GetNotFoundRequest()
         {
             //return NotFound(new ApiResponse(404)); //404
-            throw new NotFoundException();
+            throw new NotFoundException("404",null!);
         }
 
          [HttpGet("badrequest")]

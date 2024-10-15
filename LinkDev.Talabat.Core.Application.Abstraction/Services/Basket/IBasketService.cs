@@ -1,9 +1,4 @@
 ﻿using LinkDev.Talabat.Core.Application.Abstraction.Models.Basket;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LinkDev.Talabat.Core.Application.Abstraction.Services.Basket
 {
@@ -11,7 +6,7 @@ namespace LinkDev.Talabat.Core.Application.Abstraction.Services.Basket
     {
         Task<CustomerBasketDto> GetCustomerBasketAsync(string basketId);
 
-        Task<CustomerBasketDto>? UpdateCustomerBasketAsync(CustomerBasketDto basketDto);
+        Task<CustomerBasketDto>? UpdateCustomerBasketAsync(CustomerBasketDto basketDto ,TimeSpan timeToLive);
 
         Task DeleteCustomerBasket(string id);
     }

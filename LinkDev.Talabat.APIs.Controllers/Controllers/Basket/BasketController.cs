@@ -21,9 +21,9 @@ namespace LinkDev.Talabat.APIs.Controllers.Controllers.Basket
         }
 
         [HttpPost]
-        public async Task<ActionResult<CustomerBasketDto>> UpdateBasket(CustomerBasketDto customerBasket)
+        public async Task<ActionResult<CustomerBasketDto>> UpdateBasket(CustomerBasketDto customerBasket , TimeSpan timeToLive)
         {
-            var updatedBasket = await serviceManager.BasketService.UpdateCustomerBasketAsync(customerBasket)!;
+            var updatedBasket = await serviceManager.BasketService.UpdateCustomerBasketAsync(customerBasket, timeToLive)!;
 
             return Ok(updatedBasket);
         }

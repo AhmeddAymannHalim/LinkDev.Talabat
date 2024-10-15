@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using LinkDev.Talabat.APIs.Controllers.Exceptions;
 using LinkDev.Talabat.Core.Application.Abstraction.Models.Basket;
 using LinkDev.Talabat.Core.Application.Abstraction.Services.Basket;
 using LinkDev.Talabat.Core.Domain.Contracts.Infrastructure;
 using LinkDev.Talabat.Core.Domain.Entities.Basket;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,29 +14,25 @@ using System.Threading.Tasks;
 
 namespace LinkDev.Talabat.Core.Application.Services.Basket
 {
-    public class BasketService(IBasketRepository basketRepository,IMapper mapper) : IBasketService
+    public class BasketService(IBasketRepository basketRepository,IMapper mapper,IConfiguration configuration) : IBasketService
     {
         public async Task<CustomerBasketDto> GetCustomerBasketAsync(string basketId)
         {
             var basket = await basketRepository.GetBasketAsync(basketId);
 
-            if(basketId is null)
-            {
-                return new CustomerBasketDto() {Id = basketId! };
-            }
+            if (basketId is null) throw new NotFoundException(nameof(CustomerBasketDto),basketId!);
 
             return  mapper.Map<CustomerBasketDto>(basket);
            
         }
 
-
-
-        public async Task<CustomerBasketDto>? UpdateCustomerBasketAsync(CustomerBasketDto basketDto , TimeSpan timeToLive)
+        public async Task<CustomerBasketDto>? UpdateCustomerBasketAsync(CustomerBasketDto basketDto )
         {
             var basket = mapper.Map<CustomerBasket>(basketDto);
+            var timeToLive = TimeSpan.FromDays(double.Parse(configuration.GetSection("RedisSettings")["TimeToLiveInDays"]!));
             var updatedBasket = await basketRepository.UpdateBasketAsync(basket , timeToLive);
 
-            if (updatedBasket is null) throw new Exception();
+            if (updatedBasket is null) throw new BadRequestException("can't update,there is a problem with this basket.");
 
             return basketDto;
 
@@ -43,10 +41,10 @@ namespace LinkDev.Talabat.Core.Application.Services.Basket
 
         public async Task DeleteCustomerBasket(string id)
         {
-           var isDeleted = await basketRepository.DeleteBasketAsync(id);
+           var deleted = await basketRepository.DeleteBasketAsync(id);
 
-            if (!isDeleted)
-                throw new Exception();
+            if (!deleted)
+                throw new BadRequestException("unable to delete this basket.");
         }
 
     }

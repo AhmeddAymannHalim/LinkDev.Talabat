@@ -9,6 +9,7 @@ using LinkDev.Talabat.Core.Application.Services.Products;
 using LinkDev.Talabat.Core.Domain.Contracts.Infrastructure;
 using LinkDev.Talabat.Core.Domain.Contracts.Persistence;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace LinkDev.Talabat.Core.Application
@@ -20,15 +21,16 @@ namespace LinkDev.Talabat.Core.Application
         private readonly Lazy<IBasketService> _basketService;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IConfiguration _configuration;
 
-
-        public ServiceManager(IUnitOfWork unitOfWork, IMapper mapper, IBasketRepository basketRepository)
+        public ServiceManager(IUnitOfWork unitOfWork, IMapper mapper, Func<IBasketService> basketServiceFactory,IConfiguration configuration)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _configuration = configuration;
             _productService = new Lazy<IProductService>(() => new ProductService(unitOfWork, mapper));
             _employeeService = new Lazy<IEmployeeService>(() => new EmployeeService(unitOfWork, mapper));
-            _basketService = new Lazy<IBasketService>(() =>  new BasketService(basketRepository, _mapper));
+            _basketService = new Lazy<IBasketService>(basketServiceFactory);
             
 
         }

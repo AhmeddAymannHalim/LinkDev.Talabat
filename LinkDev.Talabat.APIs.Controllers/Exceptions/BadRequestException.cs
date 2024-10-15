@@ -6,13 +6,11 @@ using System.Threading.Tasks;
 
 namespace LinkDev.Talabat.APIs.Controllers.Exceptions
 {
-    public class NotFoundException : Exception
+    public class BadRequestException : ApplicationException
     {
-        public NotFoundException(string name,object key)
-            :base($"{name} with ({key}) is not found")
+        public BadRequestException(string message) : base(message) 
         {
             
         }
-
     }
 }

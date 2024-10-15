@@ -6,4 +6,13 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="StackExchange.Redis" Version="2.8.16" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LinkDev.Talabat.Core.Domain\LinkDev.Talabat.Core.Domain.csproj" />
+    <ProjectReference Include="..\LinkDev.Talabat.Infrastructure.Presistence\LinkDev.Talabat.Infrastructure.Presistence.csproj" />
+  </ItemGroup>
+
 </Project>

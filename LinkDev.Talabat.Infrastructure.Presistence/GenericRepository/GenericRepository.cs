@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LinkDev.Talabat.Infrastructure.Presistence.Repositories.GenericRepository
+namespace LinkDev.Talabat.Infrastructure.Presistence.GenericRepository
 {
     internal class GenericRepository<TEntity, Tkey>(StoreContext DbContext) : IGenericRepository<TEntity, Tkey>
         where TEntity : BaseAuditableEntity<Tkey> where Tkey : IEquatable<Tkey>
@@ -18,8 +18,8 @@ namespace LinkDev.Talabat.Infrastructure.Presistence.Repositories.GenericReposit
 
         public async Task<IEnumerable<TEntity>> GetAllAsync(bool withTracking = false)
         {
-            
-            return withTracking ? 
+
+            return withTracking ?
             await DbContext.Set<TEntity>().ToListAsync() :
             await DbContext.Set<TEntity>().AsNoTracking().ToListAsync();
 
@@ -46,11 +46,11 @@ namespace LinkDev.Talabat.Infrastructure.Presistence.Repositories.GenericReposit
         }
 
 
-         public async Task<int> GetCountAsync(ISpecfifcations<TEntity, Tkey> spec)
+        public async Task<int> GetCountAsync(ISpecfifcations<TEntity, Tkey> spec)
         {
-             return await ApplySpecification(spec).CountAsync();
+            return await ApplySpecification(spec).CountAsync();
         }
-     
+
 
         public async Task<TEntity?> GetWithSpecAsync(ISpecfifcations<TEntity, Tkey> spec)
         {
@@ -68,12 +68,12 @@ namespace LinkDev.Talabat.Infrastructure.Presistence.Repositories.GenericReposit
             => DbContext.Set<TEntity>().Remove(entity);
 
         #region Helpers
-        private  IQueryable<TEntity> ApplySpecification( ISpecfifcations<TEntity, Tkey> spec)
+        private IQueryable<TEntity> ApplySpecification(ISpecfifcations<TEntity, Tkey> spec)
         {
             return SpecificationsEvaluator<TEntity, Tkey>.GetQuery(DbContext.Set<TEntity>(), spec);
         }
 
-       
+
 
         #endregion
     }

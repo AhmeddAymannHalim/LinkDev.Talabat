@@ -1,18 +1,16 @@
 
-using LinkDev.Talabat.APIs.extensions;
-using LinkDev.Talabat.APIs.Services;
-using LinkDev.Talabat.Core.Application.Abstraction;
-using LinkDev.Talabat.Infrastructure.Presistence;
-using LinkDev.Talabat.Core.Application;
-using Microsoft.AspNetCore.Mvc;
 using LinkDev.Talabat.APIs.Controllers.Errors;
-using Microsoft.Extensions.Options;
+using LinkDev.Talabat.APIs.extensions;
 using LinkDev.Talabat.APIs.Middlewares;
+using LinkDev.Talabat.APIs.Services;
+using LinkDev.Talabat.Core.Application;
+using LinkDev.Talabat.Core.Application.Abstraction;
 using LinkDev.Talabat.Infrastructure;
-using LinkDev.Talabat.Core.Domain.Contracts.Infrastructure;
-using LinkDev.Talabat.Infrastructure.BasketRepositories;
+using LinkDev.Talabat.Infrastructure.Presistence;
+using Microsoft.AspNetCore.Mvc;
+using static LinkDev.Talabat.APIs.Controllers.Errors.ApiValidationErrorResponse;
 namespace LinkDev.Talabat.APIs
- 
+
 {
     public class Program
     {
@@ -33,8 +31,11 @@ namespace LinkDev.Talabat.APIs
                     option.InvalidModelStateResponseFactory = (actionContext) =>
                     {
                         var errors = actionContext.ModelState.Where(P => P.Value!.Errors.Count > 0)
-                                       .SelectMany(E => E.Value!.Errors)
-                                       .Select(Er => Er.ErrorMessage);
+                                       .Select(P => new ValidationError()
+                                       {
+                                           Fields = P.Key,
+                                           Errors = P.Value!.Errors.Select(E => E.ErrorMessage)
+                                       });
                         return new BadRequestObjectResult(new ApiValidationErrorResponse()
                         {
                             Errors = errors
@@ -101,7 +102,7 @@ namespace LinkDev.Talabat.APIs
                 //app.UseDeveloperExceptionPage(); .Net 5 
             }
 
-            app.UseMiddleware<CustomExceptionHandlerMiddleware>();
+            app.UseMiddleware<ExceptionHandlerMiddleware>();
 
             app.UseHttpsRedirection();
 

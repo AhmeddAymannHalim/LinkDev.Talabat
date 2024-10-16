@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LinkDev.Talabat.APIs.Controllers.Exceptions
+namespace LinkDev.Talabat.Core.Application
 {
-    public class NotFoundException : Exception
+    public class NotFoundException : ApplicationException
     {
         public NotFoundException(string name,object key)
             :base($"{name} with ({key}) is not found")

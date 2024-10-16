@@ -60,6 +60,8 @@ namespace LinkDev.Talabat.Core.Application.Services.Products
 
             var product = await _unitOfWork.GetRepository<Product, int>().GetWithSpecAsync(specs);
 
+            if(product is null) throw new NotFoundException(nameof(product),id);
+
             var mappedProduct = _mapper.Map<ProductToReturnDto>(product);
 
             return mappedProduct;

@@ -1,4 +1,4 @@
-﻿using LinkDev.Talabat.APIs.Controllers.Exceptions;
+﻿using LinkDev.Talabat.APIs.Controllers;
 using LinkDev.Talabat.APIs.Controllers.Controllers.Base;
 using LinkDev.Talabat.APIs.Controllers.Errors;
 using LinkDev.Talabat.Core.Application.Abstraction.Models.Products;
@@ -19,8 +19,8 @@ namespace LinkDev.Talabat.APIs.Controllers.Controllers.Buggy
         [HttpGet("notfound")]
         public IActionResult GetNotFoundRequest()
         {
-            //return NotFound(new ApiResponse(404)); //404
-            throw new NotFoundException("404",null!);
+            return NotFound(new ApiResponse(404)); //404
+            //throw new NotFoundException("404",null!);
         }
 
          [HttpGet("badrequest")]
@@ -32,7 +32,6 @@ namespace LinkDev.Talabat.APIs.Controllers.Controllers.Buggy
         [HttpGet("badrequest/{id}")] // GetNotFound Endpoint
         public IActionResult GetValidationError(int id) // ValidationError From BadRequest !!  => 400 (return BadRequest())
         {
-
             return Ok(); //400
         }
 

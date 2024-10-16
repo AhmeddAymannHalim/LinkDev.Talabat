@@ -1,21 +1,19 @@
 ﻿using Azure;
 using LinkDev.Talabat.APIs.Controllers.Errors;
-using LinkDev.Talabat.APIs.Controllers.Exceptions;
-using Microsoft.AspNetCore.Http;
+using LinkDev.Talabat.Core.Application;
 using System.Net;
-using System.Text.Json;
 
 namespace LinkDev.Talabat.APIs.Middlewares
 {
 
     //Convension Middle Ware : Must Class End WithMiddleware
-    public class CustomExceptionHandlerMiddleware 
+    public class ExceptionHandlerMiddleware 
     {
         private readonly RequestDelegate _next;
-        private readonly ILogger<CustomExceptionHandlerMiddleware> _logger;
+        private readonly ILogger<ExceptionHandlerMiddleware> _logger;
         private readonly IWebHostEnvironment _env;
 
-        public CustomExceptionHandlerMiddleware(RequestDelegate next, ILogger<CustomExceptionHandlerMiddleware> logger,IWebHostEnvironment env) // For next()
+        public ExceptionHandlerMiddleware(RequestDelegate next, ILogger<ExceptionHandlerMiddleware> logger,IWebHostEnvironment env) // For next()
         {
             _next = next;
             _logger = logger;
@@ -33,6 +31,19 @@ namespace LinkDev.Talabat.APIs.Middlewares
             }
             catch (Exception ex)
             {
+                #region Logging : TODO
+
+                if (_env.IsDevelopment())
+                {
+                    _logger.LogError(ex, ex.Message);
+
+                }
+                else
+                {
+
+                }  
+                #endregion
+
                 await HandleExceptionAsync(httpContext, ex);
 
             }
@@ -40,12 +51,11 @@ namespace LinkDev.Talabat.APIs.Middlewares
 
         private async Task HandleExceptionAsync(HttpContext httpContext, Exception ex)
         {
-            ApiResponse response;
+                 ApiResponse response; 
             switch (ex)
             {
                 case NotFoundException:
-                    httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-
+                    httpContext.Response.StatusCode = (int) HttpStatusCode.NotFound;
                     httpContext.Response.ContentType = "application/json";
 
                     response = new ApiResponse(404, ex.Message);
@@ -54,17 +64,22 @@ namespace LinkDev.Talabat.APIs.Middlewares
                     break;
 
                 case BadRequestException:
-                    httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                    httpContext.Response.StatusCode = (int) HttpStatusCode.BadRequest;
                     httpContext.Response.ContentType = "application/json";
                     response = new ApiResponse(400,ex.Message);
 
                     await httpContext.Response.WriteAsync(response.ToString());
                     break;
-                default:
-                    httpContext.Response.StatusCode = (int) HttpStatusCode.InternalServerError;
+
+              default:
+
+                    response = _env.IsDevelopment() ? response = new ApiExceptionResponse((int)HttpStatusCode.InternalServerError, ex.Message, ex.StackTrace?.ToString())
+                      :
+                    response = new ApiExceptionResponse((int)HttpStatusCode.InternalServerError);
+
+
+                    httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                     httpContext.Response.ContentType = "application/json";
-                    response = _env.IsDevelopment() ? new ApiExceptionResponse((int) HttpStatusCode.InternalServerError, ex.Message) :
-                                                      new ApiExceptionResponse((int)HttpStatusCode.InternalServerError, ex.Message);
                     await httpContext.Response.WriteAsJsonAsync(response.ToString());
                     break;
             }

@@ -5,6 +5,7 @@ using LinkDev.Talabat.APIs.Middlewares;
 using LinkDev.Talabat.APIs.Services;
 using LinkDev.Talabat.Core.Application;
 using LinkDev.Talabat.Core.Application.Abstraction;
+using LinkDev.Talabat.Core.Application.Abstraction.Models.Auth;
 using LinkDev.Talabat.Core.Domain.Entities._Identity;
 using LinkDev.Talabat.Infrastructure;
 using LinkDev.Talabat.Infrastructure.Presistence;
@@ -92,54 +93,11 @@ namespace LinkDev.Talabat.APIs
             // LinkDev.Talabat.Infrastructure
             webApplicationbuilder.Services.AddInfrastructureServices(webApplicationbuilder.Configuration);
 
-            // LinkDev.Talabat.Infrastructure.Presistence._Identity
-            webApplicationbuilder.Services.AddIdentity<ApplicationUser, IdentityRole>(identityOptions =>
-            {
-                #region Confirmations On Account
-                identityOptions.SignIn.RequireConfirmedAccount = true;
-                identityOptions.SignIn.RequireConfirmedEmail = true;
-                identityOptions.SignIn.RequireConfirmedPhoneNumber = true;
-                #endregion
-
-                #region Validation of password
-                //We Made RegularExpression On The Column Password No Need For Validation here .. it will Not Go To The EndPoint and Make An Exception
-
-                // identityOptions.Password.RequireNonAlphanumeric = true;
-                // identityOptions.Password.RequiredUniqueChars = 2;
-                // identityOptions.Password.RequiredLength = 6;
-                // identityOptions.Password.RequireDigit = true;
-                // identityOptions.Password.RequireUppercase = true;
-                // identityOptions.Password.RequireLowercase = true;
-
-                #endregion
-
-                #region Validation Of User
-                identityOptions.User.RequireUniqueEmail = true;
-                //identityOptions.User.AllowedUserNameCharacters = ""; 
-                #endregion
-
-                #region LockOut Validation
-                identityOptions.Lockout.AllowedForNewUsers = true;
-                identityOptions.Lockout.MaxFailedAccessAttempts = 5;
-                identityOptions.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromHours(12); 
-                #endregion
-
-
-                //identityOptions.Stores.
-
-
-                //identityOptions.Tokens.
-
-                //identityOptions.ClaimsIdentity.
-
-
-
-
-
-
-            })
-                .AddEntityFrameworkStores<StoreIdentityDbContext>();
+            //LinkDev.Talabat.APIs.extensions
+            webApplicationbuilder.Services.AddIdentityServices(webApplicationbuilder.Configuration);
+           
             #endregion
+
 
             var app = webApplicationbuilder.Build();
 

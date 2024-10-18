@@ -5,13 +5,9 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace LinkDev.Talabat.Infrastructure.Presistence._Identity
 {
-    public class StoreIdentityDbContext : IdentityDbContext<ApplicationUser>
+    public class StoreIdentityDbContext(DbContextOptions<StoreIdentityDbContext> options) : IdentityDbContext<ApplicationUser>(options)
     {
-        public StoreIdentityDbContext(DbContextOptions<StoreIdentityDbContext> options)
-            : base(options)
-        {
-
-        }
+        
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

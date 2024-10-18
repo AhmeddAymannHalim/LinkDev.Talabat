@@ -102,12 +102,14 @@ namespace LinkDev.Talabat.APIs
                 #endregion
 
                 #region Validation of password
-                identityOptions.Password.RequireNonAlphanumeric = true;
-                identityOptions.Password.RequiredUniqueChars = 2;
-                identityOptions.Password.RequiredLength = 6;
-                identityOptions.Password.RequireDigit = true;
-                identityOptions.Password.RequireUppercase = true;
-                identityOptions.Password.RequireLowercase = true;
+                //We Made RegularExpression On The Column Password No Need For Validation here .. it will Not Go To The EndPoint and Make An Exception
+
+                // identityOptions.Password.RequireNonAlphanumeric = true;
+                // identityOptions.Password.RequiredUniqueChars = 2;
+                // identityOptions.Password.RequiredLength = 6;
+                // identityOptions.Password.RequireDigit = true;
+                // identityOptions.Password.RequireUppercase = true;
+                // identityOptions.Password.RequireLowercase = true;
 
                 #endregion
 

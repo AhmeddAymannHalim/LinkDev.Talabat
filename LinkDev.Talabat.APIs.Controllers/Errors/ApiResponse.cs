@@ -26,9 +26,9 @@ namespace LinkDev.Talabat.APIs.Controllers.Errors
             return statuscode switch
             {
 
-                400 => " A badrequest, you have made",
-                401 => "Authorized, you are not",
-                404 => "Resource wasn't found ",
+                400 => "Badrequest, you have made",
+                401 => "UnAuthorized",
+                404 => "Resource is not found ",
                 500 => "Errors are the path to the dark side. Errors lead to anger. Anger leads to hate. Hate leads to career change",
                 _ => null
             };

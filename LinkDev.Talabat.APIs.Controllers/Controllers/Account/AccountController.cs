@@ -13,8 +13,7 @@ namespace LinkDev.Talabat.APIs.Controllers.Controllers.Account
     public class AccountController(IServiceManager serviceManager) : ApiControllerBase
     {
 
-        [HttpPost("login")] // Post => /api/account/login
-         
+        [HttpPost("login")] // Post => /api/account/login       
         public async Task<ActionResult<UserDto>> Login(LoginDto model)
         {
             var response = await serviceManager.AuthService.LoginAsync(model);
@@ -24,7 +23,6 @@ namespace LinkDev.Talabat.APIs.Controllers.Controllers.Account
 
 
         [HttpPost("register")] // Post => /api/account/register
-
         public async Task<ActionResult<RegisterDto>> Register(RegisterDto model)
         {
             var respose = await serviceManager.AuthService.RegisterAsync(model);

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using LinkDev.Talabat.Core.Application.Abstraction.Models.Auth;
 using LinkDev.Talabat.Core.Application.Abstraction.Services.Auth;
+using LinkDev.Talabat.Core.Application.Exceptions;
 using LinkDev.Talabat.Core.Domain.Entities._Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -17,7 +18,7 @@ using System.Threading.Tasks;
 
 namespace LinkDev.Talabat.Core.Application.Services.Auth
 {
-    internal class AuthService(
+    public class AuthService(
         UserManager<ApplicationUser> userManager,
         SignInManager<ApplicationUser> signInManager,
         IOptions<JwtSettings> jwtSettings
@@ -32,11 +33,11 @@ namespace LinkDev.Talabat.Core.Application.Services.Auth
             var user = await userManager.FindByEmailAsync(model.Email);
 
             if (user is null)
-                throw new BadRequestException("Invalid Login");
+                throw new UnAuthorizedException("Invalid Login");
 
             var result = await signInManager.CheckPasswordSignInAsync(user,model.Password,true);
 
-            if (!result.Succeeded) throw new BadRequestException("Invalid Login");
+            if (!result.Succeeded) throw new UnAuthorizedException("Invalid Login");
 
             var response = new UserDto()
             {

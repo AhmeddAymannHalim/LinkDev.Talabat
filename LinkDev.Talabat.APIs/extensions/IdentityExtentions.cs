@@ -1,8 +1,11 @@
 ﻿using LinkDev.Talabat.Core.Application.Abstraction.Models.Auth;
+using LinkDev.Talabat.Core.Application.Abstraction.Services.Auth;
+using LinkDev.Talabat.Core.Application.Services.Auth;
 using LinkDev.Talabat.Core.Domain.Entities._Identity;
 using LinkDev.Talabat.Infrastructure.Presistence._Identity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
 
 namespace LinkDev.Talabat.APIs.extensions
 {
@@ -14,12 +17,23 @@ namespace LinkDev.Talabat.APIs.extensions
 
             services.Configure<JwtSettings>(configuration.GetSection("JWTSettings"));
 
+            services.AddScoped(typeof(IAuthService), typeof(AuthService));
+
+            services.AddScoped(typeof(Func<IAuthService>), (serviceProvider) =>
+            {
+                var usermanager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+                var signinManager = serviceProvider.GetRequiredService<SignInManager<ApplicationUser>>();
+                var jwtSettings = serviceProvider.GetRequiredService<IOptions<JwtSettings>>();
+
+                return () => new AuthService(usermanager, signinManager, jwtSettings);
+
+            });
             services.AddIdentity<ApplicationUser, IdentityRole>(identityOptions =>
             {
                 #region Confirmations On Account
-                identityOptions.SignIn.RequireConfirmedAccount = true;
-                identityOptions.SignIn.RequireConfirmedEmail = true;
-                identityOptions.SignIn.RequireConfirmedPhoneNumber = true;
+                // identityOptions.SignIn.RequireConfirmedAccount = true;
+                // identityOptions.SignIn.RequireConfirmedEmail = true;
+                // identityOptions.SignIn.RequireConfirmedPhoneNumber = true;
                 #endregion
 
                 #region Validation of password

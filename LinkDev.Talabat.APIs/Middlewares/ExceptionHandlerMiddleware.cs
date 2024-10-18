@@ -1,6 +1,7 @@
 ﻿using Azure;
 using LinkDev.Talabat.APIs.Controllers.Errors;
 using LinkDev.Talabat.Core.Application;
+using LinkDev.Talabat.Core.Application.Exceptions;
 using System.Net;
 
 namespace LinkDev.Talabat.APIs.Middlewares
@@ -71,7 +72,14 @@ namespace LinkDev.Talabat.APIs.Middlewares
                     await httpContext.Response.WriteAsync(response.ToString());
                     break;
 
-              default:
+                case UnAuthorizedException:
+                    httpContext.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                    httpContext.Response.ContentType = "application/json";
+                    response = new ApiResponse(401, "Invalid Email Or Password ! Please Try agian ...");
+
+                    await httpContext.Response.WriteAsync(response.ToString());
+                    break;
+                default:
 
                     response = _env.IsDevelopment() ? response = new ApiExceptionResponse((int)HttpStatusCode.InternalServerError, ex.Message, ex.StackTrace?.ToString())
                       :
@@ -84,5 +92,7 @@ namespace LinkDev.Talabat.APIs.Middlewares
                     break;
             }
         }
+
+
     }
 }

@@ -3,9 +3,12 @@ using LinkDev.Talabat.Core.Application.Abstraction.Services.Auth;
 using LinkDev.Talabat.Core.Application.Services.Auth;
 using LinkDev.Talabat.Core.Domain.Entities._Identity;
 using LinkDev.Talabat.Infrastructure.Presistence._Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace LinkDev.Talabat.APIs.extensions
 {
@@ -27,6 +30,27 @@ namespace LinkDev.Talabat.APIs.extensions
 
                 return () => new AuthService(usermanager, signinManager, jwtSettings);
 
+            });
+
+            services.AddAuthentication(authenticationOptions =>
+            {
+                authenticationOptions.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                authenticationOptions.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidateAudience = true,
+                    ValidateIssuer = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+
+                    ValidAudience = configuration["JwtSettings:Audience"],
+                    ValidIssuer = configuration["JwtSettings:Issuer"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtSettings:Key"]!)),
+                    ClockSkew = TimeSpan.Zero
+                    
+                };
             });
             services.AddIdentity<ApplicationUser, IdentityRole>(identityOptions =>
             {

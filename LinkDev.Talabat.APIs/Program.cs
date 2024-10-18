@@ -84,6 +84,7 @@ namespace LinkDev.Talabat.APIs
             webApplicationbuilder.Services.AddScoped(typeof(ILoggedInUserService), typeof(LoggedInUserService));
 
 
+            #region Extention-DependencyEnjection_Methods
             // LinkDev.Talabat.Core.Application
             webApplicationbuilder.Services.AddApplicationServices();
 
@@ -95,7 +96,8 @@ namespace LinkDev.Talabat.APIs
 
             //LinkDev.Talabat.APIs.extensions
             webApplicationbuilder.Services.AddIdentityServices(webApplicationbuilder.Configuration);
-           
+
+            #endregion
             #endregion
 
 
@@ -124,6 +126,7 @@ namespace LinkDev.Talabat.APIs
             app.UseHttpsRedirection();
 
             app.UseAuthentication();
+
             app.UseAuthorization();
 
             app.UseStatusCodePagesWithReExecute("/Errors/{0}");

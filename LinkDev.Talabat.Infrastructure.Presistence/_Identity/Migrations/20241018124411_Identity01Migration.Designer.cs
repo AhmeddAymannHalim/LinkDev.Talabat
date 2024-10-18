@@ -4,16 +4,19 @@ using LinkDev.Talabat.Infrastructure.Presistence._Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace LinkDev.Talabat.Infrastructure.Presistence.Migrations
+namespace LinkDev.Talabat.Infrastructure.Presistence._Identity.Migrations
 {
     [DbContext(typeof(StoreIdentityDbContext))]
-    partial class StoreIdentityDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241018124411_Identity01Migration")]
+    partial class Identity01Migration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

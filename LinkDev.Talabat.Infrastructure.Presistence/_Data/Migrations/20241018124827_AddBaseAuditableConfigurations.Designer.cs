@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LinkDev.Talabat.Infrastructure.Presistence.Data.Migrations
 {
     [DbContext(typeof(StoreDbContext))]
-    [Migration("20241018122558_BaseAuditableEntityConfiguration")]
-    partial class BaseAuditableEntityConfiguration
+    [Migration("20241018124827_AddBaseAuditableConfigurations")]
+    partial class AddBaseAuditableConfigurations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -174,8 +174,9 @@ namespace LinkDev.Talabat.Infrastructure.Presistence.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -187,11 +188,8 @@ namespace LinkDev.Talabat.Infrastructure.Presistence.Data.Migrations
 
             modelBuilder.Entity("LinkDev.Talabat.Core.Domain.Entities._Identity.ApplicationUser", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");

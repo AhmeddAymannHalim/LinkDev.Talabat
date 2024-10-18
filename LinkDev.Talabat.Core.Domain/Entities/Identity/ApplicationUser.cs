@@ -9,7 +9,6 @@ namespace LinkDev.Talabat.Core.Domain.Entities._Identity
 {
     public class ApplicationUser : IdentityUser
     {
-        public int Id { get; set; }
 
         public required string DisplayName { get; set; }
 

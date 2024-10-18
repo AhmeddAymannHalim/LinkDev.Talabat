@@ -1,8 +1,11 @@
 ﻿using LinkDev.Talabat.Core.Domain.Contracts.Infrastructure;
 using LinkDev.Talabat.Core.Domain.Contracts.Persistence;
+using LinkDev.Talabat.Core.Domain.Contracts.Persistence.DbInitializers;
+using LinkDev.Talabat.Core.Domain.Entities._Identity;
 using LinkDev.Talabat.Infrastructure.Presistence._Identity;
 using LinkDev.Talabat.Infrastructure.Presistence.Data;
 using LinkDev.Talabat.Infrastructure.Presistence.Data.Interceptors;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
@@ -24,7 +27,7 @@ namespace LinkDev.Talabat.Infrastructure.Presistence
 
 
             // services.AddScoped<IStoreContextInitializer, StoreContextInitializer>();
-            services.AddScoped(typeof(IStoreContextInitializer), typeof(StoreDbContextInitializer));
+            services.AddScoped(typeof(IStoreDbInitializer), typeof(StoreDbInitializer));
 
             services.AddScoped(typeof(ISaveChangesInterceptor), typeof(BaseAuditableEntityInterceptor));
 
@@ -33,6 +36,8 @@ namespace LinkDev.Talabat.Infrastructure.Presistence
 
             services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork.UnitOfWork));
 
+            services.AddScoped(typeof(UserManager<ApplicationUser>));
+           
 
             #region IdentityDbContext
             services.AddDbContext<StoreIdentityDbContext>(optionsBuilder =>
@@ -40,6 +45,8 @@ namespace LinkDev.Talabat.Infrastructure.Presistence
                    optionsBuilder.UseLazyLoadingProxies();
                    optionsBuilder.UseSqlServer(configuration.GetConnectionString("IdentityContext"));
                });
+
+            services.AddScoped(typeof(IStoreIdentityDbInitializer), typeof(StoreIdentityDbInitializer));
 
             #endregion
 

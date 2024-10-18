@@ -1,6 +1,6 @@
 ﻿using LinkDev.Talabat.Core.Domain.Entities._Identity;
 using LinkDev.Talabat.Infrastructure.Presistence._Identity.Config;
-using LinkDev.Talabat.Infrastructure.Presistence.Data.Config.Base;
+using LinkDev.Talabat.Infrastructure.Presistence.Identity.Config;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace LinkDev.Talabat.Infrastructure.Presistence._Identity

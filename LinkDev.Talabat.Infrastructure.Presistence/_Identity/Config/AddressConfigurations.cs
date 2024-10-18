@@ -1,7 +1,7 @@
 ﻿using LinkDev.Talabat.Core.Domain.Entities._Identity;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace LinkDev.Talabat.Infrastructure.Presistence._Identity.Config
+namespace LinkDev.Talabat.Infrastructure.Presistence.Identity.Config
 {
     internal class AddressConfigurations : IEntityTypeConfiguration<Address>
     {

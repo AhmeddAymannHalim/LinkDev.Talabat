@@ -12,7 +12,7 @@ namespace LinkDev.Talabat.APIs.Services
         public LoggedInUserService(IHttpContextAccessor? httpContextAccessor)
         {
             _httpContextAccessor = httpContextAccessor;
-            UserId = _httpContextAccessor?.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier)!;
+            UserId = _httpContextAccessor?.HttpContext?.User?.FindFirstValue(ClaimTypes.PrimarySid)!;
         }
 
       

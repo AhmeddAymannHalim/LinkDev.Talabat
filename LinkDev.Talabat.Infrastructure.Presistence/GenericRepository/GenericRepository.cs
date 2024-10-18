@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace LinkDev.Talabat.Infrastructure.Presistence.GenericRepository
 {
-    internal class GenericRepository<TEntity, Tkey>(StoreContext DbContext) : IGenericRepository<TEntity, Tkey>
+    internal class GenericRepository<TEntity, Tkey>(StoreDbContext DbContext) : IGenericRepository<TEntity, Tkey>
         where TEntity : BaseAuditableEntity<Tkey> where Tkey : IEquatable<Tkey>
     {
 

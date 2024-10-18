@@ -4,7 +4,7 @@ using System.Text.Json;
 
 namespace LinkDev.Talabat.Infrastructure.Presistence.Data
 {
-    internal class StoreContextInitializer(StoreContext _dbContext) : IStoreContextInitializer
+    internal class StoreDbContextInitializer(StoreDbContext _dbContext) : IStoreContextInitializer
     {
        
 

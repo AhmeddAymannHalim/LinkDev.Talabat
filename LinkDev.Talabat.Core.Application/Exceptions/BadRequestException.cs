@@ -8,7 +8,7 @@ namespace LinkDev.Talabat.Core.Application
 {
     public class BadRequestException : ApplicationException
     {
-        public BadRequestException(string message) : base(message) 
+        public BadRequestException(string? message = null) : base(message) 
         {
             
         }

@@ -7,22 +7,15 @@ using System.Threading.Tasks;
 
 namespace LinkDev.Talabat.Core.Application.Abstraction.Common
 {
-    public class Pagination<T>
+    public class Pagination<T>(int pageIndex, int pageSize, int count)
     {
-        private ProductToReturnDto productToReturnDto;
+        //private readonly ProductToReturnDto? productToReturnDto;
 
-        public Pagination(int pageIndex, int pageSize,int count)
-        {
-            PageIndex = pageIndex;
-            PageSize = pageSize;
-            Count = count;
-        }
+        public int PageIndex { get; set; } = pageIndex;
 
-        public int PageIndex { get; set; }
+        public int PageSize { get; set; } = pageSize;
 
-        public int PageSize { get; set; }
-
-        public int Count { get; set; }
+        public int Count { get; set; } = count;
 
         public required IEnumerable<T> Data { get; set; }
 

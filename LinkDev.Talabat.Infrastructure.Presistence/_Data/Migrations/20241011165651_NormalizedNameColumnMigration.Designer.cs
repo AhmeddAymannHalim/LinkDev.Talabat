@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LinkDev.Talabat.Infrastructure.Presistence.Data.Migrations
 {
-    [DbContext(typeof(StoreContext))]
+    [DbContext(typeof(StoreDbContext))]
     [Migration("20241011165651_NormalizedNameColumnMigration")]
     partial class NormalizedNameColumnMigration
     {

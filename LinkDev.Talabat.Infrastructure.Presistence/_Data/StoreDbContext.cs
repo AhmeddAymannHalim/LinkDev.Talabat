@@ -1,9 +1,10 @@
 ﻿using LinkDev.Talabat.Core.Domain.Common;
 using LinkDev.Talabat.Core.Domain.Entities.Products;
+using System.Reflection;
 
 namespace LinkDev.Talabat.Infrastructure.Presistence.Data
 {
-    public class StoreContext : DbContext
+    public class StoreDbContext : DbContext
     {  
         
         public DbSet<Product> Products { get; set; }
@@ -13,13 +14,15 @@ namespace LinkDev.Talabat.Infrastructure.Presistence.Data
         public DbSet<ProductCategory> Categories{ get; set; }
 
 
-        public StoreContext(DbContextOptions<StoreContext> options):base(options)
+        public StoreDbContext(DbContextOptions<StoreDbContext> options):base(options)
         {
             
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+         
+            base.OnModelCreating(modelBuilder);
             
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(AssemblyInformation).Assembly);
 

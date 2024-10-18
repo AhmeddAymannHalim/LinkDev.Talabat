@@ -5,13 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LinkDev.Talabat.Core.Domain.Entities.Identity
+namespace LinkDev.Talabat.Core.Domain.Entities._Identity
 {
-    public class ApplicationUser : IdentityUser<string>
+    public class ApplicationUser : IdentityUser
     {
+        public int Id { get; set; }
+
         public required string DisplayName { get; set; }
 
-        public Address? Address { get; set; }
+        public virtual Address? Address { get; set; }
 
     }
 }

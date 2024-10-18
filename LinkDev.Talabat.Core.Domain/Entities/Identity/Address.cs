@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LinkDev.Talabat.Core.Domain.Entities.Identity
+﻿namespace LinkDev.Talabat.Core.Domain.Entities._Identity
 {
     public class Address
     {
@@ -21,9 +15,9 @@ namespace LinkDev.Talabat.Core.Domain.Entities.Identity
 
         public required string Country { get; set; }
 
-        public int UserId { get; set; }
+        public string UserId { get; set; }
 
-        public required ApplicationUser AppUser { get; set; }
+        public virtual required ApplicationUser User { get; set; }
 
     }
 }

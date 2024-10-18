@@ -15,6 +15,8 @@ namespace LinkDev.Talabat.Infrastructure.Presistence.Data.Config.Base
     {
         public virtual void Configure(EntityTypeBuilder<TEntity> builder)
         {
+          
+
             builder.Property(E => E.Id)
                   .ValueGeneratedOnAdd();
 
@@ -25,12 +27,12 @@ namespace LinkDev.Talabat.Infrastructure.Presistence.Data.Config.Base
             builder.Property(E => E.CreatedBy)
                   .IsRequired();
 
+            builder.Property(E => E.LastModifiedBy)
+                  .IsRequired();
+
             builder.Property(E => E.LastModifiedOn)
                 .IsRequired();
             //.HasDefaultValueSql("GETUTCDATE()");
-
-            builder.Property(E => E.LastModifiedBy)
-                  .IsRequired();
 
         }
     }

@@ -1,11 +1,17 @@
 ﻿using AutoMapper;
+using LinkDev.Talabat.Core.Application.Abstraction.Models.Auth;
 using LinkDev.Talabat.Core.Application.Abstraction.Services;
+using LinkDev.Talabat.Core.Application.Abstraction.Services.Auth;
 using LinkDev.Talabat.Core.Application.Abstraction.Services.Basket;
 using LinkDev.Talabat.Core.Application.Mapping;
+using LinkDev.Talabat.Core.Application.Services.Auth;
 using LinkDev.Talabat.Core.Application.Services.Basket;
 using LinkDev.Talabat.Core.Domain.Contracts.Infrastructure;
+using LinkDev.Talabat.Core.Domain.Entities._Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 namespace LinkDev.Talabat.Core.Application
 {
@@ -28,7 +34,11 @@ namespace LinkDev.Talabat.Core.Application
                 return () => new BasketService(basketRepository, mapper, configuration);
                
             });
+
            
+
+
+
             return services;
         }
     }

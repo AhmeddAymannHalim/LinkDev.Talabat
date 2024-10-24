@@ -19,31 +19,37 @@ using System.Threading.Tasks;
 namespace LinkDev.Talabat.Core.Application.Services.Auth
 {
     public class AuthService(
-        UserManager<ApplicationUser> userManager,
-        SignInManager<ApplicationUser> signInManager,
-        IOptions<JwtSettings> jwtSettings
+        UserManager<ApplicationUser>     userManager,
+        SignInManager<ApplicationUser>   signInManager,
+        IOptions<JwtSettings>            jwtSettings
         ) : IAuthService
     {
         private readonly JwtSettings _jwtSettings = jwtSettings.Value;
 
         public async Task<UserDto> LoginAsync(LoginDto model)
-        {           
-
-         
+        {                    
             var user = await userManager.FindByEmailAsync(model.Email);
 
             if (user is null)
                 throw new UnAuthorizedException("Invalid Login");
 
-            var result = await signInManager.CheckPasswordSignInAsync(user,model.Password,true);
+            var result = await signInManager.CheckPasswordSignInAsync(user,model.Password,lockoutOnFailure: true);
 
-            if (!result.Succeeded) throw new UnAuthorizedException("Invalid Login");
+            if (result.IsNotAllowed) throw new UnAuthorizedException("Account not Confirmed yet.");
+
+            if(result.IsLockedOut) throw new UnAuthorizedException("Account is locked.");
+
+            //if (result.RequiresTwoFactor) throw new UnAuthorizedException("Required Two-Factor Authentication");
+
+
+            if(!result.Succeeded)
+                throw new UnAuthorizedException("Invalid Login");
 
             var response = new UserDto()
             {
-                Id = user.Id,
                 DisplayName = user.DisplayName,
                 Email = model.Email,
+                Id = user.Id,
                 Token = await GenerateTokenAsync(user)
                 
             };

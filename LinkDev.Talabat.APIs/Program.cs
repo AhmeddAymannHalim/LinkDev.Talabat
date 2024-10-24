@@ -36,7 +36,7 @@ namespace LinkDev.Talabat.APIs
                     option.InvalidModelStateResponseFactory = (actionContext) =>
                     {
                         var errors = actionContext.ModelState.Where(P => P.Value!.Errors.Count > 0)
-                                       .Select(P => new ValidationError()
+                                       .Select(P => new ValidationError ()
                                        {
                                            Fields = P.Key,
                                            Errors = P.Value!.Errors.Select(E => E.ErrorMessage)

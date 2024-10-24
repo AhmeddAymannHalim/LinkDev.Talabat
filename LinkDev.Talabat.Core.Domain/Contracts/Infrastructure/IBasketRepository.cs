@@ -9,11 +9,11 @@ namespace LinkDev.Talabat.Core.Domain.Contracts.Infrastructure
 {
     public interface IBasketRepository
     {
-        Task<CustomerBasket?> GetBasketAsync(string id);
+        Task<CustomerBasket?> GetAsync(string id);
 
-        Task<CustomerBasket?> UpdateBasketAsync(CustomerBasket Basket , TimeSpan timeSpan);
+        Task<CustomerBasket?> UpdateAsync(CustomerBasket Basket , TimeSpan timeSpan);
 
-        Task<bool> DeleteBasketAsync(string id);
+        Task<bool> DeleteAsync(string id);
 
     }
 }

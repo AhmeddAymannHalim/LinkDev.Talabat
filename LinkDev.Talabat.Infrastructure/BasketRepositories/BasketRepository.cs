@@ -14,25 +14,25 @@ public class BasketRepository : IBasketRepository
         _database = redis.GetDatabase();
     }
 
-    public async Task<CustomerBasket?> GetBasketAsync(string id)
+    public async Task<CustomerBasket?> GetAsync(string id)
     {
         var basket = await _database.StringGetAsync(id);
 
         return basket.IsNullOrEmpty ? null : JsonSerializer.Deserialize<CustomerBasket>(basket!);
     }
 
-    public async Task<CustomerBasket?> UpdateBasketAsync(CustomerBasket basket , TimeSpan timeToLive)
+    public async Task<CustomerBasket?> UpdateAsync(CustomerBasket basket , TimeSpan timeToLive)
     {
         var value = JsonSerializer.Serialize(basket);
 
 
         var updated = await _database.StringSetAsync(basket.Id, value , timeToLive);
 
-        if (updated) return basket;
+        if (!updated) return null;
 
-        return null;
+        return basket;
     }
 
-    public async Task<bool> DeleteBasketAsync(string id) =>  await _database.KeyDeleteAsync(id);
+    public async Task<bool> DeleteAsync(string id) =>  await _database.KeyDeleteAsync(id);
     
 }

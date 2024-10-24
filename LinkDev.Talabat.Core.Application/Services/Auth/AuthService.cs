@@ -1,20 +1,13 @@
-﻿using AutoMapper;
-using LinkDev.Talabat.Core.Application.Abstraction.Models.Auth;
+﻿using LinkDev.Talabat.Core.Application.Abstraction.Models.Auth;
 using LinkDev.Talabat.Core.Application.Abstraction.Services.Auth;
 using LinkDev.Talabat.Core.Application.Exceptions;
 using LinkDev.Talabat.Core.Domain.Entities._Identity;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace LinkDev.Talabat.Core.Application.Services.Auth
 {
@@ -83,29 +76,34 @@ namespace LinkDev.Talabat.Core.Application.Services.Auth
 
         private async Task<string> GenerateTokenAsync(ApplicationUser user)
         {
+            var userClaims = await userManager.GetClaimsAsync(user);
+            var roleAsClaims = new List<Claim>();
+
+            var roles = await userManager.GetRolesAsync(user);
+            foreach (var role in roles)
+                roleAsClaims.Add(new Claim(ClaimTypes.Role, role.ToString()));
 
             //Private Claims
-            var privateClaims = new List<Claim>()
+            var claims = new List<Claim>()
             {
                 new Claim(ClaimTypes.PrimarySid,user.Id),
                 new Claim(ClaimTypes.Email,user.Email!),
                 new Claim(ClaimTypes.Name,user.DisplayName),
 
-            }.Union(await userManager.GetClaimsAsync(user)).ToList();
+            }.Union(userClaims)
+             .Union(roleAsClaims).ToList();
             //var userClaims = userManager.GetClaimsAsync(user);
           
-                foreach (var role in await userManager.GetRolesAsync(user)) 
-                privateClaims.Add(new Claim(ClaimTypes.Role,role.ToString()));
-
             var authKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key));
+            var signingCredentials = new SigningCredentials(authKey, SecurityAlgorithms.HmacSha256);
 
             var TokenObject = new JwtSecurityToken(
 
                 audience: _jwtSettings.Audience,
                 issuer: _jwtSettings.Issuer,
                 expires: DateTime.UtcNow.AddMinutes(_jwtSettings.DurationInMinutes),
-                claims: privateClaims,
-                signingCredentials: new SigningCredentials(authKey, SecurityAlgorithms.HmacSha256)
+                claims: claims,
+                signingCredentials: signingCredentials
 
                 );
 

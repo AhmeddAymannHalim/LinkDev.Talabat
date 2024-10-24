@@ -28,7 +28,14 @@ namespace LinkDev.Talabat.Core.Application
 
       
 
-        public ServiceManager(IUnitOfWork unitOfWork, IMapper mapper, Func<IBasketService> basketServiceFactory,IConfiguration configuration,Func<IAuthService> authServiceFactory)
+        public ServiceManager
+            (
+            IUnitOfWork unitOfWork,
+            IMapper mapper,
+            Func<IBasketService> basketServiceFactory,
+            IConfiguration configuration,
+            Func<IAuthService> authServiceFactory
+            )
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;

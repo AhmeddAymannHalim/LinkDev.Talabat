@@ -16,14 +16,12 @@ namespace LinkDev.Talabat.Infrastructure.Presistence._Data.Config.Base
         {
             base.Configure(builder);
 
-            builder.Property(B => B.Id)
-                    .ValueGeneratedOnAdd();
-
             builder.Property(E => E.CreatedBy)
                     .IsRequired();
 
             builder.Property(E => E.CreatedOn)
                   .IsRequired();
+                  //.HasDefaultValueSql("GETUTCDATE()");
 
             builder.Property(E => E.LastModifiedBy) 
                   .IsRequired();

@@ -15,7 +15,7 @@ namespace LinkDev.Talabat.APIs.extensions
             #endregion
 
             #region IdentityInitializer
-            var storeIDentityInitializer = services.GetRequiredService<IStoreIdentityDbInitializer>();
+            var identityContextInitializer = services.GetRequiredService<IStoreIdentityDbInitializer>();
 
             #endregion
 
@@ -29,8 +29,8 @@ namespace LinkDev.Talabat.APIs.extensions
                 #endregion
 
                 #region IdentityInitializer
-                await storeIDentityInitializer.InitializeAsync();
-                await storeIDentityInitializer.SeedAsync();
+                await identityContextInitializer.InitializeAsync();
+                await identityContextInitializer.SeedAsync();
 
                 #endregion
             }

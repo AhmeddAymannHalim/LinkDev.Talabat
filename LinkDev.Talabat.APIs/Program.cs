@@ -50,7 +50,9 @@ namespace LinkDev.Talabat.APIs
 
                     };
                 })
-                .AddApplicationPart(typeof(Controllers.AssemblyInformation).Assembly);//Register Required Services By Asp.NetCore WebAPi to Dependancy Injection
+                .AddApplicationPart(typeof(Controllers.AssemblyInformation).Assembly);
+                //                        ^
+                //Register Required Services By Asp.NetCore WebAPi to Dependancy Injection
            
             #region ConfigureApiBehavior - options
             //webApplicationbuilder.Services.Configure<ApiBehaviorOptions>(option =>
@@ -98,6 +100,7 @@ namespace LinkDev.Talabat.APIs
             webApplicationbuilder.Services.AddIdentityServices(webApplicationbuilder.Configuration);
 
             #endregion
+
             #endregion
 
 

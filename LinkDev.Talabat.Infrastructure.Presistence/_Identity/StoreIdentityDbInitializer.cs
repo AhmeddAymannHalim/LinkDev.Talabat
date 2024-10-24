@@ -13,19 +13,24 @@ using System.Threading.Tasks;
 
 namespace LinkDev.Talabat.Infrastructure.Presistence._Identity
 {
-    internal sealed class StoreIdentityDbInitializer(StoreIdentityDbContext _dbContext, UserManager<ApplicationUser> userManager) : DbInitializer(_dbContext), IStoreIdentityDbInitializer
+    internal sealed class StoreIdentityDbInitializer(
+        StoreIdentityDbContext _dbContext,
+        UserManager<ApplicationUser> userManager) : DbInitializer(_dbContext), IStoreIdentityDbInitializer
     {
         public override async Task SeedAsync()
         {
-            var user = new ApplicationUser()
+            if (!userManager.Users.Any())
             {
-                DisplayName = "Ahmed Nasr",
-                UserName    = "ahmed.nasr",
-                Email       = "ahmed.nasr@linkdev.com",
-                PhoneNumber = "01021487569",
-                
-            };
-            await userManager.CreateAsync(user,"P@ssw0rd");
+                var user = new ApplicationUser()
+                {
+                    DisplayName = "Ahmed Nasr",
+                    UserName = "ahmed.nasr",
+                    Email = "ahmed.nasr@linkdev.com",
+                    PhoneNumber = "01021487569",
+
+                };
+                await userManager.CreateAsync(user, "P@ssw0rd"); 
+            }
         }
         
     }

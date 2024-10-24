@@ -15,7 +15,7 @@
 
         public required string Country { get; set; }
 
-        public string UserId { get; set; }
+        public required string UserId { get; set; }
 
         public virtual required ApplicationUser User { get; set; }
 

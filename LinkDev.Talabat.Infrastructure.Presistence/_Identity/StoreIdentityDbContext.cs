@@ -19,22 +19,22 @@ namespace LinkDev.Talabat.Infrastructure.Presistence._Identity
 
             #region ApplyConfiguration - OldCode
 
-            ///    var assembly = typeof(AssemblyInformation).Assembly;
+            //    var assembly = typeof(AssemblyInformation).Assembly;
 
-            ///    var configurations = assembly.GetTypes()
-            ///                         .Where(T => T.GetInterfaces()
-            ///                         .Any(I => I.IsGenericType &&
-            ///                                     I.GetGenericTypeDefinition() == typeof(IEntityTypeConfiguration<>)&&
-            ///                                     I.BaseType != (typeof(BaseEntityConfigurations<,>))
-            ///                                     ))
-            ///                         .ToList();
+            //    var configurations = assembly.GetTypes()
+            //                         .Where(T => T.GetInterfaces()
+            //                         .Any(I => I.IsGenericType &&
+            //                                     I.GetGenericTypeDefinition() == typeof(IEntityTypeConfiguration<>)&&
+            //                                     I.BaseType != (typeof(BaseEntityConfigurations<,>))
+            //                                     ))
+            //                         .ToList();
 
-            ///    foreach (var configuration in configurations) 
-            ///    {
-            ///          var instance = Activator.CreateInstance(configuration);
-            ///            builder.ApplyConfiguration((dynamic) instance!);
+            //    foreach (var configuration in configurations) 
+            //    {
+            //          var instance = Activator.CreateInstance(configuration);
+            //            builder.ApplyConfiguration((dynamic) instance!);
 
-            ///    }
+            //    }
 
 
             #endregion

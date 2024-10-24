@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LinkDev.Talabat.Core.Domain.Entities._Identity
 {
-    public class ApplicationUser : IdentityUser
+    public class ApplicationUser : IdentityUser/*<string>*/
     {
 
         public required string DisplayName { get; set; }

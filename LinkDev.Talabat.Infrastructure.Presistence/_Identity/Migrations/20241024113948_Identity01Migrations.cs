@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace LinkDev.Talabat.Infrastructure.Presistence._Identity.Migrations
 {
     /// <inheritdoc />
-    public partial class Identity01Migration : Migration
+    public partial class Identity01Migrations : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -78,11 +78,11 @@ namespace LinkDev.Talabat.Infrastructure.Presistence._Identity.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Street = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    City = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Country = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Street = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
+                    City = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
+                    Country = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>

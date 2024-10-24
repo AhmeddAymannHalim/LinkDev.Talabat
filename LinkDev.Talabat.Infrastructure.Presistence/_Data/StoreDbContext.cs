@@ -1,5 +1,6 @@
 ﻿using LinkDev.Talabat.Core.Domain.Common;
 using LinkDev.Talabat.Core.Domain.Entities.Products;
+using LinkDev.Talabat.Infrastructure.Presistence._Common;
 using System.Reflection;
 
 namespace LinkDev.Talabat.Infrastructure.Presistence.Data
@@ -23,8 +24,9 @@ namespace LinkDev.Talabat.Infrastructure.Presistence.Data
         {
          
             base.OnModelCreating(modelBuilder);
-            
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(AssemblyInformation).Assembly);
+
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(AssemblyInformation).Assembly,
+                                   type => type.GetCustomAttribute<DbContextTypeAttribute>()?.DbContextType == typeof(StoreDbContext));
 
         }
 

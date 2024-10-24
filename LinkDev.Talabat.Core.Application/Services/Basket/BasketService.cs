@@ -11,7 +11,7 @@ namespace LinkDev.Talabat.Core.Application.Services.Basket
     {
         public async Task<CustomerBasketDto> GetCustomerBasketAsync(string basketId)
         {
-            var basket = await basketRepository.GetBasketAsync(basketId);
+            var basket = await basketRepository.GetAsync(basketId);
 
             if (basketId is null) throw new NotFoundException(nameof(CustomerBasketDto),basketId!);
 
@@ -23,7 +23,7 @@ namespace LinkDev.Talabat.Core.Application.Services.Basket
         {
             var basket = mapper.Map<CustomerBasket>(basketDto);
             var timeToLive = TimeSpan.FromDays(double.Parse(configuration.GetSection("RedisSettings")["TimeToLiveInDays"]!));
-            var updatedBasket = await basketRepository.UpdateBasketAsync(basket , timeToLive);
+            var updatedBasket = await basketRepository.UpdateAsync(basket , timeToLive);
 
             if (updatedBasket is null) throw new BadRequestException("can't update,there is a problem with this basket.");
 
@@ -34,7 +34,7 @@ namespace LinkDev.Talabat.Core.Application.Services.Basket
 
         public async Task DeleteCustomerBasket(string id)
         {
-           var deleted = await basketRepository.DeleteBasketAsync(id);
+           var deleted = await basketRepository.DeleteAsync(id);
 
             if (!deleted)
                 throw new BadRequestException("unable to delete this basket.");

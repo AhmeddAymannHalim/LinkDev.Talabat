@@ -68,14 +68,9 @@ namespace LinkDev.Talabat.APIs.extensions
             services.Configure<JwtSettings>(configuration.GetSection("JWTSettings"));
 
             services.AddScoped(typeof(IAuthService), typeof(AuthService));
-
             services.AddScoped(typeof(Func<IAuthService>), (serviceProvider) =>
             {
-                var usermanager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-                var signinManager = serviceProvider.GetRequiredService<SignInManager<ApplicationUser>>();
-                var jwtSettings = serviceProvider.GetRequiredService<IOptions<JwtSettings>>();
-
-                return () => new AuthService(usermanager, signinManager, jwtSettings);
+                  return () => serviceProvider.GetRequiredService<IAuthService>();
 
             });
 

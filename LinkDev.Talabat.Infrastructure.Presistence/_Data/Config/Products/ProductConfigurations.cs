@@ -20,7 +20,7 @@ namespace LinkDev.Talabat.Infrastructure.Presistence.Data.Config.Products
 
             builder.Property(P => P.Description).IsRequired();
 
-            builder.Property(P => P.Price).HasColumnType("decimal(9,2)");
+            builder.Property(P => P.Price).HasColumnType("decimal(18,2)");
 
 
             builder.HasOne(P => P.Brand)

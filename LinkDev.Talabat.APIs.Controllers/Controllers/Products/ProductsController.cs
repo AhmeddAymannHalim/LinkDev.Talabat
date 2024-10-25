@@ -11,7 +11,7 @@ namespace LinkDev.Talabat.APIs.Controllers.Controllers.Products
     public class ProductsController(IServiceManager serviceManager) : ApiControllerBase
     {
 
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet]
         //Get: /api/Products
         public async Task<ActionResult<Pagination<ProductToReturnDto>>> GetProducts([FromQuery]ProductSpecParams specParams)

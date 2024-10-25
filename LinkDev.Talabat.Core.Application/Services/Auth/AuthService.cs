@@ -99,8 +99,8 @@ namespace LinkDev.Talabat.Core.Application.Services.Auth
 
             var TokenObject = new JwtSecurityToken(
 
-                audience: _jwtSettings.Audience,
                 issuer: _jwtSettings.Issuer,
+                audience: _jwtSettings.Audience,
                 expires: DateTime.UtcNow.AddMinutes(_jwtSettings.DurationInMinutes),
                 claims: claims,
                 signingCredentials: signingCredentials

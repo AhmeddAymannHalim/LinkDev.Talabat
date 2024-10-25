@@ -14,7 +14,11 @@ namespace LinkDev.Talabat.APIs.extensions
 {
     public static class IdentityExtentions
     {
-        public static IServiceCollection AddIdentityServices(this IServiceCollection services , IConfiguration configuration)
+        public static IServiceCollection AddIdentityServices
+            (
+            this IServiceCollection services , 
+            IConfiguration configuration
+            )
         {
 
 

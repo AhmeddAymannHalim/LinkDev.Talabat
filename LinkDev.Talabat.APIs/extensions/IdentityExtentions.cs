@@ -19,8 +19,8 @@ namespace LinkDev.Talabat.APIs.extensions
             this IServiceCollection services , 
             IConfiguration configuration
             )
-        {
 
+        {
 
             services.AddIdentity<ApplicationUser, IdentityRole>(identityOptions =>
             {
@@ -69,7 +69,7 @@ namespace LinkDev.Talabat.APIs.extensions
             })
                .AddEntityFrameworkStores<StoreIdentityDbContext>();
 
-            services.Configure<JwtSettings>(configuration.GetSection("JWTSettings"));
+
 
             services.AddScoped(typeof(IAuthService), typeof(AuthService));
             services.AddScoped(typeof(Func<IAuthService>), (serviceProvider) =>
@@ -78,6 +78,7 @@ namespace LinkDev.Talabat.APIs.extensions
 
             });
 
+            services.Configure<JwtSettings>(configuration.GetSection("JWTSettings"));
             services.AddAuthentication(authenticationOptions =>
             {
                 authenticationOptions.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -91,10 +92,10 @@ namespace LinkDev.Talabat.APIs.extensions
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
 
-                    ValidAudience = configuration["JwtSettings:Audience"],
+                    ClockSkew = TimeSpan.FromMinutes(0),
                     ValidIssuer = configuration["JwtSettings:Issuer"],
+                    ValidAudience = configuration["JwtSettings:Audience"],
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtSettings:Key"]!)),
-                    ClockSkew = TimeSpan.Zero
                     
                 };
             });

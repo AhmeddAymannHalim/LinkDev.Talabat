@@ -9,16 +9,16 @@ using System.Threading.Tasks;
 
 namespace LinkDev.Talabat.Infrastructure.Presistence._Data.Config.Orders
 {
-    internal class OrderItemConfigurations : BaseAuditableEntityConfigurations<OrderItem,int>
+    internal class OrderItemConfigurations : BaseAuditableEntityConfigurations<OrderItem, int>
     {
 
         public override void Configure(EntityTypeBuilder<OrderItem> builder)
         {
             base.Configure(builder);
 
-            builder.OwnsOne(O => O.Product, product => product.WithOwner());
+            builder.OwnsOne(item => item.Product, product => product.WithOwner());
 
-            builder.Property(O => O.Price)
+            builder.Property(item => item.Price)
                 .HasColumnType("decimal(8, 2)");
 
         }

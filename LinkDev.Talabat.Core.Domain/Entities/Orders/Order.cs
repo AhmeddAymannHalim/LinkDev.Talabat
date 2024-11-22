@@ -16,13 +16,13 @@ namespace LinkDev.Talabat.Core.Domain.Entities.Orders
 
         public OrderStatus Status { get; set; } = OrderStatus.Pending;
 
-        public required Address ShippingAddress { get; set; } //Navigation Property For OwnEntity
+        public virtual required Address ShippingAddress { get; set; } //Navigation Property For OwnEntity
 
         public int? DeliveryMethodId { get; set; }
 
         public virtual DeliveryMethod? DeliveryMethod{ get; set; }
 
-        public virtual ICollection<OrderItem> OrderItems { get; set; } = new HashSet<OrderItem>();
+        public virtual ICollection<OrderItem> Items { get; set; } = new HashSet<OrderItem>();
 
         public decimal SubTotal { get; set; }
 

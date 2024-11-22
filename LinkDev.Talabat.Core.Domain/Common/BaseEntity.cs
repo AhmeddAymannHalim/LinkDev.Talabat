@@ -11,7 +11,7 @@ namespace LinkDev.Talabat.Core.Domain.Common
     public class BaseEntity<Tkey> where Tkey : IEquatable<Tkey>
     {
 
-        public  Tkey Id { get; set; }
+        public Tkey Id { get; set; }
 
     }
 }

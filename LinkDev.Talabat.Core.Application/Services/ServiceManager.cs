@@ -3,6 +3,7 @@ using LinkDev.Talabat.Core.Application.Abstraction.Services;
 using LinkDev.Talabat.Core.Application.Abstraction.Services.Auth;
 using LinkDev.Talabat.Core.Application.Abstraction.Services.Basket;
 using LinkDev.Talabat.Core.Application.Abstraction.Services.Employees;
+using LinkDev.Talabat.Core.Application.Abstraction.Services.Orders;
 using LinkDev.Talabat.Core.Application.Abstraction.Services.Products;
 using LinkDev.Talabat.Core.Application.Services.Auth;
 using LinkDev.Talabat.Core.Application.Services.Basket;
@@ -18,6 +19,7 @@ namespace LinkDev.Talabat.Core.Application
 {
     internal class ServiceManager : IServiceManager
     {
+        private readonly Lazy<IOrderService> _orderService;
         private readonly Lazy<IProductService> _productService;
         private readonly Lazy<IEmployeeService> _employeeService;
         private readonly Lazy<IBasketService> _basketService;
@@ -34,7 +36,8 @@ namespace LinkDev.Talabat.Core.Application
             IMapper mapper,
             Func<IBasketService> basketServiceFactory,
             IConfiguration configuration,
-            Func<IAuthService> authServiceFactory
+            Func<IAuthService> authServiceFactory,
+            Func<IOrderService> orderServiceFactory
             )
         {
             _unitOfWork = unitOfWork;
@@ -44,9 +47,13 @@ namespace LinkDev.Talabat.Core.Application
             _employeeService = new Lazy<IEmployeeService>(() => new EmployeeService(unitOfWork, mapper));
             _basketService = new Lazy<IBasketService>(basketServiceFactory,LazyThreadSafetyMode.ExecutionAndPublication);
             _authService = new Lazy<IAuthService>(authServiceFactory, LazyThreadSafetyMode.ExecutionAndPublication);
+            _orderService = new Lazy<IOrderService>(orderServiceFactory,LazyThreadSafetyMode.ExecutionAndPublication);
             
 
         }
+
+        public IOrderService OrderService => _orderService.Value;
+
         public IProductService ProductService => _productService.Value;
 
         public IEmployeeService EmployeeService => _employeeService.Value;
@@ -54,5 +61,6 @@ namespace LinkDev.Talabat.Core.Application
         public IBasketService BasketService => _basketService.Value;
 
         public IAuthService AuthService => _authService.Value;
+
     }
 }

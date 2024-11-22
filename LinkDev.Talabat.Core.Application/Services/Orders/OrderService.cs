@@ -2,9 +2,11 @@
 using LinkDev.Talabat.Core.Application.Abstraction.Models.Orders;
 using LinkDev.Talabat.Core.Application.Abstraction.Services.Basket;
 using LinkDev.Talabat.Core.Application.Abstraction.Services.Orders;
+using LinkDev.Talabat.Core.Domain.Common;
 using LinkDev.Talabat.Core.Domain.Contracts.Persistence;
 using LinkDev.Talabat.Core.Domain.Entities.Orders;
 using LinkDev.Talabat.Core.Domain.Entities.Products;
+using LinkDev.Talabat.Core.Domain.Specifications.Order;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -93,19 +95,37 @@ namespace LinkDev.Talabat.Core.Application.Services.Orders
         
         }
 
-        public Task<IEnumerable<DeliveryMethodDto>> GetDeliveryMethodsAsync(string email)
+        public async Task<IEnumerable<OrderToReturnDto>> GetOrdersForUserAsync(string buyerEmail)
         {
-            throw new NotImplementedException();
+
+            var orderSpecs = new OrderSpecifications(buyerEmail);
+             
+            var orders = await unitOfWork.GetRepository<Order,int>().GetAllWithSpecAsync(orderSpecs); 
+
+
+            return mapper.Map<IEnumerable<OrderToReturnDto>>(orders);
         }
 
-        public Task<OrderToReturnDto> GetOrderByIdAsync(string email, int orderId)
+        public async Task<OrderToReturnDto> GetOrderByIdAsync(string buyerEmail, int orderId)
         {
-            throw new NotImplementedException();
+            var orderSpecs = new OrderSpecifications(buyerEmail,orderId);
+
+            var order = await unitOfWork.GetRepository<Order, int>().GetWithSpecAsync(orderSpecs);
+
+            if (order is null) throw new NotFoundException(nameof(order),orderId);
+
+            return mapper.Map<OrderToReturnDto>(order); 
         }
 
-        public Task<IEnumerable<OrderToReturnDto>> GetOrdersForUserAsync(string email)
+        public async Task<IEnumerable<DeliveryMethodDto>> GetDeliveryMethodsAsync()
         {
-            throw new NotImplementedException();
+            var deliveryMethod = await unitOfWork.GetRepository<DeliveryMethod, int>().GetAllAsync();
+
+
+            return mapper.Map<IEnumerable<DeliveryMethodDto>>(deliveryMethod);
+
+
         }
+
     }
 }

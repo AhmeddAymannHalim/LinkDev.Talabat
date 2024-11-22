@@ -15,7 +15,7 @@ namespace LinkDev.Talabat.Core.Application.Abstraction.Services.Orders
 
         Task<IEnumerable<OrderToReturnDto>> GetOrdersForUserAsync(string email);
 
-        Task<IEnumerable<DeliveryMethodDto>> GetDeliveryMethodsAsync(string email);
+        Task<IEnumerable<DeliveryMethodDto>> GetDeliveryMethodsAsync();
 
     }
 }

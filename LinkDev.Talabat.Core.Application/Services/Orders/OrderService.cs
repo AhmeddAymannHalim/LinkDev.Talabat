@@ -70,13 +70,18 @@ namespace LinkDev.Talabat.Core.Application.Services.Orders
             //4. Mapping
             var address = mapper.Map<Address>(order.ShippingAddress);
 
+            //Get Delivery Method
+
+            var deliveryMethod = await unitOfWork.GetRepository<DeliveryMethod, int>().GetAsync(order.DeliveryMethodId);
+
+
             // 5.Create Order
 
             var orderToCreate = new Order()
             {
                 BuyerEmail = buyeremail,
                 ShippingAddress = address,
-                DeliveryMethodId = order.DeliveryMethodId,
+                DeliveryMethod = deliveryMethod,
                 Items = orderItems,
                 SubTotal = subTotal,
             };

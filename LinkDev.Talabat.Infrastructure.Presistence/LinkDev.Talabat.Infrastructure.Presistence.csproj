@@ -7,6 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="_Data\Seeds\Delivery.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="_Data\Seeds\Delivery.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="_Identity\Interceptors\" />
     <Folder Include="_Identity\Seeds\" />
   </ItemGroup>

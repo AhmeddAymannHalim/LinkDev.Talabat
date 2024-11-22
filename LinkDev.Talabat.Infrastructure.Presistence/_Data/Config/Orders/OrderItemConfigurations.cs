@@ -1,0 +1,26 @@
+﻿using LinkDev.Talabat.Core.Domain.Entities.Orders;
+using LinkDev.Talabat.Infrastructure.Presistence._Data.Config.Base;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace LinkDev.Talabat.Infrastructure.Presistence._Data.Config.Orders
+{
+    internal class OrderItemConfigurations : BaseAuditableEntityConfigurations<OrderItem,int>
+    {
+
+        public override void Configure(EntityTypeBuilder<OrderItem> builder)
+        {
+            base.Configure(builder);
+
+            builder.OwnsOne(O => O.Product, product => product.WithOwner());
+
+            builder.Property(O => O.Price)
+                .HasColumnType("decimal(8, 2)");
+
+        }
+    }
+}

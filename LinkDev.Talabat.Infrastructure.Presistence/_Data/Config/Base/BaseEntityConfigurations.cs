@@ -14,7 +14,7 @@ namespace LinkDev.Talabat.Infrastructure.Presistence.Data.Config.Base
 
     [DbContext(typeof(StoreDbContext))]
     internal class BaseEntityConfigurations<TEntity, Tkey> : IEntityTypeConfiguration<TEntity>
-        where TEntity : BaseAuditableEntity<Tkey> where Tkey : IEquatable<Tkey>
+        where TEntity : BaseEntity<Tkey> where Tkey : IEquatable<Tkey>
     {
         public virtual void Configure(EntityTypeBuilder<TEntity> builder)
         {

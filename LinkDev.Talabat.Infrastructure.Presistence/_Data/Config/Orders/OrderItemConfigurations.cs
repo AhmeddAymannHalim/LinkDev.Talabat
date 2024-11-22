@@ -21,6 +21,8 @@ namespace LinkDev.Talabat.Infrastructure.Presistence._Data.Config.Orders
             builder.Property(item => item.Price)
                 .HasColumnType("decimal(8, 2)");
 
+            
+
         }
     }
 }

@@ -32,6 +32,7 @@ namespace LinkDev.Talabat.Core.Domain.Entities.Orders
         public decimal GetTotal() => SubTotal + DeliveryMethod!.Cost;
 
         public string PaymentIntentId { get; set; } = "";
+
     }
 
 }

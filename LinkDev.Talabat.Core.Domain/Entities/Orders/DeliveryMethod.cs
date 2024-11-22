@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LinkDev.Talabat.Core.Domain.Entities.Orders
 {
-    public class DeliveryMethod : BaseAuditableEntity<int>
+    public class DeliveryMethod : BaseEntity<int>
     {
         public required  string ShortName { get; set; }
 

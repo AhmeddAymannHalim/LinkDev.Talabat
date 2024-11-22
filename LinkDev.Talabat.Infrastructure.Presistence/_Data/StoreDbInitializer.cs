@@ -65,14 +65,14 @@ namespace LinkDev.Talabat.Infrastructure.Presistence.Data
             #region DeliveryMethod
             if (!_dbContext.DelivryMethods.Any())
             {
-                var deliveryData = await File.ReadAllTextAsync($"../LinkDev.Talabat.Infrastructure.Presistence/_Data/Seeds/delivery.json");
+                var deliveryMethods = await File.ReadAllTextAsync($"../LinkDev.Talabat.Infrastructure.Presistence/_Data/Seeds/delivery.json");
 
-                var deliveries = JsonSerializer.Deserialize<List<DeliveryMethod>>(deliveryData);
+                var deliveries = JsonSerializer.Deserialize<List<DeliveryMethod>>(deliveryMethods);
 
                 if (deliveries?.Count > 0)
 
                     await _dbContext.Set<DeliveryMethod>().AddRangeAsync(deliveries);
-                await _dbContext.SaveChangesAsync();
+                    await _dbContext.SaveChangesAsync();
             }
             #endregion
 

@@ -4,14 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LinkDev.Talabat.Core.Domain.Entities.Orders
+namespace LinkDev.Talabat.Core.Application.Abstraction.Models._Common
 {
-    
-    public class Address
+    public class AddressDto
     {
-
-        public int Id { get; set; }
-
         public required string FirstName { get; set; }
 
         public required string LastName { get; set; }

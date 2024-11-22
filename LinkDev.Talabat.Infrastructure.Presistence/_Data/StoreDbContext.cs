@@ -1,4 +1,5 @@
 ﻿using LinkDev.Talabat.Core.Domain.Common;
+using LinkDev.Talabat.Core.Domain.Entities.Orders;
 using LinkDev.Talabat.Core.Domain.Entities.Products;
 using LinkDev.Talabat.Infrastructure.Presistence._Common;
 using System.Reflection;
@@ -14,6 +15,11 @@ namespace LinkDev.Talabat.Infrastructure.Presistence.Data
 
         public DbSet<ProductCategory> Categories{ get; set; }
 
+        public DbSet<Order>  Orders { get; set; }
+
+        public DbSet<OrderItem>  OrderItems{ get; set; }
+
+        public DbSet<DeliveryMethod>  DelivryMethods{ get; set; }
 
         public StoreDbContext(DbContextOptions<StoreDbContext> options):base(options)
         {

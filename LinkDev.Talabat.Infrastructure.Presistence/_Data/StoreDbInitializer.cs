@@ -1,5 +1,6 @@
 ﻿using LinkDev.Talabat.Core.Domain.Contracts.Persistence;
 using LinkDev.Talabat.Core.Domain.Contracts.Persistence.DbInitializers;
+using LinkDev.Talabat.Core.Domain.Entities.Orders;
 using LinkDev.Talabat.Core.Domain.Entities.Products;
 using LinkDev.Talabat.Infrastructure.Presistence._Common;
 using System.Text.Json;
@@ -17,7 +18,7 @@ namespace LinkDev.Talabat.Infrastructure.Presistence.Data
             #region Brand
             if (!_dbContext.Brands.Any())
             {
-                var brandsData = await File.ReadAllTextAsync($"../LinkDev.Talabat.Infrastructure.Presistence/Data/Seeds/brands.json");
+                var brandsData = await File.ReadAllTextAsync($"../LinkDev.Talabat.Infrastructure.Presistence/_Data/Seeds/brands.json");
 
                 var brands = JsonSerializer.Deserialize<List<ProductBrand>>(brandsData);
 
@@ -35,7 +36,7 @@ namespace LinkDev.Talabat.Infrastructure.Presistence.Data
             #region Category
             if (!_dbContext.Categories.Any())
             {
-                var categoriesData = await File.ReadAllTextAsync($"../LinkDev.Talabat.Infrastructure.Presistence/Data/Seeds/categories.json");
+                var categoriesData = await File.ReadAllTextAsync($"../LinkDev.Talabat.Infrastructure.Presistence/_Data/Seeds/categories.json");
 
                 var categories = JsonSerializer.Deserialize<List<ProductCategory>>(categoriesData);
 
@@ -49,7 +50,7 @@ namespace LinkDev.Talabat.Infrastructure.Presistence.Data
             #region Product
             if (!_dbContext.Products.Any())
             {
-                var productsData = await File.ReadAllTextAsync($"../LinkDev.Talabat.Infrastructure.Presistence/Data/Seeds/products.json");
+                var productsData = await File.ReadAllTextAsync($"../LinkDev.Talabat.Infrastructure.Presistence/_Data/Seeds/products.json");
 
                 var products = JsonSerializer.Deserialize<List<Product>>(productsData);
 
@@ -60,6 +61,20 @@ namespace LinkDev.Talabat.Infrastructure.Presistence.Data
             }
             #endregion
 
+
+            #region DeliveryMethod
+            if (!_dbContext.DelivryMethods.Any())
+            {
+                var deliveryData = await File.ReadAllTextAsync($"../LinkDev.Talabat.Infrastructure.Presistence/_Data/Seeds/delivery.json");
+
+                var deliveries = JsonSerializer.Deserialize<List<DeliveryMethod>>(deliveryData);
+
+                if (deliveries?.Count > 0)
+
+                    await _dbContext.Set<DeliveryMethod>().AddRangeAsync(deliveries);
+                await _dbContext.SaveChangesAsync();
+            }
+            #endregion
 
         }
     }

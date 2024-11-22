@@ -1,11 +1,6 @@
 ﻿using LinkDev.Talabat.Core.Domain.Entities.Orders;
 using LinkDev.Talabat.Infrastructure.Presistence._Data.Config.Base;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LinkDev.Talabat.Infrastructure.Presistence._Data.Config.Orders
 {
@@ -32,7 +27,7 @@ namespace LinkDev.Talabat.Infrastructure.Presistence._Data.Config.Orders
                 .HasForeignKey(O => O.DeliveryMethodId)
                 .OnDelete(DeleteBehavior.SetNull);
 
-            builder.HasMany(O => O.OrderItems)
+            builder.HasMany(O => O.Items)
                 .WithOne()
                 .OnDelete(DeleteBehavior.Cascade);
                 

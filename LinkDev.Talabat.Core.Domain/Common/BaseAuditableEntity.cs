@@ -12,9 +12,9 @@ namespace LinkDev.Talabat.Core.Domain.Common
         #region CommonFields 
 
 
-        public required string CreatedBy { get; set; }
+        public string CreatedBy { get; set; } = null!;
 
-        public required string LastModifiedBy { get; set; }
+        public string LastModifiedBy { get; set; } = null!;
 
         public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
 

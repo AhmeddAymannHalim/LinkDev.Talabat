@@ -4,16 +4,19 @@ using LinkDev.Talabat.Infrastructure.Presistence.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace LinkDev.Talabat.Infrastructure.Presistence.Data.Migrations
+namespace LinkDev.Talabat.Infrastructure.Presistence._Data.Migrations
 {
     [DbContext(typeof(StoreDbContext))]
-    partial class StoreContextModelSnapshot : ModelSnapshot
+    [Migration("20241123175549_FullDataBase")]
+    partial class FullDataBase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,39 +27,6 @@ namespace LinkDev.Talabat.Infrastructure.Presistence.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("LinkDev.Talabat.Core.Domain.Entities.Orders.Address", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Country")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Street")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Address");
-                });
 
             modelBuilder.Entity("LinkDev.Talabat.Core.Domain.Entities.Orders.DeliveryMethod", b =>
                 {
@@ -70,10 +40,9 @@ namespace LinkDev.Talabat.Infrastructure.Presistence.Data.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("CreatedOn")
+                    b.Property<DateTime?>("CreatedOn")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DeliveryTime")
@@ -85,10 +54,9 @@ namespace LinkDev.Talabat.Infrastructure.Presistence.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastModifiedBy")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("LastModifiedOn")
+                    b.Property<DateTime?>("LastModifiedOn")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ShortName")
@@ -100,7 +68,43 @@ namespace LinkDev.Talabat.Infrastructure.Presistence.Data.Migrations
                     b.ToTable("DelivryMethods");
                 });
 
-            modelBuilder.Entity("LinkDev.Talabat.Core.Domain.Entities.Orders.Order", b =>
+            modelBuilder.Entity("LinkDev.Talabat.Core.Domain.Entities.Orders.OrderItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("OrderTableId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(8, 2)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderTableId");
+
+                    b.ToTable("OrderItems");
+                });
+
+            modelBuilder.Entity("LinkDev.Talabat.Core.Domain.Entities.Orders.OrderTable", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -113,20 +117,18 @@ namespace LinkDev.Talabat.Infrastructure.Presistence.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("CreatedOn")
+                    b.Property<DateTime?>("CreatedOn")
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("DeliveryMethodId")
                         .HasColumnType("int");
 
                     b.Property<string>("LastModifiedBy")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("LastModifiedOn")
+                    b.Property<DateTime?>("LastModifiedOn")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("OrderDate")
@@ -136,86 +138,18 @@ namespace LinkDev.Talabat.Infrastructure.Presistence.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ShippingAddressId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("SubTotal")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(8, 2)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("DeliveryMethodId");
 
-                    b.HasIndex("ShippingAddressId");
-
                     b.ToTable("Orders");
-                });
-
-            modelBuilder.Entity("LinkDev.Talabat.Core.Domain.Entities.Orders.OrderItem", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("LastModifiedBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("LastModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("OrderId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("ProductItemOrderdId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OrderId");
-
-                    b.HasIndex("ProductItemOrderdId");
-
-                    b.ToTable("OrderItems");
-                });
-
-            modelBuilder.Entity("LinkDev.Talabat.Core.Domain.Entities.Orders.ProductItemOrderd", b =>
-                {
-                    b.Property<int>("ProductItemOrderdId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductItemOrderdId"));
-
-                    b.Property<string>("PictureUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ProductName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ProductItemOrderdId");
-
-                    b.ToTable("ProductItemOrderd");
                 });
 
             modelBuilder.Entity("LinkDev.Talabat.Core.Domain.Entities.Products.Product", b =>
@@ -233,10 +167,9 @@ namespace LinkDev.Talabat.Infrastructure.Presistence.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("CreatedOn")
+                    b.Property<DateTime?>("CreatedOn")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
@@ -244,10 +177,9 @@ namespace LinkDev.Talabat.Infrastructure.Presistence.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastModifiedBy")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("LastModifiedOn")
+                    b.Property<DateTime?>("LastModifiedOn")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
@@ -282,17 +214,15 @@ namespace LinkDev.Talabat.Infrastructure.Presistence.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("CreatedOn")
+                    b.Property<DateTime?>("CreatedOn")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("LastModifiedBy")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("LastModifiedOn")
+                    b.Property<DateTime?>("LastModifiedOn")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
@@ -313,17 +243,15 @@ namespace LinkDev.Talabat.Infrastructure.Presistence.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("CreatedOn")
+                    b.Property<DateTime?>("CreatedOn")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("LastModifiedBy")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("LastModifiedOn")
+                    b.Property<DateTime?>("LastModifiedOn")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
@@ -335,36 +263,85 @@ namespace LinkDev.Talabat.Infrastructure.Presistence.Data.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("LinkDev.Talabat.Core.Domain.Entities.Orders.Order", b =>
+            modelBuilder.Entity("LinkDev.Talabat.Core.Domain.Entities.Orders.OrderItem", b =>
+                {
+                    b.HasOne("LinkDev.Talabat.Core.Domain.Entities.Orders.OrderTable", null)
+                        .WithMany("Items")
+                        .HasForeignKey("OrderTableId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.OwnsOne("LinkDev.Talabat.Core.Domain.Entities.Orders.ProductItemOrderd", "Product", b1 =>
+                        {
+                            b1.Property<int>("OrderItemId")
+                                .HasColumnType("int");
+
+                            b1.Property<string>("PictureUrl")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<int>("ProductId")
+                                .HasColumnType("int");
+
+                            b1.Property<string>("ProductName")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.HasKey("OrderItemId");
+
+                            b1.ToTable("OrderItems");
+
+                            b1.WithOwner()
+                                .HasForeignKey("OrderItemId");
+                        });
+
+                    b.Navigation("Product")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("LinkDev.Talabat.Core.Domain.Entities.Orders.OrderTable", b =>
                 {
                     b.HasOne("LinkDev.Talabat.Core.Domain.Entities.Orders.DeliveryMethod", "DeliveryMethod")
                         .WithMany()
-                        .HasForeignKey("DeliveryMethodId");
+                        .HasForeignKey("DeliveryMethodId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
-                    b.HasOne("LinkDev.Talabat.Core.Domain.Entities.Orders.Address", "ShippingAddress")
-                        .WithMany()
-                        .HasForeignKey("ShippingAddressId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.OwnsOne("LinkDev.Talabat.Core.Domain.Entities.Orders.Address", "ShippingAddress", b1 =>
+                        {
+                            b1.Property<int>("OrderTableId")
+                                .HasColumnType("int");
+
+                            b1.Property<string>("City")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("Country")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("FirstName")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("LastName")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("Street")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.HasKey("OrderTableId");
+
+                            b1.ToTable("Orders");
+
+                            b1.WithOwner()
+                                .HasForeignKey("OrderTableId");
+                        });
 
                     b.Navigation("DeliveryMethod");
 
-                    b.Navigation("ShippingAddress");
-                });
-
-            modelBuilder.Entity("LinkDev.Talabat.Core.Domain.Entities.Orders.OrderItem", b =>
-                {
-                    b.HasOne("LinkDev.Talabat.Core.Domain.Entities.Orders.Order", null)
-                        .WithMany("Items")
-                        .HasForeignKey("OrderId");
-
-                    b.HasOne("LinkDev.Talabat.Core.Domain.Entities.Orders.ProductItemOrderd", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductItemOrderdId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                    b.Navigation("ShippingAddress")
                         .IsRequired();
-
-                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("LinkDev.Talabat.Core.Domain.Entities.Products.Product", b =>
@@ -382,7 +359,7 @@ namespace LinkDev.Talabat.Infrastructure.Presistence.Data.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("LinkDev.Talabat.Core.Domain.Entities.Orders.Order", b =>
+            modelBuilder.Entity("LinkDev.Talabat.Core.Domain.Entities.Orders.OrderTable", b =>
                 {
                     b.Navigation("Items");
                 });

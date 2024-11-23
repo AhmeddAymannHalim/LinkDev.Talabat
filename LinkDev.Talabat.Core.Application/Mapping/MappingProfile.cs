@@ -28,14 +28,14 @@ namespace LinkDev.Talabat.Core.Application.Mapping
             CreateMap<CustomerBasket, CustomerBasketDto>().ReverseMap();
             CreateMap<BasketItem, BasketItemDto>().ReverseMap();
 
-            CreateMap<Order, OrderToReturnDto>()
+            CreateMap<OrderTable, OrderToReturnDto>()
                 .ForMember(dist => dist.DeliveryMethod,options =>
                 {
                     options.MapFrom(src => src.DeliveryMethod!.ShortName);
                 });
 
             CreateMap<OrderItem,OrderItemDto>()
-                .ForMember(dist => dist.ProductId,options => options.MapFrom(src =>src.Product.ProductItemOrderdId))
+                .ForMember(dist => dist.ProductId,options => options.MapFrom(src =>src.Product.ProductId))
                 .ForMember(dist => dist.ProductName,options => options.MapFrom(src =>src.Product.ProductName))
                 .ForMember(dist => dist.PictureUrl,options => options.MapFrom<OrderItemPictureUrlResolver>());
 

@@ -47,6 +47,21 @@ namespace LinkDev.Talabat.Infrastructure.Presistence.Data
             }
             #endregion
 
+
+            #region DeliveryMethod
+            if (!_dbContext.DelivryMethods.Any())
+            {
+                var deliveryMethods = await File.ReadAllTextAsync($"../LinkDev.Talabat.Infrastructure.Presistence/_Data/Seeds/delivery.json");
+
+                var deliveries = JsonSerializer.Deserialize<List<DeliveryMethod>>(deliveryMethods);
+
+                if (deliveries?.Count > 0)
+
+                    await _dbContext.Set<DeliveryMethod>().AddRangeAsync(deliveries);
+                await _dbContext.SaveChangesAsync();
+            }
+            #endregion
+
             #region Product
             if (!_dbContext.Products.Any())
             {
@@ -62,19 +77,6 @@ namespace LinkDev.Talabat.Infrastructure.Presistence.Data
             #endregion
 
 
-            #region DeliveryMethod
-            if (!_dbContext.DelivryMethods.Any())
-            {
-                var deliveryMethods = await File.ReadAllTextAsync($"../LinkDev.Talabat.Infrastructure.Presistence/_Data/Seeds/delivery.json");
-
-                var deliveries = JsonSerializer.Deserialize<List<DeliveryMethod>>(deliveryMethods);
-
-                if (deliveries?.Count > 0)
-
-                    await _dbContext.Set<DeliveryMethod>().AddRangeAsync(deliveries);
-                    await _dbContext.SaveChangesAsync();
-            }
-            #endregion
 
         }
     }

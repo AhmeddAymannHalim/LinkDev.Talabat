@@ -6,7 +6,7 @@ using LinkDev.Talabat.Core.Domain.Common;
 using LinkDev.Talabat.Core.Domain.Contracts.Persistence;
 using LinkDev.Talabat.Core.Domain.Entities.Orders;
 using LinkDev.Talabat.Core.Domain.Entities.Products;
-using LinkDev.Talabat.Core.Domain.Specifications.Order;
+using LinkDev.Talabat.Core.Domain.Specifications.Orders;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,12 +36,11 @@ namespace LinkDev.Talabat.Core.Application.Services.Orders
                 foreach (var item in basket.Items)
                 {
                     var product = await productRepo.GetAsync(item.Id);
-
                     if(product is not null)
                     {
                         var productItemOrderd = new ProductItemOrderd()
                         {
-                            ProductItemOrderdId = product.Id,
+                            ProductId = product.Id,
                             ProductName = product.Name,
                             PictureUrl = product.PictureUrl ?? "",
                         };
@@ -77,7 +76,7 @@ namespace LinkDev.Talabat.Core.Application.Services.Orders
 
             // 5.Create Order
 
-            var orderToCreate = new Order()
+            var orderToCreate = new OrderTable()
             {
                 BuyerEmail = buyeremail,
                 ShippingAddress = address,
@@ -87,7 +86,7 @@ namespace LinkDev.Talabat.Core.Application.Services.Orders
             };
 
 
-            await unitOfWork.GetRepository<Order, int>().AddAsync(orderToCreate);
+            await unitOfWork.GetRepository<OrderTable, int>().AddAsync(orderToCreate);
 
             // 6.Save To Database
 
@@ -105,7 +104,7 @@ namespace LinkDev.Talabat.Core.Application.Services.Orders
 
             var orderSpecs = new OrderSpecifications(buyerEmail);
              
-            var orders = await unitOfWork.GetRepository<Order,int>().GetAllWithSpecAsync(orderSpecs); 
+            var orders = await unitOfWork.GetRepository<OrderTable,int>().GetAllWithSpecAsync(orderSpecs); 
 
 
             return mapper.Map<IEnumerable<OrderToReturnDto>>(orders);
@@ -115,7 +114,7 @@ namespace LinkDev.Talabat.Core.Application.Services.Orders
         {
             var orderSpecs = new OrderSpecifications(buyerEmail,orderId);
 
-            var order = await unitOfWork.GetRepository<Order, int>().GetWithSpecAsync(orderSpecs);
+            var order = await unitOfWork.GetRepository<OrderTable, int>().GetWithSpecAsync(orderSpecs);
 
             if (order is null) throw new NotFoundException(nameof(order),orderId);
 

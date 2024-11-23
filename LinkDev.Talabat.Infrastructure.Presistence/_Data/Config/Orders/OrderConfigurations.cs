@@ -4,30 +4,30 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace LinkDev.Talabat.Infrastructure.Presistence._Data.Config.Orders
 {
-    internal class OrderConfigurations : BaseAuditableEntityConfigurations<Order,int>
+    internal class OrderConfigurations : BaseAuditableEntityConfigurations<OrderTable,int>
     {
-        public override void Configure(EntityTypeBuilder<Order> builder)
+        public override void Configure(EntityTypeBuilder<Core.Domain.Entities.Orders.OrderTable> builder)
         {
             base.Configure(builder);
 
-            builder.OwnsOne(O => O.ShippingAddress, shippingAddress => shippingAddress.WithOwner());
+            builder.OwnsOne(order => order.ShippingAddress, shippingAddress => shippingAddress.WithOwner());
 
-            builder.Property(O => O.Status)
+            builder.Property(order => order.Status)
                        .HasConversion
                        (
 
                             (OStatus) => OStatus.ToString(),
                             (OStatus) => (OrderStatus)Enum.Parse(typeof(OrderStatus), OStatus));
 
-            builder.Property(O => O.SubTotal)
+            builder.Property(order => order.SubTotal)
                 .HasColumnType("decimal(8, 2)");
 
-            builder.HasOne(O => O.DeliveryMethod)
+            builder.HasOne(order => order.DeliveryMethod)
                 .WithMany()
-                .HasForeignKey(O => O.DeliveryMethodId)
+                .HasForeignKey(order => order.DeliveryMethodId)
                 .OnDelete(DeleteBehavior.SetNull);
 
-            builder.HasMany(O => O.Items)
+            builder.HasMany(order => order.Items)
                 .WithOne()
                 .OnDelete(DeleteBehavior.Cascade);
                 

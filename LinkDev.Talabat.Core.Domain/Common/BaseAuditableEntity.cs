@@ -16,9 +16,9 @@ namespace LinkDev.Talabat.Core.Domain.Common
 
         public string LastModifiedBy { get; set; } = null!;
 
-        public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
+        public DateTime? CreatedOn { get; set; } = DateTime.UtcNow;
 
-        public DateTime LastModifiedOn { get; set; } = DateTime.UtcNow;
+        public DateTime? LastModifiedOn { get; set; } = DateTime.UtcNow;
 
 
         #endregion

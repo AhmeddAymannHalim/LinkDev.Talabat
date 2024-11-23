@@ -23,6 +23,7 @@ namespace LinkDev.Talabat.Infrastructure.Presistence.Data.Config.Base
             builder.Property(E => E.Id)
                   .ValueGeneratedOnAdd();
 
+         
 
         }
     }

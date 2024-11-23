@@ -16,18 +16,18 @@ namespace LinkDev.Talabat.Infrastructure.Presistence._Data.Config.Base
         {
             base.Configure(builder);
 
-            builder.Property(E => E.CreatedBy)
-                    .IsRequired();
+            builder.Property(E => E.CreatedBy);
+                    //.IsRequired();
 
             builder.Property(E => E.CreatedOn)
                   .IsRequired();
-                  //.HasDefaultValueSql("GETUTCDATE()");
+            //.HasDefaultValueSql("GETUTCDATE()");
 
-            builder.Property(E => E.LastModifiedBy) 
-                  .IsRequired();
+            builder.Property(E => E.LastModifiedBy);
+            //.IsRequired();
 
-            builder.Property(E => E.LastModifiedOn)
-                  .IsRequired();
+            builder.Property(E => E.LastModifiedOn);
+                  //.IsRequired();
 
         }
     }

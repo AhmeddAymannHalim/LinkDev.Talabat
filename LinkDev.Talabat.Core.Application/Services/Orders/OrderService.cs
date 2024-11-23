@@ -72,7 +72,7 @@ namespace LinkDev.Talabat.Core.Application.Services.Orders
 
             //Get Delivery Method
 
-            var deliveryMethod = await unitOfWork.GetRepository<DeliveryMethod, int>().GetAsync(order.DeliveryMethodId);
+            var deliveryMethod = await unitOfWork.GetRepository<DeliveryMethod ,int>().GetAsync(order.DeliveryMethodId);
 
 
             // 5.Create Order

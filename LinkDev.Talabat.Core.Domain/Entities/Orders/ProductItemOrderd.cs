@@ -9,8 +9,12 @@ namespace LinkDev.Talabat.Core.Domain.Entities.Orders
 {
     public class ProductItemOrderd
     {
-        
-        public int ProductItemOrderdId { get; set; }
+        public ProductItemOrderd()
+        {
+            
+        }
+
+        public int ProductId { get; set; }
 
         public required string ProductName { get; set; }
 

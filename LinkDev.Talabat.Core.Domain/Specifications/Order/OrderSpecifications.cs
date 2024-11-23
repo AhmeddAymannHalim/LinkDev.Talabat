@@ -1,9 +1,9 @@
-﻿
+﻿using LinkDev.Talabat.Core.Domain.Entities.Orders;
 
-namespace LinkDev.Talabat.Core.Domain.Specifications.Order
+namespace LinkDev.Talabat.Core.Domain.Specifications.Orders
 
 {
-    public class OrderSpecifications : BaseSpecifications<Entities.Orders.Order, int>
+    public class OrderSpecifications : BaseSpecifications<OrderTable,int>
     {
         public OrderSpecifications(string buyerEmail):base(O => O.BuyerEmail == buyerEmail)
         {

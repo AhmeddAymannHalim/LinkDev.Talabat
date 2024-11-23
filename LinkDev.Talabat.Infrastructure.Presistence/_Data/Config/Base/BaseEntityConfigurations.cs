@@ -18,12 +18,10 @@ namespace LinkDev.Talabat.Infrastructure.Presistence.Data.Config.Base
     {
         public virtual void Configure(EntityTypeBuilder<TEntity> builder)
         {
-          
-
+           
             builder.Property(E => E.Id)
                   .ValueGeneratedOnAdd();
-
-         
+     
 
         }
     }

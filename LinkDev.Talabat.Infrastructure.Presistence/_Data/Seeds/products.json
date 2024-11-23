@@ -2,6 +2,7 @@
   {
     "Id": 0,
     "Name": "Double Caramel Frappuccino",
+    "NormalizedName": "",
     "Description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.",
     "Price": 200,
     "PictureUrl": "images/products/double-caramel-frappuccino.png",
@@ -13,6 +14,7 @@
   {
     "Id": 0,
     "Name": "White Chocolate Mocha Frappuccino",
+    "NormalizedName": "",
     "Description": "Nunc viverra imperdiet enim. Fusce est. Vivamus a tellus.",
     "Price": 150,
     "PictureUrl": "images/products/white-chocolate-mocha-frappuccino.png",
@@ -24,6 +26,7 @@
   {
     "Id": 0,
     "Name": "Iced Cafe Latte",
+    "NormalizedName": "",
     "Description": "Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Mauris eget neque at sem venenatis eleifend. Ut nonummy.",
     "Price": 180,
     "PictureUrl": "images/products/iced-cafe-latte.png",
@@ -35,6 +38,7 @@
   {
     "Id": 0,
     "Name": "White Chocolate Mocha",
+    "NormalizedName": "",
     "Description": "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin pharetra nonummy pede. Mauris et orci.",
     "Price": 300,
     "PictureUrl": "images/products/white-chocolate-mocha.png",
@@ -45,6 +49,8 @@
   },
   {
     "Id": 0,
+    "NormalizedName": "",
+
     "Name": "Iced Caramel Macchiato",
     "Description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.",
     "Price": 250,
@@ -57,6 +63,8 @@
   {
     "Id": 0,
     "Name": "Hot Caramel Macchiato",
+    "NormalizedName": "",
+
     "Description": "Aenean nec lorem. In porttitor. Donec laoreet nonummy augue.",
     "Price": 120,
     "PictureUrl": "images/products/hot-caramel-macchiato.png",
@@ -68,6 +76,8 @@
   {
     "Id": 0,
     "Name": "Iced Matcha Latte",
+    "NormalizedName": "",
+
     "Description": "Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.",
     "Price": 10,
     "PictureUrl": "images/products/iced-matcha-latte.png",
@@ -79,6 +89,8 @@
   {
     "Id": 0,
     "Name": "Honey Cake",
+    "NormalizedName": "",
+
     "Description": "Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Mauris eget neque at sem venenatis eleifend. Ut nonummy.",
     "Price": 8,
     "PictureUrl": "images/products/honey-cake.png",
@@ -90,6 +102,8 @@
   {
     "Id": 0,
     "Name": "Blueberry Cheesecake",
+    "NormalizedName": "",
+
     "Description": "Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.",
     "Price": 15,
     "PictureUrl": "images/products/blueberry-cheesecake.png",
@@ -101,6 +115,8 @@
   {
     "Id": 0,
     "Name": "Glazed Donuts",
+    "NormalizedName": "",
+
     "Description": "Nunc viverra imperdiet enim. Fusce est. Vivamus a tellus.",
     "Price": 18,
     "PictureUrl": "images/products/glazed-donuts.png",
@@ -112,6 +128,8 @@
   {
     "Id": 0,
     "Name": "Greek Salad",
+    "NormalizedName": "",
+
     "Description": "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin pharetra nonummy pede. Mauris et orci.",
     "Price": 15,
     "PictureUrl": "images/products/greek-salad.png",
@@ -123,6 +141,8 @@
   {
     "Id": 0,
     "Name": "Iced Black Tea Lemonade",
+    "NormalizedName": "",
+
     "Description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa.",
     "Price": 16,
     "PictureUrl": "images/products/iced-black-tea-lemonade.png",
@@ -134,6 +154,8 @@
   {
     "Id": 0,
     "Name": "Iced London Fog Tea Latte",
+    "NormalizedName": "",
+
     "Description": "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin pharetra nonummy pede. Mauris et orci.",
     "Price": 14,
     "PictureUrl": "images/products/iced-london-fog-tea-latte.png",
@@ -145,6 +167,8 @@
   {
     "Id": 0,
     "Name": "Turkey Bacon, Cheddar & Egg White Sandwich",
+    "NormalizedName": "",
+
     "Description": "Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Mauris eget neque at sem venenatis eleifend. Ut nonummy.",
     "Price": 250,
     "PictureUrl": "images/products/turkey-bacon-cheddar-and-egg-white-sandwich.png",
@@ -156,6 +180,8 @@
   {
     "Id": 0,
     "Name": "Iced Matcha",
+    "NormalizedName": "",
+
     "Description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.",
     "Price": 189.99,
     "PictureUrl": "images/products/iced-matcha.png",
@@ -167,6 +193,8 @@
   {
     "Id": 0,
     "Name": "Double-Smoked Bacon, Cheddar & Egg Sandwich",
+    "NormalizedName": "Dragon Drink®",
+
     "Description": "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin pharetra nonummy pede. Mauris et orci.",
     "Price": 199.99,
     "PictureUrl": "images/products/double-smoked-bacon-cheddar-and-egg-sandwich.png",
@@ -178,6 +206,7 @@
   {
     "Id": 0,
     "Name": "Iced Chai Tea Latte with Oleato Golden Foam",
+    "NormalizedName": "Dragon Drink®",
     "Description": "Aenean nec lorem. In porttitor. Donec laoreet nonummy augue.",
     "Price": 150,
     "PictureUrl": "images/products/iced-chai-tea-latte-with-oleato-golden-foam.png",
@@ -189,6 +218,7 @@
   {
     "Id": 0,
     "Name": "Dragon Drink® Starbucks Refreshers® Beverage with Oleato Golden Foam",
+    "NormalizedName": "Dragon Drink®",
     "Description": "Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Mauris eget neque at sem venenatis eleifend. Ut nonummy.",
     "Price": 180,
     "PictureUrl": "images/products/dragon-drink-starbucks-refreshers-beverage-with-oleato-golden-foam.png",

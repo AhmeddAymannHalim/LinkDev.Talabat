@@ -9,10 +9,10 @@ public class BasketRepository : IBasketRepository
 {
     private readonly IDatabase _database;
 
-    //public BasketRepository(IConnectionMultiplexer redis)
-    //{
-    //    //_database = redis.GetDatabase();
-    //}
+    public BasketRepository(IConnectionMultiplexer redis)
+    {
+        _database = redis.GetDatabase();
+    }
 
     public async Task<CustomerBasket?> GetAsync(string id)
     {

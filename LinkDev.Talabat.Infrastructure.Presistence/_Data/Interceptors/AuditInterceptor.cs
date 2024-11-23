@@ -4,21 +4,22 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace LinkDev.Talabat.Infrastructure.Presistence.Data.Interceptors
 {
-    public class BaseAuditableEntityInterceptor :SaveChangesInterceptor
+    public class AuditInterceptor : SaveChangesInterceptor
     {
         private readonly ILoggedInUserService _logedInUserService;
 
-        public BaseAuditableEntityInterceptor(ILoggedInUserService logedInUserService)
+        public AuditInterceptor(ILoggedInUserService logedInUserService)
         {
             _logedInUserService = logedInUserService;
         }
 
-
-        public override InterceptionResult<int> SavingChanges(DbContextEventData eventData, InterceptionResult<int> result)
+        public override ValueTask<InterceptionResult<int>> SavingChangesAsync(DbContextEventData eventData, InterceptionResult<int> result, CancellationToken cancellationToken = default)
         {
             UpdateEntities(eventData.Context);
-            return base.SavingChanges(eventData, result);
+            return base.SavingChangesAsync(eventData, result, cancellationToken);
         }
+
+
 
         public override ValueTask<int> SavedChangesAsync(SaveChangesCompletedEventData eventData, int result, CancellationToken cancellationToken = default)
         {
@@ -32,17 +33,21 @@ namespace LinkDev.Talabat.Infrastructure.Presistence.Data.Interceptors
             if (dbContext is null) return;
 
             var utcNow = DateTime.UtcNow;
+            var userId = _logedInUserService.UserId;
 
-            foreach (var entity in dbContext.ChangeTracker.Entries<BaseAuditableEntity<int>>())
+            var entries = dbContext.ChangeTracker.Entries<IBaseAuditableEntity>()
+                .Where(entity => entity.State is EntityState.Added or EntityState.Modified);
+
+
+            foreach (var entry in entries)
             {
-                if (entity is { State: EntityState.Added or EntityState.Modified })
+                if(entry.State is EntityState.Added)
                 {
-                    entity.Entity.CreatedBy = "";
-                    entity.Entity.CreatedOn = utcNow;
+                    entry.Entity.CreatedBy = userId;
+                    entry.Entity.CreatedOn = utcNow;
                 }
-
-                entity.Entity.LastModifiedBy = "";
-                entity.Entity.LastModifiedOn = utcNow;
+                entry.Entity.LastModifiedBy = userId;
+                entry.Entity.LastModifiedOn = utcNow;
             }
 
         }

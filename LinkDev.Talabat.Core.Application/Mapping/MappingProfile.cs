@@ -4,11 +4,14 @@ using LinkDev.Talabat.Core.Application.Abstraction.Models.Basket;
 using LinkDev.Talabat.Core.Application.Abstraction.Models.Employees;
 using LinkDev.Talabat.Core.Application.Abstraction.Models.Orders;
 using LinkDev.Talabat.Core.Application.Abstraction.Models.Products;
+
 using LinkDev.Talabat.Core.Domain.Entities.Basket;
 using LinkDev.Talabat.Core.Domain.Entities.Employees;
 using LinkDev.Talabat.Core.Domain.Entities.Orders;
 using LinkDev.Talabat.Core.Domain.Entities.Products;
 
+using UserAddress = LinkDev.Talabat.Core.Domain.Entities.Orders.Address;
+using OrderAddress = LinkDev.Talabat.Core.Domain.Entities._Identity.Address;
 namespace LinkDev.Talabat.Core.Application.Mapping
 {
     internal class MappingProfile : Profile
@@ -39,10 +42,12 @@ namespace LinkDev.Talabat.Core.Application.Mapping
                 .ForMember(dist => dist.ProductName,options => options.MapFrom(src =>src.Product.ProductName))
                 .ForMember(dist => dist.PictureUrl,options => options.MapFrom<OrderItemPictureUrlResolver>());
 
-            CreateMap<Address, AddressDto>().ReverseMap();
+            CreateMap<OrderAddress, AddressDto>().ReverseMap();
 
 
             CreateMap<DeliveryMethod, DeliveryMethodDto>();
+
+            CreateMap<UserAddress, AddressDto>().ReverseMap();
         }
     }
 }

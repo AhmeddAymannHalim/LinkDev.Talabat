@@ -28,8 +28,10 @@ namespace LinkDev.Talabat.APIs
             // Add services to the container.
             #region Configure Services
 
-            webApplicationbuilder.Services
-                .AddControllers()
+            webApplicationbuilder.Services.AddControllers().AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            })
                 .ConfigureApiBehaviorOptions(option =>
                 {
                     option.SuppressModelStateInvalidFilter = false;

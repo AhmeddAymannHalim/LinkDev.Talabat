@@ -13,12 +13,15 @@ namespace LinkDev.Talabat.Infrastructure.Presistence.Data
 
         
 
+        // Seed files are copied to the output folder (see the .csproj), so this works from any working directory.
+        private static string SeedFile(string name) => Path.Combine(AppContext.BaseDirectory, "_Data", "Seeds", name);
+
         public override async Task SeedAsync()
         {
             #region Brand
             if (!_dbContext.Brands.Any())
             {
-                var brandsData = await File.ReadAllTextAsync($"../LinkDev.Talabat.Infrastructure.Presistence/_Data/Seeds/brands.json");
+                var brandsData = await File.ReadAllTextAsync(SeedFile("brands.json"));
 
                 var brands = JsonSerializer.Deserialize<List<ProductBrand>>(brandsData);
 
@@ -36,7 +39,7 @@ namespace LinkDev.Talabat.Infrastructure.Presistence.Data
             #region Category
             if (!_dbContext.Categories.Any())
             {
-                var categoriesData = await File.ReadAllTextAsync($"../LinkDev.Talabat.Infrastructure.Presistence/_Data/Seeds/categories.json");
+                var categoriesData = await File.ReadAllTextAsync(SeedFile("categories.json"));
 
                 var categories = JsonSerializer.Deserialize<List<ProductCategory>>(categoriesData);
 
@@ -51,7 +54,7 @@ namespace LinkDev.Talabat.Infrastructure.Presistence.Data
             #region DeliveryMethod
             if (!_dbContext.DelivryMethods.Any())
             {
-                var deliveryMethods = await File.ReadAllTextAsync($"../LinkDev.Talabat.Infrastructure.Presistence/_Data/Seeds/delivery.json");
+                var deliveryMethods = await File.ReadAllTextAsync(SeedFile("Delivery.json"));
 
                 var deliveries = JsonSerializer.Deserialize<List<DeliveryMethod>>(deliveryMethods);
 
@@ -65,9 +68,12 @@ namespace LinkDev.Talabat.Infrastructure.Presistence.Data
             #region Product
             if (!_dbContext.Products.Any())
             {
-                var productsData = await File.ReadAllTextAsync($"../LinkDev.Talabat.Infrastructure.Presistence/_Data/Seeds/products.json");
+                var productsData = await File.ReadAllTextAsync(SeedFile("products.json"));
 
                 var products = JsonSerializer.Deserialize<List<Product>>(productsData);
+
+                foreach (var product in products ?? [])
+                    product.NormalizedName = product.Name.ToUpperInvariant();
 
                 if (products?.Count > 0)
 

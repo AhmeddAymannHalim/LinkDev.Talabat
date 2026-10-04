@@ -19,70 +19,43 @@ namespace LinkDev.Talabat.Core.Application.Services.Orders
     {
         public async Task<OrderToReturnDto> CreateOrderAsync(string buyeremail, OrderToCreateDto order)
         {
-           
-            // 1.Get Basket From Baskets Repository
-
             var basket = await basketService.GetCustomerBasketAsync(order.BasketId);
 
+            if (basket.Items.Count == 0)
+                throw new BadRequestException("Can't create an order from an empty basket.");
 
-            // 2.Get Selected Items at Basket From Products Repoistory
+            var deliveryMethod = await unitOfWork.GetRepository<DeliveryMethod, int>().GetAsync(order.DeliveryMethodId)
+                ?? throw new NotFoundException(nameof(DeliveryMethod), order.DeliveryMethodId);
 
-
+            // Prices come from the database, never from the client's basket.
+            var productRepo = unitOfWork.GetRepository<Product, int>();
             var orderItems = new List<OrderItem>();
 
-            if(basket.Items.Count > 0)
+            foreach (var item in basket.Items)
             {
-                var productRepo = unitOfWork.GetRepository<Product, int>();
-                foreach (var item in basket.Items)
+                var product = await productRepo.GetAsync(item.Id)
+                    ?? throw new NotFoundException(nameof(Product), item.Id);
+
+                orderItems.Add(new OrderItem()
                 {
-                    var product = await productRepo.GetAsync(item.Id);
-                    if(product is not null)
+                    Product = new ProductItemOrderd()
                     {
-                        var productItemOrderd = new ProductItemOrderd()
-                        {
-                            ProductId = product.Id,
-                            ProductName = product.Name,
-                            PictureUrl = product.PictureUrl ?? "",
-                        };
-
-                        var orderItem = new OrderItem()
-                        {
-                            Product = productItemOrderd,
-                            Price = product.Price,
-                            Quantity = item.Quantity,
-
-                        };
-                        orderItems.Add(orderItem);
-
-                    }
-
-
-                }
+                        ProductId = product.Id,
+                        ProductName = product.Name,
+                        PictureUrl = product.PictureUrl ?? "",
+                    },
+                    Price = product.Price,
+                    Quantity = item.Quantity,
+                });
             }
-
-
-            // 3.Calculate SubTotal
-
-            var subTotal = orderItems.Sum(item => item.Price * item.Quantity);
-
-
-            //4. Mapping
-            var address = mapper.Map<Address>(order.ShippingAddress);
-
-            //Get Delivery Method
-
-            var deliveryMethod = await unitOfWork.GetRepository<DeliveryMethod ,int>().GetAsync(order.DeliveryMethodId);
-
-
-            // 5.Create Order
 
             var orderToCreate = new OrderTable()
             {
                 BuyerEmail = buyeremail,
-                ShippingAddress = address,
+                ShippingAddress = mapper.Map<Address>(order.ShippingAddress),
                 DeliveryMethod = deliveryMethod,
                 Items = orderItems,
-                SubTotal = subTotal,
+                SubTotal = orderItems.Sum(item => item.Price * item.Quantity),
             };
 
 

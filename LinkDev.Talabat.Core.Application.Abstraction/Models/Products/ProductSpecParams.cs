@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LinkDev.Talabat.Core.Application.Abstraction.Models.Products
+﻿namespace LinkDev.Talabat.Core.Application.Abstraction.Models.Products
 {
     public class ProductSpecParams
     {
@@ -28,7 +22,12 @@ namespace LinkDev.Talabat.Core.Application.Abstraction.Models.Products
 
         private int pageSize = 5;
 
-        public int PageIndex { get; set; } = 1;
+        private int pageIndex = 1;
+        public int PageIndex
+        {
+            get { return pageIndex; }
+            set { pageIndex = Math.Max(value, 1); }
+        }
 
         public int PageSize
         {
@@ -38,7 +37,7 @@ namespace LinkDev.Talabat.Core.Application.Abstraction.Models.Products
             }
             set
             {
-                pageSize = value > maxPageSize ? maxPageSize : value;
+                pageSize = Math.Clamp(value, 1, maxPageSize);
             }
 
         }

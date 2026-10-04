@@ -56,7 +56,8 @@ namespace LinkDev.Talabat.APIs.Middlewares
                     httpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                     httpContext.Response.ContentType = "application/json";
 
-                    response = new ApiResponse(400,ex.Message);
+                    // Surface the actual reasons (for example "Email 'x' is already taken.") instead of a generic message.
+                    response = new ApiResponse(400, string.Join(" ", validationException.Errors));
 
                     await httpContext.Response.WriteAsync(response.ToString());
                     break;
@@ -72,7 +73,7 @@ namespace LinkDev.Talabat.APIs.Middlewares
                 case UnAuthorizedException:
                     httpContext.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
                     httpContext.Response.ContentType = "application/json";
-                    response = new ApiResponse(401, "Invalid Email Or Password! Please Try agian ...");
+                    response = new ApiResponse(401, "Invalid email or password. Please try again.");
 
                     await httpContext.Response.WriteAsync(response.ToString());
                     break;

@@ -1,0 +1,296 @@
+{
+    "products":  [
+                     {
+                         "id":  9,
+                         "name":  "Blueberry Cheesecake",
+                         "description":  "Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.",
+                         "pictureUrl":  "/images/products/blueberry-cheesecake.png",
+                         "price":  15.00,
+                         "category":  "Cake",
+                         "brand":  "Starbucks",
+                         "brandId":  1,
+                         "categoryId":  6
+                     },
+                     {
+                         "id":  1,
+                         "name":  "Double Caramel Frappuccino",
+                         "description":  "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.",
+                         "pictureUrl":  "/images/products/double-caramel-frappuccino.png",
+                         "price":  200.00,
+                         "category":  "Frappuccino",
+                         "brand":  "Starbucks",
+                         "brandId":  1,
+                         "categoryId":  1
+                     },
+                     {
+                         "id":  16,
+                         "name":  "Double-Smoked Bacon, Cheddar \u0026 Egg Sandwich",
+                         "description":  "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin pharetra nonummy pede. Mauris et orci.",
+                         "pictureUrl":  "/images/products/double-smoked-bacon-cheddar-and-egg-sandwich.png",
+                         "price":  199.99,
+                         "category":  "Mocha",
+                         "brand":  "Costa",
+                         "brandId":  2,
+                         "categoryId":  3
+                     },
+                     {
+                         "id":  18,
+                         "name":  "Dragon Drink® Starbucks Refreshers® Beverage with Oleato Golden Foam",
+                         "description":  "Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Mauris eget neque at sem venenatis eleifend. Ut nonummy.",
+                         "pictureUrl":  "/images/products/dragon-drink-starbucks-refreshers-beverage-with-oleato-golden-foam.png",
+                         "price":  180.00,
+                         "category":  "Mocha",
+                         "brand":  "Starbucks",
+                         "brandId":  1,
+                         "categoryId":  3
+                     },
+                     {
+                         "id":  10,
+                         "name":  "Glazed Donuts",
+                         "description":  "Nunc viverra imperdiet enim. Fusce est. Vivamus a tellus.",
+                         "pictureUrl":  "/images/products/glazed-donuts.png",
+                         "price":  18.00,
+                         "category":  "Donuts",
+                         "brand":  "Cilantro",
+                         "brandId":  3,
+                         "categoryId":  7
+                     },
+                     {
+                         "id":  11,
+                         "name":  "Greek Salad",
+                         "description":  "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin pharetra nonummy pede. Mauris et orci.",
+                         "pictureUrl":  "/images/products/greek-salad.png",
+                         "price":  15.00,
+                         "category":  "Donuts",
+                         "brand":  "Starbucks",
+                         "brandId":  1,
+                         "categoryId":  7
+                     },
+                     {
+                         "id":  8,
+                         "name":  "Honey Cake",
+                         "description":  "Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Mauris eget neque at sem venenatis eleifend. Ut nonummy.",
+                         "pictureUrl":  "/images/products/honey-cake.png",
+                         "price":  8.00,
+                         "category":  "Cake",
+                         "brand":  "Starbucks",
+                         "brandId":  1,
+                         "categoryId":  6
+                     },
+                     {
+                         "id":  6,
+                         "name":  "Hot Caramel Macchiato",
+                         "description":  "Aenean nec lorem. In porttitor. Donec laoreet nonummy augue.",
+                         "pictureUrl":  "/images/products/hot-caramel-macchiato.png",
+                         "price":  120.00,
+                         "category":  "Macchiato",
+                         "brand":  "On The Run",
+                         "brandId":  5,
+                         "categoryId":  4
+                     },
+                     {
+                         "id":  12,
+                         "name":  "Iced Black Tea Lemonade",
+                         "description":  "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa.",
+                         "pictureUrl":  "/images/products/iced-black-tea-lemonade.png",
+                         "price":  16.00,
+                         "category":  "Macchiato",
+                         "brand":  "TBS",
+                         "brandId":  4,
+                         "categoryId":  4
+                     },
+                     {
+                         "id":  3,
+                         "name":  "Iced Cafe Latte",
+                         "description":  "Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Mauris eget neque at sem venenatis eleifend. Ut nonummy.",
+                         "pictureUrl":  "/images/products/iced-cafe-latte.png",
+                         "price":  180.00,
+                         "category":  "Latte",
+                         "brand":  "Starbucks",
+                         "brandId":  1,
+                         "categoryId":  2
+                     },
+                     {
+                         "id":  5,
+                         "name":  "Iced Caramel Macchiato",
+                         "description":  "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.",
+                         "pictureUrl":  "/images/products/iced-caramel-macchiato.png",
+                         "price":  250.00,
+                         "category":  "Macchiato",
+                         "brand":  "Starbucks",
+                         "brandId":  1,
+                         "categoryId":  4
+                     },
+                     {
+                         "id":  17,
+                         "name":  "Iced Chai Tea Latte with Oleato Golden Foam",
+                         "description":  "Aenean nec lorem. In porttitor. Donec laoreet nonummy augue.",
+                         "pictureUrl":  "/images/products/iced-chai-tea-latte-with-oleato-golden-foam.png",
+                         "price":  150.00,
+                         "category":  "Mocha",
+                         "brand":  "Starbucks",
+                         "brandId":  1,
+                         "categoryId":  3
+                     },
+                     {
+                         "id":  13,
+                         "name":  "Iced London Fog Tea Latte",
+                         "description":  "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin pharetra nonummy pede. Mauris et orci.",
+                         "pictureUrl":  "/images/products/iced-london-fog-tea-latte.png",
+                         "price":  14.00,
+                         "category":  "Macchiato",
+                         "brand":  "TBS",
+                         "brandId":  4,
+                         "categoryId":  4
+                     },
+                     {
+                         "id":  15,
+                         "name":  "Iced Matcha",
+                         "description":  "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.",
+                         "pictureUrl":  "/images/products/iced-matcha.png",
+                         "price":  189.99,
+                         "category":  "Mocha",
+                         "brand":  "Costa",
+                         "brandId":  2,
+                         "categoryId":  3
+                     },
+                     {
+                         "id":  7,
+                         "name":  "Iced Matcha Latte",
+                         "description":  "Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.",
+                         "pictureUrl":  "/images/products/iced-matcha-latte.png",
+                         "price":  10.00,
+                         "category":  "Matcha",
+                         "brand":  "Costa",
+                         "brandId":  2,
+                         "categoryId":  5
+                     },
+                     {
+                         "id":  14,
+                         "name":  "Turkey Bacon, Cheddar \u0026 Egg White Sandwich",
+                         "description":  "Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Mauris eget neque at sem venenatis eleifend. Ut nonummy.",
+                         "pictureUrl":  "/images/products/turkey-bacon-cheddar-and-egg-white-sandwich.png",
+                         "price":  250.00,
+                         "category":  "Mocha",
+                         "brand":  "Caribou",
+                         "brandId":  6,
+                         "categoryId":  3
+                     },
+                     {
+                         "id":  4,
+                         "name":  "White Chocolate Mocha",
+                         "description":  "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin pharetra nonummy pede. Mauris et orci.",
+                         "pictureUrl":  "/images/products/white-chocolate-mocha.png",
+                         "price":  300.00,
+                         "category":  "Mocha",
+                         "brand":  "Costa",
+                         "brandId":  2,
+                         "categoryId":  3
+                     },
+                     {
+                         "id":  2,
+                         "name":  "White Chocolate Mocha Frappuccino",
+                         "description":  "Nunc viverra imperdiet enim. Fusce est. Vivamus a tellus.",
+                         "pictureUrl":  "/images/products/white-chocolate-mocha-frappuccino.png",
+                         "price":  150.00,
+                         "category":  "Frappuccino",
+                         "brand":  "Starbucks",
+                         "brandId":  1,
+                         "categoryId":  1
+                     }
+                 ],
+    "brands":  [
+                   {
+                       "id":  1,
+                       "name":  "Starbucks"
+                   },
+                   {
+                       "id":  2,
+                       "name":  "Costa"
+                   },
+                   {
+                       "id":  3,
+                       "name":  "Cilantro"
+                   },
+                   {
+                       "id":  4,
+                       "name":  "TBS"
+                   },
+                   {
+                       "id":  5,
+                       "name":  "On The Run"
+                   },
+                   {
+                       "id":  6,
+                       "name":  "Caribou"
+                   },
+                   {
+                       "id":  7,
+                       "name":  "Krispy Kreme"
+                   }
+               ],
+    "categories":  [
+                       {
+                           "id":  1,
+                           "name":  "Frappuccino"
+                       },
+                       {
+                           "id":  2,
+                           "name":  "Latte"
+                       },
+                       {
+                           "id":  3,
+                           "name":  "Mocha"
+                       },
+                       {
+                           "id":  4,
+                           "name":  "Macchiato"
+                       },
+                       {
+                           "id":  5,
+                           "name":  "Matcha"
+                       },
+                       {
+                           "id":  6,
+                           "name":  "Cake"
+                       },
+                       {
+                           "id":  7,
+                           "name":  "Donuts"
+                       },
+                       {
+                           "id":  8,
+                           "name":  "Salad"
+                       }
+                   ],
+    "deliveryMethods":  [
+                            {
+                                "id":  1,
+                                "shortName":  "UPS1",
+                                "description":  "Fastest delivery time",
+                                "cost":  10.00,
+                                "deliveryTime":  "1-2 Days"
+                            },
+                            {
+                                "id":  2,
+                                "shortName":  "UPS2",
+                                "description":  "Get it within 5days",
+                                "cost":  5.00,
+                                "deliveryTime":  "2-5 Days"
+                            },
+                            {
+                                "id":  3,
+                                "shortName":  "UPS3",
+                                "description":  "slower but cheap",
+                                "cost":  2.00,
+                                "deliveryTime":  "5-10 Days"
+                            },
+                            {
+                                "id":  4,
+                                "shortName":  "UPS4",
+                                "description":  "FREE",
+                                "cost":  0.00,
+                                "deliveryTime":  "Free! You get what you pay for"
+                            }
+                        ]
+}

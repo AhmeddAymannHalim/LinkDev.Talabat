@@ -9,12 +9,19 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="store.css">
+  <script src="demo-api.js"></script>
 </head>
 <body>
+  <div id="demoBanner" class="demo-banner" hidden>
+    <span data-i18n="demoBanner"></span>
+    <a href="https://github.com/AhmeddAymannHalim/LinkDev.Talabat" data-i18n="demoCode"></a>
+  </div>
+
   <header class="bar">
     <a class="wordmark" id="wordmark" href="./">Talabat</a>
     <div class="bar-actions">
       <button type="button" id="langBtn" class="text-btn"></button>
+      <button type="button" id="accountBtn" class="text-btn"></button>
       <button type="button" id="basketBtn" class="basket-btn" aria-controls="drawer" aria-expanded="false">
         <span data-i18n="basket"></span>
         <span id="count" class="badge" hidden>0</span>
@@ -49,6 +56,7 @@
     </section>
   </main>
 
+  <!-- basket -->
   <div id="scrim" class="scrim" hidden></div>
   <aside id="drawer" class="drawer" aria-labelledby="drawerTitle" inert>
     <div class="drawer-head">
@@ -59,11 +67,128 @@
     <p id="emptyBasket" class="empty" data-i18n="basketEmpty"></p>
     <div class="drawer-foot">
       <div class="subtotal"><span data-i18n="subtotal"></span><strong id="subtotal"></strong></div>
-      <button type="button" class="primary-btn" disabled data-i18n="checkout"></button>
-      <p class="note" data-i18n="checkoutNote"></p>
+      <button type="button" id="checkoutBtn" class="primary-btn" data-i18n="checkout"></button>
     </div>
   </aside>
 
+  <!-- sign in / create account -->
+  <dialog id="authDialog" aria-labelledby="authTitle">
+    <div class="sheet">
+      <div class="sheet-head">
+        <h2 id="authTitle"></h2>
+        <button type="button" class="text-btn" data-close data-i18n="close"></button>
+      </div>
+      <div class="seg" role="group">
+        <button type="button" class="tab" data-mode="login" data-i18n="signIn"></button>
+        <button type="button" class="tab" data-mode="register" data-i18n="register"></button>
+      </div>
+      <form id="authForm" novalidate>
+        <div class="field" data-for="register">
+          <label for="fDisplayName" data-i18n="displayName"></label>
+          <input dir="auto" id="fDisplayName" name="displayName" autocomplete="name">
+        </div>
+        <div class="field" data-for="register">
+          <label for="fUserName" data-i18n="userName"></label>
+          <input dir="auto" id="fUserName" name="userName" autocomplete="username">
+        </div>
+        <div class="field">
+          <label for="fEmail" data-i18n="email"></label>
+          <input id="fEmail" name="email" type="email" autocomplete="email" dir="ltr">
+        </div>
+        <div class="field" data-for="register">
+          <label for="fPhone" data-i18n="phone"></label>
+          <input id="fPhone" name="phone" type="tel" autocomplete="tel" dir="ltr">
+        </div>
+        <div class="field">
+          <label for="fPassword" data-i18n="password"></label>
+          <input id="fPassword" name="password" type="password" dir="ltr">
+        </div>
+        <p class="hint" data-for="register" data-i18n="passwordHint"></p>
+        <p id="authError" class="form-error" role="alert" hidden></p>
+        <button type="submit" id="authSubmit" class="primary-btn"></button>
+      </form>
+    </div>
+  </dialog>
+
+  <!-- account menu -->
+  <dialog id="accountDialog" aria-labelledby="accountTitle">
+    <div class="sheet">
+      <div class="sheet-head">
+        <h2 id="accountTitle" data-i18n="accountTitle"></h2>
+        <button type="button" class="text-btn" data-close data-i18n="close"></button>
+      </div>
+      <p id="accountInfo" class="muted"></p>
+      <div class="stack">
+        <button type="button" id="accountOrdersBtn" class="outline-btn" data-i18n="myOrders"></button>
+        <button type="button" id="signOutBtn" class="outline-btn" data-i18n="signOut"></button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- checkout -->
+  <dialog id="checkoutDialog" aria-labelledby="checkoutTitle">
+    <div class="sheet">
+      <div class="sheet-head">
+        <h2 id="checkoutTitle" data-i18n="checkoutTitle"></h2>
+        <button type="button" class="text-btn" data-close data-i18n="close"></button>
+      </div>
+
+      <form id="checkoutForm" novalidate>
+        <fieldset class="group">
+          <legend data-i18n="shipTo"></legend>
+          <div class="row2">
+            <div class="field"><label for="aFirst" data-i18n="firstName"></label><input dir="auto" id="aFirst" name="firstName" autocomplete="given-name"></div>
+            <div class="field"><label for="aLast" data-i18n="lastName"></label><input dir="auto" id="aLast" name="lastName" autocomplete="family-name"></div>
+          </div>
+          <div class="field"><label for="aStreet" data-i18n="street"></label><input dir="auto" id="aStreet" name="street" autocomplete="street-address"></div>
+          <div class="row2">
+            <div class="field"><label for="aCity" data-i18n="city"></label><input dir="auto" id="aCity" name="city" autocomplete="address-level2"></div>
+            <div class="field"><label for="aCountry" data-i18n="country"></label><input dir="auto" id="aCountry" name="country" autocomplete="country-name"></div>
+          </div>
+        </fieldset>
+
+        <fieldset class="group">
+          <legend data-i18n="deliveryMethod"></legend>
+          <div id="deliveryOptions" class="options"></div>
+        </fieldset>
+
+        <dl class="summary">
+          <div><dt data-i18n="subtotal"></dt><dd id="sumSubtotal"></dd></div>
+          <div><dt data-i18n="deliveryCost"></dt><dd id="sumDelivery"></dd></div>
+          <div class="grand"><dt data-i18n="total"></dt><dd id="sumTotal"></dd></div>
+        </dl>
+
+        <p id="checkoutError" class="form-error" role="alert" hidden></p>
+        <button type="submit" id="placeOrderBtn" class="primary-btn" data-i18n="placeOrder"></button>
+      </form>
+
+      <div id="orderDone" class="done" hidden>
+        <h3 id="doneTitle"></h3>
+        <p data-i18n="orderPlacedBody"></p>
+        <div class="stack">
+          <button type="button" id="doneOrdersBtn" class="outline-btn" data-i18n="viewOrders"></button>
+          <button type="button" id="doneMenuBtn" class="outline-btn" data-i18n="backToMenu"></button>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- order history -->
+  <dialog id="ordersDialog" aria-labelledby="ordersTitle">
+    <div class="sheet">
+      <div class="sheet-head">
+        <h2 id="ordersTitle" data-i18n="ordersTitle"></h2>
+        <button type="button" class="text-btn" data-close data-i18n="close"></button>
+      </div>
+      <div id="ordersList"></div>
+      <p id="ordersEmpty" class="muted" data-i18n="noOrders" hidden></p>
+      <p id="ordersError" class="form-error" role="alert" hidden></p>
+    </div>
+  </dialog>
+
+  <script src="i18n.js"></script>
   <script src="store.js"></script>
+  <script src="account.js"></script>
+  <script>Talabat.start();</script>
 </body>
 </html>

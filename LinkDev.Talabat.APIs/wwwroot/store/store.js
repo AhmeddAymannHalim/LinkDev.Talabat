@@ -1,71 +1,11 @@
+// Storefront core: catalog, basket, language, and the pieces shared with account.js.
 (() => {
   "use strict";
 
   const PAGE_SIZE = 10;            // the API caps page size at 10
   const CURRENCY = "EGP";          // the API returns plain numbers; change here if needed
-  const STORAGE = { lang: "talabat.lang", basket: "talabat.basket" };
-
-  const TEXT = {
-    en: {
-      headline: "What can we bring you?",
-      searchLabel: "Search the menu",
-      searchPlaceholder: "Latte, cheesecake, matcha",
-      categoryLabel: "Categories",
-      brandLabel: "Brand",
-      sortLabel: "Sort",
-      all: "All",
-      allBrands: "All brands",
-      sortName: "A to Z",
-      sortPriceAsc: "Price: low to high",
-      sortPriceDesc: "Price: high to low",
-      add: "Add",
-      basket: "Basket",
-      close: "Close",
-      basketEmpty: "Your basket is empty. Add something from the menu.",
-      subtotal: "Subtotal",
-      checkout: "Checkout",
-      checkoutNote: "Checkout opens once sign-in is added.",
-      remove: "Remove",
-      more: "Show more",
-      shown: "Showing {n} of {total}",
-      noResults: "Nothing matches your search. Try another word or clear the filters.",
-      clear: "Clear filters",
-      error: "Can't load the menu. Check that the API is running, then try again.",
-      retry: "Try again",
-      inc: "Add one more {name}",
-      dec: "Remove one {name}",
-      otherLang: "العربية",
-    },
-    ar: {
-      headline: "ماذا نُحضر لك اليوم؟",
-      searchLabel: "ابحث في القائمة",
-      searchPlaceholder: "لاتيه، تشيز كيك، ماتشا",
-      categoryLabel: "الأقسام",
-      brandLabel: "العلامة التجارية",
-      sortLabel: "الترتيب",
-      all: "الكل",
-      allBrands: "كل العلامات",
-      sortName: "أبجديًا",
-      sortPriceAsc: "السعر: الأقل أولًا",
-      sortPriceDesc: "السعر: الأعلى أولًا",
-      add: "أضف",
-      basket: "السلة",
-      close: "إغلاق",
-      basketEmpty: "سلتك فارغة. أضف شيئًا من القائمة.",
-      subtotal: "المجموع الفرعي",
-      checkout: "إتمام الطلب",
-      checkoutNote: "سيتوفر إتمام الطلب بعد إضافة تسجيل الدخول.",
-      remove: "حذف",
-      more: "عرض المزيد",
-      shown: "عرض {n} من {total}",
-      noResults: "لا توجد نتائج مطابقة. جرّب كلمة أخرى أو امسح التصفية.",
-      clear: "مسح التصفية",
-      error: "تعذّر تحميل القائمة. تأكد من تشغيل الخادم ثم حاول مرة أخرى.",
-      retry: "حاول مرة أخرى",
-      inc: "زيادة {name}",
-      dec: "إنقاص {name}",
-      otherLang: "English",
-    },
+  const STORAGE = {
+    lang: "talabat.lang", basket: "talabat.basket", basketId: "talabat.basketId", session: "talabat.session",
   };
 
   // Category names come from the database in English; Arabic labels are mapped here.
@@ -73,19 +13,6 @@
     Frappuccino: "فرابتشينو", Latte: "لاتيه", Mocha: "موكا", Macchiato: "ماكياتو",
     Matcha: "ماتشا", Cake: "كيك", Donuts: "دونات", Salad: "سلطة",
   };
-
-  const state = {
-    lang: load(STORAGE.lang, "en") === "ar" ? "ar" : "en",
-    q: "", categoryId: null, brandId: null, sort: "",
-    page: 1, items: [], total: 0,
-    categories: [], brands: [],
-    basket: load(STORAGE.basket, {}),
-    requestId: 0,
-  };
-
-  const $ = (id) => document.getElementById(id);
-  const t = (key, vars = {}) =>
-    TEXT[state.lang][key].replace(/\{(\w+)\}/g, (_, k) => vars[k]);
 
   function load(key, fallback) {
     try {
@@ -96,6 +23,25 @@
   function save(key, value) {
     try { localStorage.setItem(key, JSON.stringify(value)); } catch { /* storage unavailable */ }
   }
+  function remove(key) {
+    try { localStorage.removeItem(key); } catch { /* storage unavailable */ }
+  }
+
+  const state = {
+    lang: load(STORAGE.lang, "en") === "ar" ? "ar" : "en",
+    q: "", categoryId: null, brandId: null, sort: "",
+    page: 1, items: [], total: 0,
+    categories: [], brands: [],
+    basket: load(STORAGE.basket, {}),
+    requestId: 0,
+    loaded: false,
+  };
+
+  const T = window.Talabat = { state, hooks: { language: [], session: [], checkout: [] } };
+
+  const $ = (id) => document.getElementById(id);
+  const t = (key, vars = {}) =>
+    (window.TEXT[state.lang][key] ?? key).replace(/\{(\w+)\}/g, (_, k) => vars[k]);
 
   function el(tag, props = {}, ...children) {
     const node = document.createElement(tag);
@@ -113,13 +59,64 @@
       style: "currency", currency: CURRENCY, minimumFractionDigits: 0, maximumFractionDigits: 2,
     }).format(n);
 
-  // pictureUrl is absolute and points at the configured API host; keep only the path.
+  // pictureUrl may be absolute (it points at the configured API host). Keep only the path and
+  // resolve it from the store page (/store/), so it works on any host or base path.
   const imageSrc = (url) => {
     if (!url) return "";
-    try { return new URL(url).pathname; } catch { return url; }
+    let path = url;
+    try { path = new URL(url).pathname; } catch { /* already a path */ }
+    return "../" + path.replace(/^\/+/, "");
   };
 
   const categoryLabel = (name) => (state.lang === "ar" && CATEGORY_AR[name]) || name;
+
+  Object.assign(T, { $, t, el, money, imageSrc, load, save });
+
+  /* ---------- session ---------- */
+  T.session = {
+    get: () => load(STORAGE.session, null),
+    set(user) { save(STORAGE.session, user); T.hooks.session.forEach((fn) => fn()); },
+    clear() { remove(STORAGE.session); T.hooks.session.forEach((fn) => fn()); },
+  };
+
+  /* ---------- API client ---------- */
+  class ApiError extends Error {
+    constructor(status, message) { super(message); this.status = status; }
+  }
+  T.ApiError = ApiError;
+
+  function errorMessage(status, data) {
+    if (data && Array.isArray(data.errors) && data.errors.length)
+      return data.errors.flatMap((e) => e.errors).join(" ");
+    if (data && data.message && data.message !== "Bad Request") return data.message;
+    if (status === 401) return t("unauthorized");
+    if (status === 404) return t("notFound");
+    return t("genericError");
+  }
+
+  T.api = async function api(path, { method = "GET", body } = {}) {
+    const headers = { Accept: "application/json" };
+    if (body !== undefined) headers["Content-Type"] = "application/json";
+    const session = T.session.get();
+    if (session && session.token) headers.Authorization = `Bearer ${session.token}`;
+
+    let res;
+    try {
+      res = await fetch(path, { method, headers, body: body === undefined ? undefined : JSON.stringify(body) });
+    } catch {
+      throw new ApiError(0, t("networkError"));
+    }
+
+    const text = await res.text();
+    let data = null;
+    if (text) { try { data = JSON.parse(text); } catch { /* not JSON */ } }
+
+    if (!res.ok) {
+      if (res.status === 401 && session) T.session.clear();   // the token expired or is invalid
+      throw new ApiError(res.status, errorMessage(res.status, data));
+    }
+    return data;
+  };
 
   /* ---------- language ---------- */
   function applyLanguage() {
@@ -139,12 +136,12 @@
     renderFilters();
     renderGrid();
     renderBasket();
+    T.hooks.language.forEach((fn) => fn());
   }
 
   /* ---------- filters ---------- */
   function renderFilters() {
-    const tabs = $("categories");
-    tabs.replaceChildren(
+    $("categories").replaceChildren(
       tabButton(t("all"), null),
       ...state.categories.map((c) => tabButton(categoryLabel(c.name), c.id)),
     );
@@ -178,12 +175,6 @@
   }
 
   /* ---------- products ---------- */
-  async function api(path) {
-    const res = await fetch(path, { headers: { Accept: "application/json" } });
-    if (!res.ok) throw new Error(`${path} -> ${res.status}`);
-    return res.json();
-  }
-
   async function fetchProducts(reset) {
     if (reset) { state.page = 1; state.items = []; }
     const id = ++state.requestId;
@@ -196,12 +187,12 @@
 
     showLoading(reset);
     try {
-      const data = await api(`/api/products?${params}`);
+      const data = await T.api(`/api/products?${params}`);
       if (id !== state.requestId) return;          // a newer request replaced this one
       state.items = state.items.concat(data.data);
       state.total = data.count;
       renderGrid();
-    } catch (err) {
+    } catch {
       if (id !== state.requestId) return;
       showError();
     }
@@ -226,12 +217,10 @@
   }
 
   function renderGrid() {
-    const grid = $("grid");
+    if (!state.loaded) return;                      // first load still pending
     const box = $("message");
 
-    if (!state.loaded) return;                      // first load still pending
-
-    grid.replaceChildren(...state.items.map(card));
+    $("grid").replaceChildren(...state.items.map(card));
 
     if (state.items.length === 0) {
       box.replaceChildren(el("p", {}, t("noResults")),
@@ -277,14 +266,63 @@
     refreshFilters();
   }
 
-  /* ---------- basket ---------- */
+  /* ---------- basket (kept in the browser and mirrored to the API for checkout) ---------- */
+  T.basketId = () => {
+    let id = load(STORAGE.basketId, null);
+    if (!id) {
+      id = (crypto.randomUUID && crypto.randomUUID()) || `b-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+      save(STORAGE.basketId, id);
+    }
+    return id;
+  };
+
+  T.basketLines = () => Object.values(state.basket);
+  T.basketSubtotal = () => T.basketLines().reduce((sum, l) => sum + l.price * l.qty, 0);
+
+  let syncTimer;
+  function scheduleSync() {
+    clearTimeout(syncTimer);
+    syncTimer = setTimeout(() => { syncBasket().catch(() => { /* retried on checkout */ }); }, 400);
+  }
+
+  async function syncBasket() {
+    await T.api("/api/basket", {
+      method: "POST",
+      body: {
+        id: T.basketId(),
+        items: T.basketLines().map((l) => ({
+          id: l.id, productName: l.name, productUrl: l.pictureUrl ?? null, price: l.price,
+          quantity: l.qty, brand: l.brand ?? null, category: l.category ?? null,
+        })),
+      },
+    });
+  }
+
+  // Called right before checkout so the server sees exactly what is on screen.
+  T.flushBasket = async () => { clearTimeout(syncTimer); await syncBasket(); };
+
+  // After an order is placed: empty the basket here and on the server, and start a new one.
+  T.resetBasket = async () => {
+    clearTimeout(syncTimer);
+    const oldId = T.basketId();
+    state.basket = {};
+    save(STORAGE.basket, state.basket);
+    remove(STORAGE.basketId);
+    T.api(`/api/basket?id=${encodeURIComponent(oldId)}`, { method: "DELETE" }).catch(() => { /* best effort */ });
+    renderGrid();
+    renderBasket();
+  };
+
   function changeQty(p, delta) {
-    const line = state.basket[p.id] ?? { id: p.id, name: p.name, price: p.price, pictureUrl: p.pictureUrl, qty: 0 };
+    const line = state.basket[p.id] ?? {
+      id: p.id, name: p.name, price: p.price, pictureUrl: p.pictureUrl, brand: p.brand, category: p.category, qty: 0,
+    };
     line.qty += delta;
     if (line.qty <= 0) delete state.basket[p.id]; else state.basket[p.id] = line;
     save(STORAGE.basket, state.basket);
     refreshCardAction(p.id);
     renderBasket();
+    scheduleSync();
   }
 
   function refreshCardAction(id) {
@@ -297,14 +335,15 @@
   }
 
   function renderBasket() {
-    const lines = Object.values(state.basket);
+    const lines = T.basketLines();
     const count = lines.reduce((n, l) => n + l.qty, 0);
     const badge = $("count");
     badge.textContent = count;
     badge.hidden = count === 0;
 
     $("emptyBasket").hidden = lines.length > 0;
-    $("subtotal").textContent = money(lines.reduce((sum, l) => sum + l.price * l.qty, 0));
+    $("subtotal").textContent = money(T.basketSubtotal());
+    $("checkoutBtn").disabled = lines.length === 0;
 
     $("lines").replaceChildren(...lines.map((l) =>
       el("li", { class: "line-item" },
@@ -320,34 +359,41 @@
   function openDrawer() {
     $("drawer").inert = false;
     $("scrim").hidden = false;
-    requestAnimationFrame(() => $("drawer").classList.add("open"));
+    void $("drawer").offsetWidth;                   // force a reflow so the slide-in transition runs
+    $("drawer").classList.add("open");
     $("basketBtn").setAttribute("aria-expanded", "true");
     $("closeBtn").focus();
   }
 
-  function closeDrawer() {
+  function closeDrawer(returnFocus = true) {
     $("drawer").classList.remove("open");
     $("drawer").inert = true;
     $("scrim").hidden = true;
     $("basketBtn").setAttribute("aria-expanded", "false");
-    $("basketBtn").focus();
+    if (returnFocus) $("basketBtn").focus();
   }
 
-  /* ---------- init ---------- */
+  /* ---------- start ---------- */
   function debounce(fn, ms) {
     let timer;
     return (...args) => { clearTimeout(timer); timer = setTimeout(() => fn(...args), ms); };
   }
 
-  async function init() {
+  T.start = async function start() {
+    $("demoBanner").hidden = !window.TALABAT_DEMO;
+
     $("langBtn").addEventListener("click", () => {
       state.lang = state.lang === "ar" ? "en" : "ar";
       save(STORAGE.lang, state.lang);
       applyLanguage();
     });
     $("basketBtn").addEventListener("click", openDrawer);
-    $("closeBtn").addEventListener("click", closeDrawer);
-    $("scrim").addEventListener("click", closeDrawer);
+    $("closeBtn").addEventListener("click", () => closeDrawer());
+    $("scrim").addEventListener("click", () => closeDrawer());
+    $("checkoutBtn").addEventListener("click", () => {
+      closeDrawer(false);
+      T.hooks.checkout.forEach((fn) => fn());
+    });
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape" && $("drawer").classList.contains("open")) closeDrawer();
     });
@@ -363,14 +409,12 @@
     applyLanguage();
     try {
       [state.categories, state.brands] = await Promise.all([
-        api("/api/products/categories"), api("/api/products/brands"),
+        T.api("/api/products/categories"), T.api("/api/products/brands"),
       ]);
       renderFilters();
     } catch { /* the products request below reports the error */ }
 
     state.loaded = true;
     fetchProducts(true);
-  }
-
-  init();
+  };
 })();

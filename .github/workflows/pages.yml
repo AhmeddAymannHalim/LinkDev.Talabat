@@ -1,0 +1,54 @@
+name: Deploy demo
+
+# Publishes the storefront to GitHub Pages in demo mode: the whole shop runs in the
+# visitor's browser with sample data, so no server, database or Redis is needed.
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - "LinkDev.Talabat.APIs/wwwroot/**"
+      - ".github/workflows/pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Assemble the site
+        run: |
+          mkdir -p _site/store _site/images
+          cp -r LinkDev.Talabat.APIs/wwwroot/store/. _site/store/
+          cp -r LinkDev.Talabat.APIs/wwwroot/images/. _site/images/
+          cat > _site/index.html <<'HTML'
+          <!doctype html>
+          <meta charset="utf-8">
+          <title>Talabat</title>
+          <meta http-equiv="refresh" content="0; url=store/">
+          <a href="store/">Open the Talabat demo</a>
+          HTML
+          touch _site/.nojekyll
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - id: deployment
+        uses: actions/deploy-pages@v4

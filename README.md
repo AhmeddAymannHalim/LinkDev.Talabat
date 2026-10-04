@@ -52,7 +52,6 @@ Infrastructure.Presistence (EF Core, repositories, seeding)    Infrastructure (R
 | `LinkDev.Talabat.APIs.Controllers` | API controllers |
 | `LinkDev.Talabat.APIs` | Startup project: Program, middleware, DI and the storefront |
 | `LinkDev.Talabat.Tests` | Unit and integration tests |
-| `Talabat.Client` | Unused Angular scaffold, not part of the solution |
 
 ## Getting started
 

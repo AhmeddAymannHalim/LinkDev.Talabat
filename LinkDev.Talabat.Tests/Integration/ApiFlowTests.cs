@@ -118,7 +118,13 @@ namespace LinkDev.Talabat.Tests.Integration
             var body = new { displayName = "Dup", userName = $"d{unique}", email = $"dup{unique}@test.com", phone = "01000000000", password = Password };
 
             Assert.Equal(HttpStatusCode.OK, (await Send(HttpMethod.Post, "/api/account/register", body)).StatusCode);
-            Assert.Equal(HttpStatusCode.BadRequest, (await Send(HttpMethod.Post, "/api/account/register", body)).StatusCode);
+
+            var duplicate = await Send(HttpMethod.Post, "/api/account/register", body);
+            Assert.Equal(HttpStatusCode.BadRequest, duplicate.StatusCode);
+
+            // The error must say why, so a registration form can show it to the user.
+            var error = (await duplicate.Content.ReadFromJsonAsync<JsonElement>(Json)).GetProperty("message").GetString();
+            Assert.Contains("already taken", error, StringComparison.OrdinalIgnoreCase);
         }
 
         [SkippableFact]

@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Talabat</title>
+  <meta name="description" content="Coffee, cake and more, delivered.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="store.css">
+</head>
+<body>
+  <header class="bar">
+    <a class="wordmark" id="wordmark" href="./">Talabat</a>
+    <div class="bar-actions">
+      <button type="button" id="langBtn" class="text-btn"></button>
+      <button type="button" id="basketBtn" class="basket-btn" aria-controls="drawer" aria-expanded="false">
+        <span data-i18n="basket"></span>
+        <span id="count" class="badge" hidden>0</span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="finder">
+      <h1 data-i18n="headline"></h1>
+      <label class="search">
+        <span class="sr-only" data-i18n="searchLabel"></span>
+        <input id="q" type="search" autocomplete="off" data-i18n-placeholder="searchPlaceholder">
+      </label>
+
+      <div class="filters">
+        <div id="categories" class="tabs" role="group" data-i18n-aria="categoryLabel"></div>
+        <div class="selects">
+          <select id="brand" data-i18n-aria="brandLabel"></select>
+          <select id="sort" data-i18n-aria="sortLabel"></select>
+        </div>
+      </div>
+    </section>
+
+    <section class="results" aria-live="polite">
+      <div id="grid" class="grid"></div>
+      <div id="message" class="message" hidden></div>
+      <div id="pager" class="pager" hidden>
+        <p id="shown"></p>
+        <button type="button" id="more" class="outline-btn" data-i18n="more"></button>
+      </div>
+    </section>
+  </main>
+
+  <div id="scrim" class="scrim" hidden></div>
+  <aside id="drawer" class="drawer" aria-labelledby="drawerTitle" inert>
+    <div class="drawer-head">
+      <h2 id="drawerTitle" data-i18n="basket"></h2>
+      <button type="button" id="closeBtn" class="text-btn" data-i18n="close"></button>
+    </div>
+    <ul id="lines" class="lines"></ul>
+    <p id="emptyBasket" class="empty" data-i18n="basketEmpty"></p>
+    <div class="drawer-foot">
+      <div class="subtotal"><span data-i18n="subtotal"></span><strong id="subtotal"></strong></div>
+      <button type="button" class="primary-btn" disabled data-i18n="checkout"></button>
+      <p class="note" data-i18n="checkoutNote"></p>
+    </div>
+  </aside>
+
+  <script src="store.js"></script>
+</body>
+</html>

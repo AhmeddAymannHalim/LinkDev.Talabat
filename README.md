@@ -155,3 +155,9 @@ npx newman run docs/postman/Talabat.postman_collection.json \
 - Connect the storefront basket and checkout to the API (needs a sign-in screen).
 - Payment integration.
 - Admin area for managing products and orders (needs admin-only endpoints first).
+
+## License and disclaimer
+
+The source code is released under the [MIT License](LICENSE).
+
+This is a personal portfolio project. It is not affiliated with, endorsed by, or connected to Talabat or any of the brands that appear in the sample data. Product names, brand names and the sample product photos in `LinkDev.Talabat.APIs/wwwroot/images` belong to their respective owners and are used here only to demonstrate the application. They are not covered by the MIT License.

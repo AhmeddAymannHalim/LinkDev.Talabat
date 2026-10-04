@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="_Data\Seeds\*.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="_Identity\Interceptors\" />
     <Folder Include="_Identity\Seeds\" />
   </ItemGroup>

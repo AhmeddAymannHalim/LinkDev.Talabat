@@ -13,7 +13,7 @@ namespace LinkDev.Talabat.Core.Application.Services.Basket
         {
             var basket = await basketRepository.GetAsync(basketId);
 
-            if (basketId is null) throw new NotFoundException(nameof(CustomerBasketDto),basketId!);
+            if (basket is null) throw new NotFoundException(nameof(CustomerBasketDto), basketId);
 
             return  mapper.Map<CustomerBasketDto>(basket);
            
@@ -42,3 +42,4 @@ namespace LinkDev.Talabat.Core.Application.Services.Basket
 
     }
 }
+

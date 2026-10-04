@@ -136,6 +136,7 @@ namespace LinkDev.Talabat.APIs
 
             app.UseStatusCodePagesWithReExecute("/Errors/{0}");
 
+            app.UseDefaultFiles();
             app.UseStaticFiles();           
 
             app.MapControllers();

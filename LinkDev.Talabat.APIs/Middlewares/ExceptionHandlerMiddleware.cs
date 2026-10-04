@@ -32,18 +32,7 @@ namespace LinkDev.Talabat.APIs.Middlewares
             }
             catch (Exception ex)
             {
-                #region Logging : TODO
-
-                if (_env.IsDevelopment())
-                {
-                    _logger.LogError(ex, ex.Message);
-
-                }
-                else
-                {
-
-                }  
-                #endregion
+                _logger.LogError(ex, "Unhandled exception: {Message}", ex.Message);
 
                 await HandleExceptionAsync(httpContext, ex);
 
@@ -104,3 +93,4 @@ namespace LinkDev.Talabat.APIs.Middlewares
 
     }
 }
+

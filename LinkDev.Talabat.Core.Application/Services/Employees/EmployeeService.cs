@@ -20,6 +20,8 @@ namespace LinkDev.Talabat.Core.Application.Services.Employees
 
             var employee  = await unitOfWork.GetRepository<Employee,int>().GetWithSpecAsync(spec);
 
+            if (employee is null) throw new NotFoundException(nameof(Employee), id);
+
             return mapper.Map<EmployeeToReturnDto>(employee);
 
         }

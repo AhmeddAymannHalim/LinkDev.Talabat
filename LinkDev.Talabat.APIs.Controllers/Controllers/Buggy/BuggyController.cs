@@ -1,16 +1,8 @@
-﻿using LinkDev.Talabat.APIs.Controllers;
+#if DEBUG
 using LinkDev.Talabat.APIs.Controllers.Controllers.Base;
 using LinkDev.Talabat.APIs.Controllers.Errors;
-using LinkDev.Talabat.Core.Application.Abstraction.Models.Products;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace LinkDev.Talabat.APIs.Controllers.Controllers.Buggy
 {
@@ -71,3 +63,5 @@ namespace LinkDev.Talabat.APIs.Controllers.Controllers.Buggy
         
     }
 }
+
+#endif

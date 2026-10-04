@@ -95,7 +95,7 @@ namespace LinkDev.Talabat.APIs.extensions
                     ClockSkew = TimeSpan.FromMinutes(0),
                     ValidIssuer = configuration["JwtSettings:Issuer"],
                     ValidAudience = configuration["JwtSettings:Audience"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtSettings:Key"]!)),
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtSettings:Key"] ?? throw new InvalidOperationException("JwtSettings:Key is missing. Set it with: dotnet user-secrets set \"JwtSettings:Key\" \"<random 64+ char secret>\""))),
                     
                 };
             });
@@ -103,3 +103,4 @@ namespace LinkDev.Talabat.APIs.extensions
         }
     }
 }
+

@@ -119,11 +119,11 @@ namespace LinkDev.Talabat.APIs
             #endregion
 
             #region Configure Kestrel Middlewares
-            if (app.Environment.IsDevelopment())
+            // Swagger is always on in Development; set Swagger:Enabled=true to expose it on a hosted demo.
+            if (app.Environment.IsDevelopment() || app.Configuration.GetValue<bool>("Swagger:Enabled"))
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
-                //app.UseDeveloperExceptionPage(); .Net 5 
             }
 
             app.UseMiddleware<ExceptionHandlerMiddleware>();

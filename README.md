@@ -1,14 +1,20 @@
-﻿# Talabat API
+# Talabat API
 
 [![CI](https://github.com/AhmeddAymannHalim/LinkDev.Talabat/actions/workflows/ci.yml/badge.svg)](https://github.com/AhmeddAymannHalim/LinkDev.Talabat/actions/workflows/ci.yml)
 
-An e-commerce REST API for a cafÃ© delivery service, built with **ASP.NET Core 8** and **Clean Architecture**, with a lightweight bilingual (English / Arabic, RTL) storefront.
+An e-commerce REST API for a café delivery service, built with **ASP.NET Core 8** and **Clean Architecture**, with a lightweight bilingual (English / Arabic, RTL) storefront.
 
-![Storefront](docs/storefront.jpg)
+![Storefront demo: search, add to basket, switch to Arabic](docs/storefront-demo.gif)
 
 ## About this version
 
 The project started as a course project (LinkDev ASP.NET Core track). This version is an upgrade of it, applying what I learned from more than a year of professional ASP.NET Core work: security hygiene, correctness, automated tests and CI. See [What changed](#what-changed-in-this-version).
+
+## Try it
+
+- **Run it locally** in a few minutes: see [Getting started](#getting-started). Then open `/store/` for the storefront and `/swagger` for interactive API docs.
+- **Call the API from Postman:** import the ready-made collection from [`docs/postman`](docs/postman). See [API documentation](#api-documentation).
+- **Host your own public demo:** see [`docs/DEPLOY.md`](docs/DEPLOY.md).
 
 ## Features
 
@@ -24,15 +30,15 @@ The project started as a course project (LinkDev ASP.NET Core track). This versi
 ## Architecture
 
 ```
-APIs  â”€â”€â–º  APIs.Controllers
-  â”‚              â”‚
-  â–¼              â–¼
-Core.Application â”€â”€â–º Core.Application.Abstraction (DTOs, service contracts)
-  â”‚
-  â–¼
-Core.Domain  (entities, specifications, repository contracts)
-  â–²
-  â”‚
+APIs ----------> APIs.Controllers
+  |                   |
+  v                   v
+Core.Application ---> Core.Application.Abstraction (DTOs, service contracts)
+  |
+  v
+Core.Domain (entities, specifications, repository contracts)
+  ^
+  |
 Infrastructure.Presistence (EF Core, repositories, seeding)    Infrastructure (Redis basket)
 ```
 
@@ -83,7 +89,7 @@ dotnet user-secrets set "Seed:DemoUserPassword" "<password>"
 ```bash
 dotnet run --project LinkDev.Talabat.APIs
 ```
-- Swagger UI: `/swagger` (Development)
+- Swagger UI: `/swagger` (Development, or set `Swagger:Enabled=true`)
 - Storefront: `/store/`
 
 ### 5. Tests
@@ -93,7 +99,27 @@ dotnet test LinkDev.Talabat.Tests
 - **Unit tests** use xUnit and Moq and need nothing external.
 - **Integration tests** boot the real API against throw-away SQL Server databases and a real Redis. They read `TALABAT_TEST_SQL` (SQL Server connection string without a database) and `TALABAT_TEST_REDIS` (`host:port`), defaulting to local SQL Server Express and `localhost:6379`. If a server isn't reachable they are skipped, not failed. CI runs both with service containers.
 
-## Main endpoints
+## API documentation
+
+There are two ways to explore the API, and both are always in sync with the code:
+
+**Swagger UI** at `/swagger` lists every endpoint and lets you call it from the browser. Click *Authorize* and paste a token from `POST /api/account/login` to call protected endpoints.
+
+**Postman collection** in [`docs/postman`](docs/postman): 26 requests in the order a customer uses them (account, catalog, basket, orders), with 42 assertions.
+
+1. In Postman choose *Import* and select both files in `docs/postman`.
+2. Select the **Talabat - Local** environment and set `baseUrl` to where your API runs (for example `http://localhost:5086`).
+3. Open the collection and press *Run*. Register and Login save the token automatically, and later requests reuse the product, basket and order ids.
+
+The same collection runs from the command line:
+
+```bash
+npx newman run docs/postman/Talabat.postman_collection.json \
+  -e docs/postman/Talabat-Local.postman_environment.json \
+  --env-var baseUrl=http://localhost:5086
+```
+
+### Main endpoints
 
 | Area | Endpoint |
 |---|---|
@@ -123,11 +149,11 @@ dotnet test LinkDev.Talabat.Tests
 - GitHub Actions workflow that builds and runs every test with SQL Server and Redis service containers.
 - Test-only controller endpoints (`BuggyController`) are compiled in Debug builds only.
 
-**Product**
+**Product and documentation**
 - A bilingual storefront with RTL support, served by the API.
+- A tested Postman collection, a hosting guide and an optional Swagger switch for hosted demos.
 
 ## Roadmap
 - Connect the storefront basket and checkout to the API (needs a sign-in screen).
 - Payment integration.
 - Admin dashboard (`LinkDev.Talabat.Dashboard` is currently a placeholder).
-

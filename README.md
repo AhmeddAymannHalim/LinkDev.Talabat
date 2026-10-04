@@ -52,7 +52,6 @@ Infrastructure.Presistence (EF Core, repositories, seeding)    Infrastructure (R
 | `LinkDev.Talabat.APIs.Controllers` | API controllers |
 | `LinkDev.Talabat.APIs` | Startup project: Program, middleware, DI and the storefront |
 | `LinkDev.Talabat.Tests` | Unit and integration tests |
-| `LinkDev.Talabat.Dashboard` | Placeholder MVC project (not built yet) |
 | `Talabat.Client` | Unused Angular scaffold, not part of the solution |
 
 ## Getting started
@@ -156,4 +155,4 @@ npx newman run docs/postman/Talabat.postman_collection.json \
 ## Roadmap
 - Connect the storefront basket and checkout to the API (needs a sign-in screen).
 - Payment integration.
-- Admin dashboard (`LinkDev.Talabat.Dashboard` is currently a placeholder).
+- Admin area for managing products and orders (needs admin-only endpoints first).

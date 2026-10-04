@@ -1,37 +1,34 @@
-﻿using LinkDev.Talabat.Core.Domain.Contracts.Persistence.DbInitializers;
+using LinkDev.Talabat.Core.Domain.Contracts.Persistence.DbInitializers;
 using LinkDev.Talabat.Core.Domain.Entities._Identity;
-using LinkDev.Talabat.Core.Domain.Entities.Products;
 using LinkDev.Talabat.Infrastructure.Presistence._Common;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
 namespace LinkDev.Talabat.Infrastructure.Presistence._Identity
 {
     internal sealed class StoreIdentityDbInitializer(
         StoreIdentityDbContext _dbContext,
-        UserManager<ApplicationUser> userManager) : DbInitializer(_dbContext), IStoreIdentityDbInitializer
+        UserManager<ApplicationUser> userManager,
+        IConfiguration configuration) : DbInitializer(_dbContext), IStoreIdentityDbInitializer
     {
         public override async Task SeedAsync()
         {
-            if (!userManager.Users.Any())
-            {
-                var user = new ApplicationUser()
-                {
-                    DisplayName = "Ahmed Nasr",
-                    UserName = "ahmed.nasr",
-                    Email = "ahmed.nasr@linkdev.com",
-                    PhoneNumber = "01021487569",
+            var password = configuration["Seed:DemoUserPassword"];
+            if (string.IsNullOrEmpty(password) || userManager.Users.Any())
+                return;
 
-                };
-                await userManager.CreateAsync(user, "P@ssw0rd"); 
-            }
+            var user = new ApplicationUser()
+            {
+                DisplayName = "Demo User",
+                UserName = "demo.user",
+                Email = "demo@talabat.local",
+                PhoneNumber = "01000000000",
+            };
+
+            var result = await userManager.CreateAsync(user, password);
+            if (!result.Succeeded)
+                throw new InvalidOperationException(
+                    "Could not seed the demo user: " + string.Join(", ", result.Errors.Select(e => e.Description)));
         }
-        
     }
 }

@@ -4,6 +4,33 @@
 
 An e-commerce REST API for a café delivery service, built with **ASP.NET Core 8** and **Clean Architecture**, with a bilingual (English / Arabic, RTL) storefront.
 
+![.NET 8](https://img.shields.io/badge/.NET-8-512BD4) ![EF Core](https://img.shields.io/badge/EF%20Core-8-512BD4) ![SQL Server](https://img.shields.io/badge/SQL%20Server-CC2927) ![Redis](https://img.shields.io/badge/Redis-DC382D) ![JWT](https://img.shields.io/badge/Auth-JWT-000000) ![xUnit](https://img.shields.io/badge/tests-xUnit%20%2B%20Moq-5E9E2D)
+
+## Highlights
+
+- **8-project Clean Architecture solution** (Domain, Application, Application.Abstraction, Persistence, Infrastructure, Controllers, API host, Tests).
+- **Two SQL Server databases**: one for the store (products, orders) and one for ASP.NET Core Identity, each with its own DbContext, migrations and seeding.
+- **Redis shopping basket** with a configurable time-to-live, so guests can shop without an account.
+- **Secure ordering**: prices always come from the database, never from the client; each user can only see their own orders.
+- **JWT authentication** with ASP.NET Core Identity, account lockout and saved shipping addresses.
+- **57 automated tests**: 44 unit tests (xUnit + Moq) and 13 end-to-end integration tests against a real SQL Server and Redis, run by **GitHub Actions** on every push.
+- **Bilingual storefront** (English / Arabic RTL) plus a **live demo on GitHub Pages**, a 26-request **Postman** collection and Swagger.
+
+## Tech stack
+
+| Area | Technology |
+|---|---|
+| Backend | ASP.NET Core 8 Web API, C# 12 |
+| Data | Entity Framework Core 8 (SQL Server, lazy-loading proxies, interceptors), LINQ |
+| Cache / basket | Redis (StackExchange.Redis) |
+| Security | ASP.NET Core Identity, JWT bearer tokens, user-secrets |
+| Mapping | AutoMapper (custom value resolvers for picture URLs) |
+| Patterns | Clean Architecture, Specification, Generic Repository, Unit of Work, Service Manager (lazy services), Dependency Injection |
+| API docs | Swagger / OpenAPI, Postman + Newman |
+| Testing | xUnit, Moq, WebApplicationFactory integration tests |
+| DevOps | GitHub Actions CI (SQL Server and Redis service containers), GitHub Pages deployment |
+| Front end | HTML, CSS, vanilla JavaScript, i18n (EN / AR, RTL) |
+
 ## ▶ Live demo
 
 **[Open the demo: ahmeddaymannhalim.github.io/LinkDev.Talabat](https://ahmeddaymannhalim.github.io/LinkDev.Talabat/)**
@@ -76,9 +103,11 @@ The Postman collection has 26 requests and 42 assertions. Register and Login sav
 - **Catalog**: brands, categories, search, sorting and pagination, built on the Specification pattern.
 - **Basket**: stored in **Redis** with a configurable time-to-live. Guests can shop without an account.
 - **Orders**: totals are always computed from database prices, never from client input, and each customer sees only their own orders.
-- **Authentication**: ASP.NET Core Identity with **JWT** bearer tokens and saved addresses.
-- **Persistence**: EF Core with SQL Server, Generic Repository + Unit of Work, and an audit interceptor (created / modified tracking).
-- **Cross-cutting**: global exception middleware with a uniform error shape, structured validation errors, Swagger, automatic migration and seeding at startup.
+- **Authentication**: ASP.NET Core Identity with **JWT** bearer tokens (issuer, audience, lifetime and signing-key validation), unique emails, account lockout after repeated failed logins, an email-availability check and saved addresses.
+- **Persistence**: EF Core with SQL Server, Generic Repository + Unit of Work, Fluent API configurations, and an audit interceptor (created / modified by and on).
+- **Two databases**: the store and Identity live in separate databases with separate DbContexts, migrations and initializers. Products, brands, categories and delivery methods are seeded from JSON on first start.
+- **Service layer**: a Service Manager creates each service lazily, only when a request needs it. AutoMapper value resolvers turn stored picture paths into full URLs.
+- **Cross-cutting**: global exception middleware with a uniform error shape (400 / 401 / 404 / 500), structured validation errors, a status-code fallback for unknown routes, Swagger, automatic migration and seeding at startup.
 - **Storefront**: plain HTML, CSS and JavaScript served by the API at `/store/`: search, filters, basket, sign in and register, checkout, order history, English and Arabic (RTL).
 
 ## Architecture
@@ -113,9 +142,11 @@ Infrastructure.Presistence (EF Core, repositories, seeding)    Infrastructure (R
 dotnet test LinkDev.Talabat.Tests
 ```
 
-- **Unit tests** (xUnit and Moq) cover the basket, order, product, employee and auth services and need nothing external.
-- **Integration tests** start the real API against throw-away SQL Server databases and a real Redis. They read `TALABAT_TEST_SQL` (a SQL Server connection string without a database) and `TALABAT_TEST_REDIS` (`host:port`), defaulting to local SQL Server Express and `localhost:6379`. If a server isn't reachable they are skipped, not failed.
-- **CI** builds and runs everything with SQL Server and Redis service containers on every push.
+- **57 tests in total.**
+- **Unit tests** (44, xUnit and Moq) cover the basket, order, product, employee and auth services and the registration password rule, and need nothing external.
+- **Integration tests** (13) start the real API against throw-away SQL Server databases and a real Redis. They read `TALABAT_TEST_SQL` (a SQL Server connection string without a database) and `TALABAT_TEST_REDIS` (`host:port`), defaulting to local SQL Server Express and `localhost:6379`. If a server isn't reachable they are skipped, not failed.
+- **CI** builds and runs everything with SQL Server and Redis service containers on every push, and fails the build on known high-severity package vulnerabilities (`NU1903`).
+- **CD**: a second workflow publishes the storefront demo to GitHub Pages whenever it changes.
 
 ## About this version
 
@@ -133,6 +164,7 @@ The project started as a course project (LinkDev ASP.NET Core track). This versi
 - A missing employee was mapped instead of returning 404.
 - `pageSize=0` or a negative `pageIndex` are now clamped to valid values.
 - Registering an existing email returned only "Bad Request"; it now says which email or username is taken.
+- The password rule had HTML entities (`&amp;`, `&quot;`) pasted into its regex, so letters like `a` or `t` counted as symbols while real symbols like `<`, `>` and `"` were rejected. It now matches the documented rule and is covered by tests.
 - Unhandled exceptions are now always logged, and seeding no longer depends on the working directory or file name casing.
 
 **Quality and product**

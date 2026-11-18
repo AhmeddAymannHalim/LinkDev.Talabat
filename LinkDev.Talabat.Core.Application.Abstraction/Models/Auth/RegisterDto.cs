@@ -19,8 +19,8 @@ namespace LinkDev.Talabat.Core.Application.Abstraction.Models.Auth
         public required string Phone{ get; set; }
 
         [Required]      
-        [RegularExpression("(?=^.{6,10}$)(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#%^&amp;()_+}{&quot;:;'?&gt;.&lt;,])(?!.*\\s).*$",
-        ErrorMessage = "Password must have 1 UpperCase, 1 LowerCase, 1 number , 1 non alphanumberic and at least 6 characters ")]
+        [RegularExpression("(?=^.{6,10}$)(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#%^&()_+}{\":;'?>.<,])(?!.*\\s).*$",
+        ErrorMessage = "Password must have 1 UpperCase, 1 LowerCase, 1 number , 1 symbol, be 6 to 10 characters long and contain no spaces.")]
         public required string Password { get; set; }
 
 
